@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
           ChangeNotifierProvider.value(
           value: Jobs_Section(),
+        ),
+         ChangeNotifierProvider.value(
+          value: Candidate(),
         ),
       ],
       child: MaterialApp(

@@ -1,14 +1,17 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, deprecated_member_use, unused_element, unused_local_variable, unused_import, use_key_in_widget_constructors, empty_constructor_bodies, prefer_const_constructors_in_immutables, sort_child_properties_last, sized_box_for_whitespace
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, deprecated_member_use, unused_element, unused_local_variable, unused_import, use_key_in_widget_constructors, empty_constructor_bodies, prefer_const_constructors_in_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class ImageInput extends StatefulWidget {
   // const ImageInput({Key? key}) : super(key: key);
   final Function onSelectImage;
+
   ImageInput(this.onSelectImage);
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -19,8 +22,7 @@ class _ImageInputState extends State<ImageInput> {
   Future<void> _takePicture(ImageSource media) async {
     final picker = ImagePicker();
     // File _image;
-    final imageFile =
-        await picker.getImage(source: media, maxHeight: 600);
+    final imageFile = await picker.getImage(source: media, maxHeight: 600);
     if (imageFile == null) {
       return;
     }
@@ -32,6 +34,7 @@ class _ImageInputState extends State<ImageInput> {
     // _image = File(imageFile.path);
     final saveImage = await _storedImage!.copy('${appDir.path}/$fileName');
     widget.onSelectImage(saveImage);
+    
   }
 
   //show popup dialog

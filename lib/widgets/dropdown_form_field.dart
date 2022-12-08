@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class TitleDropdownFormField extends StatefulWidget {
   
+final ValueChanged<String>? onChanged;
 
-
-  const TitleDropdownFormField({super.key});
+  const TitleDropdownFormField({super.key, this.onChanged});
 
   @override
   State<TitleDropdownFormField> createState() => _TitleDropdownFormFieldState();
@@ -66,12 +66,14 @@ class _TitleDropdownFormFieldState extends State<TitleDropdownFormField> {
      ),
             // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
             hint: const Text( 'choose Your Title', ),
-            onChanged: (String? value) {
+            onChanged: (v) => widget.onChanged!(v!),
+            
+            // (String? value) {
               
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
+            //   setState(() {
+            //     dropdownValue = value!;
+            //   });
+            // },
             // validator: state.farmer.validateRequiredField,
             // onSaved: state.farmer.saveFarmerCategory,
              items: <String>['Secodry', 'Bachelor', 'Master', 'PHD' ,'Other'].map<DropdownMenuItem<String>>((String value) {

@@ -12,6 +12,9 @@ class CustomInput extends StatelessWidget {
   final int? maxlines;
   final int? maxlength;
   final Icon? icon;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onSubmitted;
 
   const CustomInput(
       {Key? key,
@@ -21,7 +24,11 @@ class CustomInput extends StatelessWidget {
       this.label,
       this.keyboardtype,
       this.maxlines,
-      this.maxlength, this.icon})
+      this.maxlength,
+      this.icon,
+      this.textInputAction,
+      this.focusNode,
+      this.onSubmitted})
       : super(key: key);
 
   @override
@@ -33,14 +40,18 @@ class CustomInput extends StatelessWidget {
         keyboardType: keyboardtype,
         maxLines: maxlines,
         maxLength: maxlength,
-        controller:controller,
+        controller: controller,
+        textInputAction: textInputAction,
+        focusNode: focusNode,
+        onSubmitted: (v) => onSubmitted!(v),
         decoration: InputDecoration(
           hintText: hint!,
           labelText: label,
-          border: OutlineInputBorder( borderRadius: BorderRadius.circular(10),),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           prefixIcon: icon,
         ),
-        
       ),
     );
   }

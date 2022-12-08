@@ -5,9 +5,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class PasswordInput extends StatefulWidget {
-  const PasswordInput( {super.key, this.text, this.controller});
+  const PasswordInput( {super.key, this.text, this.controller,  this.onChanged, this.textInputAction, this.focusNode, this.onSubmitted});
   final String? text;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onSubmitted;
   @override
   State<PasswordInput> createState() => _PasswordInputState();
 }
@@ -30,12 +34,14 @@ class _PasswordInputState extends State<PasswordInput> {
               height: 8,
             ),
             TextField(
-              onChanged: (value) {
-                print(value);
-              },
+              onChanged: (v) => widget.onChanged!(v),
+
               obscureText: hidePassword,
               //show/hide password
               controller:widget.controller,
+              textInputAction: widget.textInputAction,
+        focusNode:widget.focusNode,
+        onSubmitted: (v) => widget.onSubmitted!(v),
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock),
                 labelText: 'Password',
