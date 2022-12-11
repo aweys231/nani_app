@@ -15,6 +15,7 @@ import 'package:nanirecruitment/widgets/image_slider.dart';
 import 'package:nanirecruitment/widgets/our_services.dart';
 
 class Dhashboard extends StatefulWidget {
+   static const routeName = '/dhashboard';
   const Dhashboard({Key? key}) : super(key: key);
 
   @override
