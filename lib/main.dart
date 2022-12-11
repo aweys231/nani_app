@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: Dhashboard(),
         home:  auth.isAuth
-                ? ClientDhashboard()
+                ? ClientDhashboard(auth.role_id)
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
