@@ -13,23 +13,26 @@ class CustomInput extends StatelessWidget {
   final int? maxlength;
   final Icon? icon;
   final TextInputAction? textInputAction;
+
   final FocusNode? focusNode;
   final ValueChanged<String>? onSubmitted;
+  final IconButton? suffixIcon;
 
-  const CustomInput(
-      {Key? key,
-      this.onChanged,
-      this.hint,
-      this.controller,
-      this.label,
-      this.keyboardtype,
-      this.maxlines,
-      this.maxlength,
-      this.icon,
-      this.textInputAction,
-      this.focusNode,
-      this.onSubmitted})
-      : super(key: key);
+  const CustomInput({
+    Key? key,
+    this.onChanged,
+    this.hint,
+    this.controller,
+    this.label,
+    this.keyboardtype,
+    this.maxlines,
+    this.maxlength,
+    this.icon,
+    this.textInputAction,
+    this.focusNode,
+    this.onSubmitted,
+    this.suffixIcon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class CustomInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           prefixIcon: icon,
+          suffixIcon:suffixIcon
         ),
       ),
     );

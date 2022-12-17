@@ -36,6 +36,7 @@ dependencies:
   http: ^0.13.5
   sentry: ^6.2.2
   image_picker: ^0.8.5+3
+  file_picker: ^5.2.1
   path_provider: ^2.0.10
   path: ^1.8.0
   shared_preferences: ^2.0.15

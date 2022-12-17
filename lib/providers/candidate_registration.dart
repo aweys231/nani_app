@@ -77,14 +77,6 @@ print(role_id);
 print(selectedValue);
 return message;
 
-      // final newProduct = Product(
-      //     id: json.decode(response.body)['name'],
-      //     title: product.title,
-      //     description: product.description,
-      //     price: product.price,
-      //     imageUrl: product.imageUrl);
-      // _items.add(newProduct);
-      // _items.insert(0, newProduct); // at the star of the list
       notifyListeners();
     } catch (error) {
       print(error);

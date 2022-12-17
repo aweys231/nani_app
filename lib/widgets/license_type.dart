@@ -5,8 +5,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class LicenseType extends StatefulWidget {
-  const LicenseType({super.key});
-
+  const LicenseType({super.key, this.onChanged});
+  final ValueChanged<String>? onChanged;
+  
   @override
   State<LicenseType> createState() => _LicenseTypeState();
 }
@@ -34,12 +35,13 @@ class _LicenseTypeState extends State<LicenseType> {
      ),
           // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
           hint: const Text( 'choose License Type', ),
-          onChanged: (String? value) {
+          onChanged: (v) => widget.onChanged!(v!),
+          // onChanged: (String? value) {
             
-            setState(() {
-              dropdownValue = value!;
-            });
-          },
+          //   setState(() {
+          //     dropdownValue = value!;
+          //   });
+          // },
           // validator: state.farmer.validateRequiredField,
           // onSaved: state.farmer.saveFarmerCategory,
            items: <String>['CLASS A Commercial', 'CLASS B Commercial', 'CLASS C Commercial ', 'CLASS D Operator', 'CLASS DJ Junior', 'CLASS E For-hire: Taxi', 'CLASS MJ Junior', 'CLASS M Motorcycle' ,'Other'].map<DropdownMenuItem<String>>((String value) {

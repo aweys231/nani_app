@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
+import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
+import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/screens/client_dhashboard.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
+import 'package:nanirecruitment/widgets/file_upload.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider.value(
           value: Auth(),
         ),
+         ChangeNotifierProvider.value(
+          value: LegalInfo(),
+        ),
       ],
       child:Consumer<Auth>(
         builder: (ctx, auth, _) =>
@@ -51,7 +57,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: Dhashboard(),
         home:  auth.isAuth
-                ? ClientDhashboard(auth.role_id)
+                ? ClientDhashboard(auth.role_id,auth.candidate_id)
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
@@ -67,8 +73,9 @@ class MyApp extends StatelessWidget {
               JobsScreen(),
               ClientRegistrationScreen.routeName: (ctx) =>
               ClientRegistrationScreen(),
-               Dhashboard.routeName: (ctx) =>
-              Dhashboard(),
+              Dhashboard.routeName: (ctx) => Dhashboard(),
+              CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
+               FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
         },
       ),
       )

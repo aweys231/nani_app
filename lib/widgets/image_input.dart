@@ -91,8 +91,7 @@ class _ImageInputState extends State<ImageInput> {
         Container(
           width: 100,
           height: 100,
-          decoration:
-              BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+          decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
           child: _storedImage != null
               ? Image.file(
                   _storedImage!,
