@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:nanirecruitment/helpers/custom_route.dart';
+import 'package:nanirecruitment/screens/Availabilities.dart';
+import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import '../providers/auth.dart';
@@ -44,10 +46,11 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.calendar_month),
             title: Text('Availability'),
             onTap: () {
+             
               // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              Navigator.of(context)
-                  .pushReplacementNamed(FilePickerDemo.routeName);
+              //     .pushReplacementNamed(Availability.routeName);
+               Navigator.of(context)
+                  .pushReplacementNamed(Availability.routeName);
             },
           ),
           Divider(),

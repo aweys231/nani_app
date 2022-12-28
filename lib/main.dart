@@ -1,11 +1,14 @@
-// ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
+import 'package:nanirecruitment/screens/Availabilities.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
+import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/screens/client_dhashboard.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
@@ -17,10 +20,12 @@ import 'package:nanirecruitment/providers/home_slider.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/verification_number_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -47,7 +52,13 @@ class MyApp extends StatelessWidget {
       child:Consumer<Auth>(
         builder: (ctx, auth, _) =>
        MaterialApp(
-        title: 'My Wallet',
+        title: 'My Nani',
+        localizationsDelegates: [
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        MonthYearPickerLocalizations.delegate,
+      ],
+      debugShowCheckedModeBanner: false,
         theme: ThemeData(
         primarySwatch: Colors.purple,
                 accentColor: Colors.deepOrange,
@@ -76,6 +87,8 @@ class MyApp extends StatelessWidget {
               Dhashboard.routeName: (ctx) => Dhashboard(),
               CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
+                Availability.routeName: (ctx) => Availability(),
+                Availabilities.routeName: (ctx) => Availability(),
         },
       ),
       )
