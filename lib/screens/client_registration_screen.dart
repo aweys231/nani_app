@@ -592,21 +592,6 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         imageUrl: _addcandidate.imageUrl);
                   },
                 ),
-                //              Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: const [
-                //    Text('Have license',  style: TextStyle(  fontSize: 16, color: Colors.black,)),
-                //   ],
-                // ),
-
-                // RadioYesNo(),
-
-                //      Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: const [
-                //    Text('license type',  style: TextStyle(  fontSize: 16, color: Colors.black,)),
-                //   ],
-                // ),
-
-                // LicenseType(),
               ],
             ),
           ),

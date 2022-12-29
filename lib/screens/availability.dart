@@ -77,7 +77,7 @@ final formatter = DateFormat('E');
      Provider.of<Availability_Section>(context).fetchAndSetshifts();
     return Scaffold(
       backgroundColor: Color(0xfff0f0f6),
-      appBar: AppBar(title: Text('Availability'), actions: <Widget>[
+      appBar: AppBar(title: Text('schedule'), actions: <Widget>[
         IconButton(
             icon: Icon(Icons.calendar_month_outlined),
             onPressed: () =>
@@ -105,8 +105,52 @@ final formatter = DateFormat('E');
                 ],
               );
             })
-          : calander(days!),
+          : LayoutBuilder(builder: (ctx, constraints) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                      height: constraints.maxHeight * 0.9,
+                      child:  calander(days!),),
+                      Container(
+                      height: 65,
+                      child:submit(context)
+                      )
+                ],
+              );
+            })
+          // calander(days!),
+          
     );
+  }
+
+  Container submit(BuildContext context) {
+    return Container(
+                width: double.infinity,
+                height: 50,
+                // margin: const EdgeInsets.only(bottom: 10, top: 5),
+                 margin: EdgeInsets.symmetric(  vertical: 8, horizontal: 5,),
+                // color: Colors.blue,
+                child: ButtonTheme(
+                  minWidth: 200.0,
+                  height: 100.0,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          Theme.of(context).primaryTextTheme.button!.color,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 8.0),
+                    ),
+                    onPressed: () {
+                      // _saveForm();
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ),
+              );
   }
 
   ListView calander(List<DateTime> day) {
@@ -124,7 +168,7 @@ final formatter = DateFormat('E');
                 color: Color.fromARGB(255, 255, 255, 255),
                 child: Padding(
                     padding: const EdgeInsets.only(right: 24.0),
-                    child: Expanded(
+                    // child: Expanded(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Icon(Icons.calendar_month_outlined),
                         Text(
@@ -133,7 +177,8 @@ final formatter = DateFormat('E');
                         ),
                         Text("${days![index].day}"),
                       ]),
-                    )),
+                    // )
+                    ),
               ),
               title: AvaliabiltityDropDown(),
               // subtitle: AvaliabiltityDropDown(),
