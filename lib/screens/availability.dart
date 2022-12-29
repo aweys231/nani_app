@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace
+// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace, must_call_super
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +7,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:nanirecruitment/widgets/availability_dropdown.dart';
 import 'package:nanirecruitment/widgets/license_type.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+
+
 
 class Availability extends StatefulWidget {
   static const routeName = '/availability';
@@ -20,7 +24,10 @@ class Availability extends StatefulWidget {
   State<Availability> createState() => _AvailabilityState();
 }
 
-var _isInit = true;
+
+
+class _AvailabilityState extends State<Availability> {
+  var _isInit = true;
 DateTime? _selected;
  List<DateTime>? days;
 
@@ -47,9 +54,27 @@ void _days() {
 
 final formatter = DateFormat('E');
 
-class _AvailabilityState extends State<Availability> {
+ @override
+  void initState() {
+    super.initState();
+    
+  }
+
+@override
+  void didChangeDependencies() {
+    
+    // ignore: todo
+    // TODO: implement didChangeDependencies
+// if (_isInit) {
+//      Provider.of<Availability_Section>(context).fetchAndSetshifts().then((_) {
+        
+//       });
+//     super.didChangeDependencies();
+//   }
+  }
   @override
   Widget build(BuildContext context) {
+     Provider.of<Availability_Section>(context).fetchAndSetshifts();
     return Scaffold(
       backgroundColor: Color(0xfff0f0f6),
       appBar: AppBar(title: Text('Availability'), actions: <Widget>[

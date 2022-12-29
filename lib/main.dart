@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:nanirecruitment/providers/auth.dart';
+import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
         ),
          ChangeNotifierProvider.value(
           value: LegalInfo(),
+        ),
+         ChangeNotifierProvider.value(
+          value: Availability_Section(),
         ),
       ],
       child:Consumer<Auth>(

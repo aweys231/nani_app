@@ -10,26 +10,6 @@ import 'package:nanirecruitment/models/home_slider_model.dart';
 class HomeSlider with ChangeNotifier {
   // ignore: prefer_final_fields
   List<HomeSliderModel> _images = [
-    // HomeSliderModel(
-    //   id: 'p1',
-    //   imageUrl: 'assets/sliderimages/00.jpg',
-    // ),
-    // HomeSliderModel(
-    //   id: 'p2',
-    //   imageUrl: 'assets/sliderimages/1.jpg',
-    // ),
-    // HomeSliderModel(
-    //   id: 'p3',
-    //   imageUrl: 'assets/sliderimages/2.jpg',
-    // ),
-    // HomeSliderModel(
-    //   id: 'p4',
-    //   imageUrl: 'assets/sliderimages/01.jpg',
-    // ),
-    // HomeSliderModel(
-    //   id: 'p4',
-    //   imageUrl: 'assets/sliderimages/02.jpg',
-    // ),
   ];
   List<HomeSliderModel> get images {
     return [..._images];
