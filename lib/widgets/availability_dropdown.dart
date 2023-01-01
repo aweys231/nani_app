@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, unused_local_variable
+// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, unused_local_variable, avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -7,8 +7,21 @@ import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:provider/provider.dart';
 
 class AvaliabiltityDropDown extends StatefulWidget {
-  const AvaliabiltityDropDown({super.key, this.onChanged});
-  final ValueChanged<String>? onChanged;
+  final String candidateid;
+  final String year;
+  final String month;
+  final String day;
+  final String dayname;
+  const AvaliabiltityDropDown(
+      {super.key,
+      required this.candidateid,
+      required this.year,
+      required this.month,
+      required this.day,
+      required this.dayname});
+
+  // const AvaliabiltityDropDown({super.key, this.onChanged});
+  // final ValueChanged<String>? onChanged;
 
   @override
   State<AvaliabiltityDropDown> createState() => _AvaliabiltityDropDownState();
@@ -16,11 +29,15 @@ class AvaliabiltityDropDown extends StatefulWidget {
 
 class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
   String dropdownValue = 'NO';
+  final List<Shifts_Model> shiftsData = [];
+
+  
 
   @override
   Widget build(BuildContext context) {
-   
     final shifts = Provider.of<Availability_Section>(context, listen: false);
+    
+    var shiftItem;
     return Container(
       margin: const EdgeInsets.only(bottom: 5, top: 5),
       height: 60,
@@ -48,7 +65,35 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
           hint: const Text(
             'choose Shift',
           ),
-          onChanged: (v) => widget.onChanged!(v!),
+          onChanged: (value) {
+           
+            // this function will remove if there is  prrvious select if the user change the previous selecting 
+            Provider.of<Availability_Section>(context, listen: false).addItem(widget.candidateid,value!,
+                 widget.year,
+                 widget.month,
+                 widget.day,
+                 widget.dayname,);
+
+            // Provider.of<Availability_Section>(context, listen: false).removeSingleItem(widget.day);
+
+            
+            // this will add the model the new selection of the user
+            // shiftsData.add(
+            //   Shifts_Model(
+            //     shift: value,
+            //     year: widget.year,
+            //     month: widget.month,
+            //     day: widget.day,
+            //     dayname: widget.dayname,
+            //   ),
+            // );
+            // shiftItem.add(shiftsData);
+            print(value);
+            print(widget.year);
+            print(widget.month);
+            print(widget.day);
+            print(widget.dayname);
+          },
 
           items: shifts.availability.map((sh) {
             return DropdownMenuItem<String>(
@@ -59,15 +104,6 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
               ),
             );
           }).toList(),
-          //  shifts.availability.map((_shifts shift )) {
-          //   return DropdownMenuItem<String>(
-          //     value: value,
-          //     child: Text(
-          //       value,
-          //       style: const TextStyle(fontSize: 14),
-          //     ),
-          //   );
-          // }).toList(),
         ),
       ),
     );

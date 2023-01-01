@@ -52,6 +52,8 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider.value(
           value: Availability_Section(),
         ),
+        
+        
       ],
       child:Consumer<Auth>(
         builder: (ctx, auth, _) =>
@@ -91,8 +93,8 @@ class MyApp extends StatelessWidget {
               Dhashboard.routeName: (ctx) => Dhashboard(),
               CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
-                Availability.routeName: (ctx) => Availability(),
-                Availabilities.routeName: (ctx) => Availability(),
+                Availability.routeName: (ctx) => Availability(auth.candidate_id),
+                // Availabilities.routeName: (ctx) => Availability(),
         },
       ),
       )
