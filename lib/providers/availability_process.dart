@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, prefer_final_fields, non_constant_identifier_names, prefer_const_declarations
+// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, prefer_final_fields, non_constant_identifier_names, prefer_const_declarations, list_remove_unrelated_type
 import 'dart:convert';
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +49,7 @@ class Availability_Section with ChangeNotifier {
       String day, String dayname) {
     _items.add(
       Shifts_Model(
-        candidateid:candidateid,
+        candidateid: candidateid,
         shift: shift,
         year: year,
         month: month,
@@ -61,13 +61,23 @@ class Availability_Section with ChangeNotifier {
   }
 
   // this function will remove if there is  prrvious select if the user change the previous selecting
-  void removeSingleItem(String day) {
+  Future<void> removeSingleItem(List<Shifts_Model> list, String days) async {
+    
     // ignore: iterable_contains_unrelated_type
-    if (_items.contains(day)) {
-      // ignore: list_remove_unrelated_type
-      _items.remove(day);
+    if (list.contains(days)) {
+     
+      list.removeWhere((item) => item.day == days);
+      // list.remove(days);
+      print('remove day');
+      print(days);
+      // return;
     }
-
+   
+    print('the day will remove ');
+    print(days);
+    print('length');
+    print(list.length);
+    // print('remove day');
     notifyListeners();
   }
 
@@ -116,7 +126,7 @@ class Availability_Section with ChangeNotifier {
         Uri.parse(url),
         body: json.encode({
           'candidate_id': candidateId,
-          '_items': '_items',
+          '_items': _items.toString(),
           // 'year': Shifts.year,
           // 'month': Shifts.month,
           // 'day': Shifts.day,
@@ -124,10 +134,10 @@ class Availability_Section with ChangeNotifier {
         }),
       );
       var message = jsonDecode(response.body);
-      print(_items.last);
+      print(_items[1].day);
       print(_items.length);
       print(message);
-
+      _items.clear();
       return message;
 
       notifyListeners();

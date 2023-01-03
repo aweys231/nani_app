@@ -69,10 +69,7 @@ class Auth with ChangeNotifier {
          
         ),
       );
-    
-      
-      
-
+       
       
       _autoLogout();
       notifyListeners();

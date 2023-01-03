@@ -31,12 +31,10 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
   String dropdownValue = 'NO';
   final List<Shifts_Model> shiftsData = [];
 
-  
-
   @override
   Widget build(BuildContext context) {
     final shifts = Provider.of<Availability_Section>(context, listen: false);
-    
+
     var shiftItem;
     return Container(
       margin: const EdgeInsets.only(bottom: 5, top: 5),
@@ -66,17 +64,23 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
             'choose Shift',
           ),
           onChanged: (value) {
-           
-            // this function will remove if there is  prrvious select if the user change the previous selecting 
-            Provider.of<Availability_Section>(context, listen: false).addItem(widget.candidateid,value!,
-                 widget.year,
-                 widget.month,
-                 widget.day,
-                 widget.dayname,);
+            dropdownValue = widget.day;
+            // print(widget.dayname);
+            // print(dropdownValue);
+            // print('widget.day');
+            // this function will remove if there is  prrvious select if the user change the previous selecting
+            Provider.of<Availability_Section>(context, listen: false)
+                .removeSingleItem(shifts.items, widget.day);
+            // this will add the model the new selection of the user
+            Provider.of<Availability_Section>(context, listen: false).addItem(
+              widget.candidateid,
+              value!,
+              widget.year,
+              widget.month,
+              widget.day,
+              widget.dayname,
+            );
 
-            // Provider.of<Availability_Section>(context, listen: false).removeSingleItem(widget.day);
-
-            
             // this will add the model the new selection of the user
             // shiftsData.add(
             //   Shifts_Model(
@@ -88,11 +92,11 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
             //   ),
             // );
             // shiftItem.add(shiftsData);
-            print(value);
-            print(widget.year);
-            print(widget.month);
-            print(widget.day);
-            print(widget.dayname);
+            // print(value);
+            // print(widget.year);
+            // print(widget.month);
+            // print(widget.day);
+            // print(widget.dayname);
           },
 
           items: shifts.availability.map((sh) {
