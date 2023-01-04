@@ -89,14 +89,12 @@ class _AvailabilityState extends State<Availability> {
   // var _availability;
   // final shifts =  Provider.of<Shifts_Model>(context, listen: false);
   Future<void> _saveForm(BuildContext context) async {
-   
     // _availability = shifts;
     setState(() {
       _isLoading = true;
     });
 
-    try { 
-      
+    try {
       await Provider.of<Availability_Section>(context, listen: false)
           .addAvailability(widget.candidate_id.toString());
     } catch (error) {
@@ -127,6 +125,7 @@ class _AvailabilityState extends State<Availability> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Availability_Section>(context).fetchAndSetshifts();
+    const Key centerKey = ValueKey<String>('bottom-sliver-list');
     return Scaffold(
         backgroundColor: Color(0xfff0f0f6),
         appBar: AppBar(title: Text('schedule'), actions: <Widget>[
@@ -162,15 +161,40 @@ class _AvailabilityState extends State<Availability> {
                       children: <Widget>[
                         Container(
                           height: constraints.maxHeight * 0.9,
-                          child: calander(days!),
+                          child:
+                              // calander(days!),
+                              schedulelist(days!),
                         ),
-                        Container(height: 65, child: submit(context))
+                        Container(height: 65, child: submit(context)),
                       ],
                     );
                   })
         // calander(days!),
 
         );
+  }
+
+  CustomScrollView schedulelist(List<DateTime> day) {
+    return CustomScrollView(
+      // center: centerKey,
+      slivers: <Widget>[
+        SliverList(
+          // key: centerKey,
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              print('CustomScrollView');
+              return schedule(index);
+            },
+            childCount: day.length,
+            addAutomaticKeepAlives: true,
+            addRepaintBoundaries: true,
+
+            
+            
+          ),
+        ),
+      ],
+    );
   }
 
   Container submit(BuildContext context) {
@@ -205,43 +229,54 @@ class _AvailabilityState extends State<Availability> {
   }
 
   ListView calander(List<DateTime> day) {
+   
     return ListView.builder(
         itemCount: day.length,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: true,
+        cacheExtent: 30,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 8,
-            margin: EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 5,
-            ),
-            child: ListTile(
-              leading: Container(
-                color: Color.fromARGB(255, 255, 255, 255),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 24.0),
-                  // child: Expanded(
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.calendar_month_outlined),
-                    Text(
-                      "${formatter.format(days![index])}",
-                      style: TextStyle(color: Colors.green, fontSize: 10),
-                    ),
-                    Text("${days![index].day}"),
-                  ]),
-                  // )
-                ),
-              ),
-              title: AvaliabiltityDropDown(candidateid:widget.candidate_id.toString(),
-                  year: days![index].year.toString(),
-                  month: days![index].month.toString(),
-                  day:days![index].day.toString(),
-                  dayname:  formatter.format(days![index]).toString()),
-              // subtitle: AvaliabiltityDropDown(),
-              // trailing:  Text("${formatter.format(days[index])}",
-              //   style: TextStyle(color: Colors.green, fontSize: 15),),
-            ),
-          );
+           print('ListView');
+          return schedule(index);
         });
+  }
+
+  Card schedule(int index) {
+    return Card(
+      elevation: 8,
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 5,
+      ),
+      child:
+       ListTile(
+        leading: Container(
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 24.0),
+            // child: Expanded(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.calendar_month_outlined),
+              Text(
+                "${formatter.format(days![index])}",
+                style: TextStyle(color: Colors.green, fontSize: 10),
+              ),
+              Text("${days![index].day}"),
+            ]),
+            // )
+          ),
+        ),
+        title: AvaliabiltityDropDown(
+            candidateid: widget.candidate_id.toString(),
+            year: days![index].year.toString(),
+            month: days![index].month.toString(),
+            day: days![index].day.toString(),
+            dayname: formatter.format(days![index]).toString()),
+        // subtitle: AvaliabiltityDropDown(),
+        // trailing:  Text("${formatter.format(days[index])}",
+        //   style: TextStyle(color: Colors.green, fontSize: 15),),
+      ),
+    );
   }
 
   void _onPressed({

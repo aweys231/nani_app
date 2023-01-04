@@ -27,89 +27,75 @@ class AvaliabiltityDropDown extends StatefulWidget {
   State<AvaliabiltityDropDown> createState() => _AvaliabiltityDropDownState();
 }
 
-class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> {
+class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with AutomaticKeepAliveClientMixin {
   String dropdownValue = 'NO';
   final List<Shifts_Model> shiftsData = [];
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final shifts = Provider.of<Availability_Section>(context, listen: false);
 
     var shiftItem;
     return Container(
       margin: const EdgeInsets.only(bottom: 5, top: 5),
       height: 60,
-      child: Expanded(
-        // flex: 5,
-        child: DropdownButtonFormField(
-          // focusNode: regionFocusNode,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            enabledBorder: OutlineInputBorder(
-              //<-- SEE HERE
-              borderSide: BorderSide(
-                  color: Color.fromARGB(255, 255, 255, 255), width: 1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              //<-- SEE HERE
-              borderSide: BorderSide(
-                  color: Color.fromARGB(255, 255, 255, 255), width: 1),
-            ),
-            filled: true,
+      child: DropdownButtonFormField(
+        // focusNode: regionFocusNode,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-          hint: const Text(
-            'choose Shift',
+          enabledBorder: OutlineInputBorder(
+            //<-- SEE HERE
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 255, 255, 255), width: 1),
           ),
-          onChanged: (value) {
-            dropdownValue = widget.day;
-            // print(widget.dayname);
-            // print(dropdownValue);
-            // print('widget.day');
-            // this function will remove if there is  prrvious select if the user change the previous selecting
-            Provider.of<Availability_Section>(context, listen: false)
-                .removeSingleItem(shifts.items, widget.day);
-            // this will add the model the new selection of the user
-            Provider.of<Availability_Section>(context, listen: false).addItem(
-              widget.candidateid,
-              value!,
-              widget.year,
-              widget.month,
-              widget.day,
-              widget.dayname,
-            );
-
-            // this will add the model the new selection of the user
-            // shiftsData.add(
-            //   Shifts_Model(
-            //     shift: value,
-            //     year: widget.year,
-            //     month: widget.month,
-            //     day: widget.day,
-            //     dayname: widget.dayname,
-            //   ),
-            // );
-            // shiftItem.add(shiftsData);
-            // print(value);
-            // print(widget.year);
-            // print(widget.month);
-            // print(widget.day);
-            // print(widget.dayname);
-          },
-
-          items: shifts.availability.map((sh) {
-            return DropdownMenuItem<String>(
-              value: sh.id,
-              child: Text(
-                sh.name,
-                style: const TextStyle(fontSize: 14),
-              ),
-            );
-          }).toList(),
+          focusedBorder: OutlineInputBorder(
+            //<-- SEE HERE
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 255, 255, 255), width: 1),
+          ),
+          // filled: true,
         ),
+        // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
+        hint: const Text(
+          'choose Shift',
+        ),
+        onChanged: (value) {
+          // print(widget.dayname);
+          // print(dropdownValue);
+          // print('widget.day');
+          // this function will remove if there is  prrvious select if the user change the previous selecting
+          Provider.of<Availability_Section>(context, listen: false)
+              .removeSingleItem(widget.day.toString());
+          // this will add the model the new selection of the user
+          Provider.of<Availability_Section>(context, listen: false).addItem(
+            widget.candidateid,
+            value!,
+            widget.year,
+            widget.month,
+            widget.day,
+            widget.dayname,
+          );
+        },
+
+        items: shifts.availability.map((sh) {
+          
+          return DropdownMenuItem<String>(
+            value: sh.id,
+            child: Text(
+              sh.name,
+              style: const TextStyle(fontSize: 14),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
+  
+  @override
+  // ignore: todo
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

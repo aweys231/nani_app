@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, prefer_final_fields, non_constant_identifier_names, prefer_const_declarations, list_remove_unrelated_type
+// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, prefer_final_fields, non_constant_identifier_names, prefer_const_declarations, list_remove_unrelated_type, equal_keys_in_map
 import 'dart:convert';
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
@@ -61,23 +61,19 @@ class Availability_Section with ChangeNotifier {
   }
 
   // this function will remove if there is  prrvious select if the user change the previous selecting
-  Future<void> removeSingleItem(List<Shifts_Model> list, String days) async {
+  Future<void> removeSingleItem(String days) async {
     
-    // ignore: iterable_contains_unrelated_type
-    if (list.contains(days)) {
-     
-      list.removeWhere((item) => item.day == days);
-      // list.remove(days);
-      print('remove day');
+    if (_items.where((item) => item.day == days).isNotEmpty) {
+      _items.removeWhere((item) => item.day == days);
       print(days);
-      // return;
+      print('remove day');
+      return;
     }
-   
-    print('the day will remove ');
+    print('the day will list was added');
     print(days);
     print('length');
-    print(list.length);
-    // print('remove day');
+    print(_items.length);
+   
     notifyListeners();
   }
 
@@ -119,22 +115,29 @@ class Availability_Section with ChangeNotifier {
   }
 
   Future<void> addAvailability(String candidateId) async {
-    final url =
-        "http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
+    final url ="http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
     try {
+    
+String candidateid = jsonEncode(_items.map((e) => e.candidateid).toList());
+String shift = jsonEncode(_items.map((e) => e.shift).toList());
+String year = jsonEncode(_items.map((e) => e.year).toList());
+String month = jsonEncode(_items.map((e) => e.month).toList());
+String day = jsonEncode(_items.map((e) => e.day).toList());
+String dayname = jsonEncode(_items.map((e) => e.dayname).toList());
       final response = await http.post(
         Uri.parse(url),
         body: json.encode({
-          'candidate_id': candidateId,
-          '_items': _items.toString(),
-          // 'year': Shifts.year,
-          // 'month': Shifts.month,
-          // 'day': Shifts.day,
-          // 'dayname': Shifts.dayname,
+          'candidate_id': candidateid,
+          'shift':shift,
+          'dayname': dayname,
+          'year': year,
+          'month': month,
+          'day': day,
+          'dayname': dayname,
         }),
       );
       var message = jsonDecode(response.body);
-      print(_items[1].day);
+      print(dayname);
       print(_items.length);
       print(message);
       _items.clear();
