@@ -55,22 +55,19 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
       print(responseData['message']);
       print('hell');
-     if (responseData['error'] != null) {
+      if (responseData['error'] != null) {
         throw HttpException(responseData['error']);
       }
-       _token = responseData['token'];     
+      _token = responseData['token'];
       _role_id = responseData['role_id'];
       _candidate_id = responseData['candidate_id'];
       _userId = responseData['user_id'];
       _expiryDate = DateTime.now().add(
         Duration(
-          seconds: 
-            responseData['expiresIn'],
-         
+          seconds: responseData['expiresIn'],
         ),
       );
-       
-      
+
       _autoLogout();
       notifyListeners();
 
@@ -124,6 +121,7 @@ class Auth with ChangeNotifier {
     _role_id = null;
     _candidate_id = null;
     _expiryDate = null;
+    print(_authTimer);
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;

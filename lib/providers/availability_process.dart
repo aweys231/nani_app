@@ -23,6 +23,7 @@ class Shifts_Model with ChangeNotifier {
   final String month;
   final String day;
   final String dayname;
+  String  fulldate;
   Shifts_Model({
     required this.candidateid,
     required this.shift,
@@ -30,6 +31,7 @@ class Shifts_Model with ChangeNotifier {
     required this.month,
     required this.day,
     required this.dayname,
+    required this.fulldate
   });
 }
 
@@ -46,7 +48,7 @@ class Availability_Section with ChangeNotifier {
   }
 
   void addItem(String candidateid, String shift, String year, String month,
-      String day, String dayname) {
+      String day, String dayname, String  fulldate) {
     _items.add(
       Shifts_Model(
         candidateid: candidateid,
@@ -55,6 +57,7 @@ class Availability_Section with ChangeNotifier {
         month: month,
         day: day,
         dayname: dayname,
+        fulldate:fulldate
       ),
     );
     notifyListeners();
@@ -62,7 +65,6 @@ class Availability_Section with ChangeNotifier {
 
   // this function will remove if there is  prrvious select if the user change the previous selecting
   Future<void> removeSingleItem(String days) async {
-    
     if (_items.where((item) => item.day == days).isNotEmpty) {
       _items.removeWhere((item) => item.day == days);
       print(days);
@@ -73,7 +75,7 @@ class Availability_Section with ChangeNotifier {
     print(days);
     print('length');
     print(_items.length);
-   
+
     notifyListeners();
   }
 
@@ -115,33 +117,45 @@ class Availability_Section with ChangeNotifier {
   }
 
   Future<void> addAvailability(String candidateId) async {
-    final url ="http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
+    final url =
+        "http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
     try {
-    
-String candidateid = jsonEncode(_items.map((e) => e.candidateid).toList());
-String shift = jsonEncode(_items.map((e) => e.shift).toList());
-String year = jsonEncode(_items.map((e) => e.year).toList());
-String month = jsonEncode(_items.map((e) => e.month).toList());
-String day = jsonEncode(_items.map((e) => e.day).toList());
-String dayname = jsonEncode(_items.map((e) => e.dayname).toList());
+      // String candidateid = jsonEncode(_items.map((e) => e.candidateid).toList());
+      // String shift = jsonEncode(_items.map((e) => e.shift).toList());
+      // String year = jsonEncode(_items.map((e) => e.year).toList());
+      // String month = jsonEncode(_items.map((e) => e.month).toList());
+      // String day = jsonEncode(_items.map((e) => e.day).toList());
+      // String dayname = jsonEncode(_items.map((e) => e.dayname).toList());
+
+      var jsonTags = _items.map((e){
+    return {
+          'cand_id': e.candidateid,
+          'availability':e.shift,
+          'day_name': e.dayname,
+          'year': e.year,
+          'month': e.month,
+          'day': e.day,
+          'full_date' : e.fulldate, 
+          'creation_date' : DateTime.now().toString(),  
+        };
+  }).toList(); //convert to map
+
+  
+String stringstudents = json.encode(jsonTags);
+
       final response = await http.post(
         Uri.parse(url),
         body: json.encode({
-          'candidate_id': candidateid,
-          'shift':shift,
-          'dayname': dayname,
-          'year': year,
-          'month': month,
-          'day': day,
-          'dayname': dayname,
+          'items': jsonTags
         }),
       );
-      var message = jsonDecode(response.body);
-      print(dayname);
-      print(_items.length);
+      // var message = jsonDecode(response.body);
+      var message = response.body;
+      // print(dayname);
+      // print(_items.length);
       print(message);
       _items.clear();
-      return message;
+      // return message;
 
       notifyListeners();
     } catch (error) {

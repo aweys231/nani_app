@@ -12,13 +12,15 @@ class AvaliabiltityDropDown extends StatefulWidget {
   final String month;
   final String day;
   final String dayname;
+  final String fulldate;
   const AvaliabiltityDropDown(
       {super.key,
       required this.candidateid,
       required this.year,
       required this.month,
       required this.day,
-      required this.dayname});
+      required this.dayname,
+      required this.fulldate});
 
   // const AvaliabiltityDropDown({super.key, this.onChanged});
   // final ValueChanged<String>? onChanged;
@@ -27,7 +29,8 @@ class AvaliabiltityDropDown extends StatefulWidget {
   State<AvaliabiltityDropDown> createState() => _AvaliabiltityDropDownState();
 }
 
-class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with AutomaticKeepAliveClientMixin {
+class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown>
+    with AutomaticKeepAliveClientMixin {
   String dropdownValue = 'NO';
   final List<Shifts_Model> shiftsData = [];
 
@@ -48,13 +51,13 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with Auto
           ),
           enabledBorder: OutlineInputBorder(
             //<-- SEE HERE
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 255, 255, 255), width: 1),
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 255, 255, 255), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             //<-- SEE HERE
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 255, 255, 255), width: 1),
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 255, 255, 255), width: 1),
           ),
           // filled: true,
         ),
@@ -63,7 +66,7 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with Auto
           'choose Shift',
         ),
         onChanged: (value) {
-          // print(widget.dayname);
+          print( widget.fulldate);
           // print(dropdownValue);
           // print('widget.day');
           // this function will remove if there is  prrvious select if the user change the previous selecting
@@ -77,11 +80,11 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with Auto
             widget.month,
             widget.day,
             widget.dayname,
+            widget.fulldate
           );
         },
 
         items: shifts.availability.map((sh) {
-          
           return DropdownMenuItem<String>(
             value: sh.id,
             child: Text(
@@ -93,7 +96,7 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown> with Auto
       ),
     );
   }
-  
+
   @override
   // ignore: todo
   // TODO: implement wantKeepAlive

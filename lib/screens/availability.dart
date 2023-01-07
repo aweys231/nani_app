@@ -56,6 +56,25 @@ class _AvailabilityState extends State<Availability> {
     return daysInMonth[_selected!.month - 1];
   }
 
+  List months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+  String getMonth(int currentMonthIndex) {
+    return DateFormat('MMM').format(DateTime(0, currentMonthIndex)).toString();
+  }
+
 // function will care list the month we selected
   void _days() {
     days = List.generate(
@@ -188,9 +207,6 @@ class _AvailabilityState extends State<Availability> {
             childCount: day.length,
             addAutomaticKeepAlives: true,
             addRepaintBoundaries: true,
-
-            
-            
           ),
         ),
       ],
@@ -229,14 +245,13 @@ class _AvailabilityState extends State<Availability> {
   }
 
   ListView calander(List<DateTime> day) {
-   
     return ListView.builder(
         itemCount: day.length,
         addAutomaticKeepAlives: false,
         addRepaintBoundaries: true,
         cacheExtent: 30,
         itemBuilder: (BuildContext context, int index) {
-           print('ListView');
+          print('ListView');
           return schedule(index);
         });
   }
@@ -248,8 +263,7 @@ class _AvailabilityState extends State<Availability> {
         vertical: 8,
         horizontal: 5,
       ),
-      child:
-       ListTile(
+      child: ListTile(
         leading: Container(
           color: Color.fromARGB(255, 255, 255, 255),
           child: Padding(
@@ -269,9 +283,16 @@ class _AvailabilityState extends State<Availability> {
         title: AvaliabiltityDropDown(
             candidateid: widget.candidate_id.toString(),
             year: days![index].year.toString(),
-            month: days![index].month.toString(),
+            month: getMonth(days![index].month),
+            // months[days![index].month-1],
             day: days![index].day.toString(),
-            dayname: formatter.format(days![index]).toString()),
+            dayname: formatter.format(days![index]).toString(),
+            fulldate: DateFormat("dd/MM/yyyy")
+                .parse(
+                    "${days![index].day.toString()}/${days![index].month.toString()}/${days![index].year.toString()}").toString()
+           
+            ),
+
         // subtitle: AvaliabiltityDropDown(),
         // trailing:  Text("${formatter.format(days[index])}",
         //   style: TextStyle(color: Colors.green, fontSize: 15),),
