@@ -121,7 +121,7 @@ class Auth with ChangeNotifier {
     _role_id = null;
     _candidate_id = null;
     _expiryDate = null;
-    print(_authTimer);
+    // print(_authTimer);
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
