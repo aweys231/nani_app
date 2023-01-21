@@ -136,6 +136,7 @@ class _AvailabilityState extends State<Availability> {
 
     setState(() {
       _isLoading = false;
+      _isInit = true;
     });
     // Navigator.of(context).pop();
     // Navigator.of(context).pop();
