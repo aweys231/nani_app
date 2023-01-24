@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
 import 'package:nanirecruitment/widgets/category_item.dart';
@@ -47,7 +48,7 @@ class _DhashboardState extends State<Dhashboard> {
           _isLoading = false;
         });
       });
-     
+     Provider.of<Candidate>(context).fetchAndSetnatinality();
     }
     _isInit = false;
     super.didChangeDependencies();

@@ -11,6 +11,7 @@ import 'package:nanirecruitment/widgets/custom_input.dart';
 import 'package:nanirecruitment/widgets/dropdown_form_field.dart';
 import 'package:nanirecruitment/widgets/image_input.dart';
 import 'package:nanirecruitment/widgets/license_type.dart';
+import 'package:nanirecruitment/widgets/nationality_dropdown.dart';
 import 'package:nanirecruitment/widgets/password_input.dart';
 import 'package:nanirecruitment/widgets/radio_button.dart';
 import 'package:nanirecruitment/widgets/radio_yes_no.dart';
@@ -31,6 +32,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   final _fname = TextEditingController();
   final _lnameFocusNode = FocusNode();
   final _lname = TextEditingController();
+  final _nationalFocusNode = FocusNode();
+  final _national = TextEditingController();
   final _genderFocusNode = FocusNode();
   final _gender = TextEditingController();
   final _locationFocusNode = FocusNode();
@@ -85,6 +88,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   late Future _jobsFuture;
   int currentStep = 0;
   String job_role_id() {
+     
     final jobId =
         ModalRoute.of(context)!.settings.arguments as String; // is the id!
     return jobId;
@@ -129,6 +133,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
   @override
   void initState() {
+    
     super.initState();
   }
 
@@ -144,6 +149,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration Screen'),
@@ -228,6 +234,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: value,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -247,6 +254,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: value,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -276,6 +284,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: value,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -288,6 +297,31 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         user_name: _addcandidate.user_name,
                         passwd: _addcandidate.passwd,
                         imageUrl: _addcandidate.imageUrl);
+                  },
+                ),
+                 Natitinality(
+                  onChanged: (value) {
+                    setState(() {
+                      // selectedValue = value;
+
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: value,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    });
                   },
                 ),
                 Row(
@@ -313,6 +347,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
                           lname: _addcandidate.lname,
+                          national: _addcandidate.national,
                           gender: selectedValue,
                           location: _addcandidate.location,
                           mobile: _addcandidate.mobile,
@@ -345,6 +380,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: value,
                         mobile: _addcandidate.mobile,
@@ -375,6 +411,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: value,
@@ -405,6 +442,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -442,6 +480,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
                           lname: _addcandidate.lname,
+                          national: _addcandidate.national,
                           gender: _addcandidate.gender,
                           location: _addcandidate.location,
                           mobile: _addcandidate.mobile,
@@ -476,6 +515,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -518,6 +558,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -548,6 +589,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -578,6 +620,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -623,6 +666,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,
@@ -649,6 +693,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         role_id: _addcandidate.role_id,
                         fname: _addcandidate.fname,
                         lname: _addcandidate.lname,
+                        national: _addcandidate.national,
                         gender: _addcandidate.gender,
                         location: _addcandidate.location,
                         mobile: _addcandidate.mobile,

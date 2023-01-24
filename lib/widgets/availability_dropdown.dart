@@ -32,7 +32,7 @@ class AvaliabiltityDropDown extends StatefulWidget {
 class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown>
     with AutomaticKeepAliveClientMixin {
   String dropdownValue = 'NO';
-  final List<Shifts_Model> shiftsData = [];
+  // final List<Shifts_Model> shiftsData = [];
 
   @override
   Widget build(BuildContext context) {
