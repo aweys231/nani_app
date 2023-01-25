@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_import, avoid_web_libraries_in_flutter, use_rethrow_when_possible, avoid_print, unused_local_variable, prefer_const_declarations, dead_code
+// ignore_for_file: non_constant_identifier_names, unused_import, avoid_web_libraries_in_flutter, use_rethrow_when_possible, avoid_print, unused_local_variable, prefer_const_declarations, dead_code, unnecessary_this, duplicate_ignore
 
 import 'dart:convert';
 import 'dart:io';
@@ -16,6 +16,24 @@ class NationalityModel with ChangeNotifier {
     required this.id,
     required this.name,
   });
+   ///this method will prevent the override of toString
+  String userAsString() {
+    // ignore: unnecessary_this
+    return '#${this.id} ${this.name}';
+  }
+
+  ///this method will prevent the override of toString
+  bool userFilterByCreationDate(String filter) {
+    return this.name.toString().contains(filter);
+  }
+
+  ///custom comparing function to check if two users are equal
+  bool isEqual(NationalityModel model) {
+    return id == model.id;
+  }
+
+  @override
+  String toString() => name;
 }
 
 class Candidate with ChangeNotifier {

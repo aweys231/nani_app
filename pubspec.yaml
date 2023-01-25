@@ -46,6 +46,9 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   flutter_svg: ^1.0.3
   extended_phone_number_input: ^1.0.0
+  dropdown_search2: ^1.0.2
+  dropdown_button2: ^1.9.2
+  # dropdown_search: ^5.0.5
   # simple_slider: ^0.0.2
 
 
