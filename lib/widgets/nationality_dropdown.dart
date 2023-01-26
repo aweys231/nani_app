@@ -197,7 +197,8 @@ class _NatitinalityState extends State<Natitinality> {
                     // },
 
                      searchMatchFn: (item, searchValue) {
-            return (item.child.toString().contains(searchValue.toUpperCase()));
+                      
+            return (item.child.toString().toLowerCase().contains(searchValue));
           },
                     //This to clear the search value when you close the menu
                     onMenuStateChange: (isOpen) {
