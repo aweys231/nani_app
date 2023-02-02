@@ -38,17 +38,13 @@ class _DhashboardState extends State<Dhashboard> {
       setState(() {
         _isLoading = true;
       });
-      //  Provider.of<Category_Section>(context).fetchAndSetAllCategory().then((_) {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // });
       Provider.of<HomeSlider>(context).fetchAndSetHomeSlideImage().then((_) {
         setState(() {
           _isLoading = false;
         });
       });
      Provider.of<Candidate>(context).fetchAndSetnatinality();
+     Provider.of<Category_Section>(context).fetchAndSetAllCategory();
     }
     _isInit = false;
     super.didChangeDependencies();

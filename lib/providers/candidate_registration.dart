@@ -77,8 +77,8 @@ class Candidate with ChangeNotifier {
     return [..._nationality];
   }
 
-  Future<void> addCandidate(Candidate Candidate, File imga, String role_id,
-      String selectedValue) async {
+  Future<void> addCandidate(Candidate Candidate, File imga, 
+      ) async {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/addcandidate";
     try {
@@ -89,11 +89,11 @@ class Candidate with ChangeNotifier {
       final response = await http.post(
         Uri.parse(url),
         body: json.encode({
-          'role_id': role_id,
+          'role_id': Candidate.role_id,
           'fname': Candidate.fname,
           'lname': Candidate.lname,
           'national': Candidate.national,
-          'gender': selectedValue,
+          'gender': Candidate.gender,
           'location': Candidate.location,
           'mobile': Candidate.mobile,
           'title': Candidate.title,
@@ -110,7 +110,7 @@ class Candidate with ChangeNotifier {
       var message = jsonDecode(response.body);
       print(message);
       print(role_id);
-      print(selectedValue);
+      // print(selectedValue);
       return message;
 
       notifyListeners();
@@ -130,8 +130,8 @@ class Candidate with ChangeNotifier {
         'Access-Control-Allow-Origin': '*'
       });
       // final response = await http.get(Uri.parse(url));
-      print("hello");
-      print(json.decode(response.body));
+      // print("hello");
+      // print(json.decode(response.body));
 
       if (response.statusCode == 200) {
         final List<NationalityModel> loadednationality = [];

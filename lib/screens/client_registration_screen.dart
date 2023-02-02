@@ -1,15 +1,20 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, implementation_imports, unnecessary_import, avoid_print, sized_box_for_whitespace, unused_field, unused_import, prefer_final_fields, use_build_context_synchronously, unused_element, avoid_web_libraries_in_flutter
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, implementation_imports, unnecessary_import, avoid_print, sized_box_for_whitespace, unused_field, unused_import, prefer_final_fields, use_build_context_synchronously, unused_element, avoid_web_libraries_in_flutter, unnecessary_null_comparison
 
 import 'dart:io';
 
 // import 'dart:html';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nanirecruitment/providers/jobs.dart';
+import 'package:nanirecruitment/screens/auth_screen.dart';
 import 'package:nanirecruitment/widgets/custom_input.dart';
 import 'package:nanirecruitment/widgets/dropdown_form_field.dart';
 import 'package:nanirecruitment/widgets/image_input.dart';
+import 'package:nanirecruitment/widgets/job_category__dropdown.dart';
+import 'package:nanirecruitment/widgets/job_role__dropdown.dart';
 import 'package:nanirecruitment/widgets/license_type.dart';
 import 'package:nanirecruitment/widgets/nationality_dropdown.dart';
 import 'package:nanirecruitment/widgets/password_input.dart';
@@ -77,8 +82,12 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
   var _isInit = true;
   var _isLoading = false;
+  bool _isLoadingDrop = false;
+  String job_id = "";
+  String role_id = "";
   final _titleControler = TextEditingController();
   final controller = TextEditingController();
+  final TextEditingController searchContentSetor = TextEditingController();
   File? _pickImage;
   String selectedValue = 'Male';
   void selectImage(File pickImage) {
@@ -87,12 +96,17 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
   late Future _jobsFuture;
   int currentStep = 0;
-  String job_role_id() {
-     
-    final jobId =
-        ModalRoute.of(context)!.settings.arguments as String; // is the id!
-    return jobId;
-  }
+  // String job_role_id() {
+  //   final jobId =
+  //       ModalRoute.of(context)!.settings.arguments as String; // is the id!
+  //   return jobId;
+  // }
+
+  // late Future _jobsrolsFuture;
+  // Future _obtainOrdersFuture(String id) {
+  //   return _jobsrolsFuture = Provider.of<Jobs_Section>(context, listen: false)
+  //       .fetchAndSetAllJobs(id);
+  // }
 
   Future<void> _saveForm() async {
     // final isValid = _form.currentState!.validate();
@@ -105,7 +119,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     });
 
     try {
-      await Provider.of<Candidate>(context, listen: false).addCandidate(_addcandidate, _pickImage!, job_role_id(), selectedValue);
+      await Provider.of<Candidate>(context, listen: false)
+          .addCandidate(_addcandidate, _pickImage!);
     } catch (error) {
       print(error);
       await showDialog(
@@ -128,12 +143,26 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
       _isLoading = false;
     });
     // Navigator.of(context).pop();
-    // Navigator.of(context).pop();
+    await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('success'),
+              content: Text('successfully Rgistred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Okey'),
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    Navigator.of(context)
+                        .pushNamed('/');
+                  },
+                )
+              ],
+            ));
   }
 
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -141,15 +170,16 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   void didChangeDependencies() {
     // setState(() {
     //   job_role_id();
-      print(job_role_id());
+    // print(job_role_id());
     //   // _jobsFuture = _saveForm();
     // });
     super.didChangeDependencies();
   }
 
+  String? selectedItem1;
+  String? selectedItem2;
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration Screen'),
@@ -211,6 +241,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   }
 
   List<Step> getSteps(void Function(File pickImage) selectImage) {
+    // var data ;
     return <Step>[
       Step(
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
@@ -299,7 +330,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         imageUrl: _addcandidate.imageUrl);
                   },
                 ),
-                 Natitinality(
+                Natitinality(
                   onChanged: (value) {
                     setState(() {
                       // selectedValue = value;
@@ -471,6 +502,58 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                JobsDrpodown(
+                  onChanged: (value) async {
+                    print(value);
+                    setState(() {
+                      role_id = value;
+
+                      // .then((_) {});
+                      selectedItem1 = value as String;
+                      _isLoadingDrop = true;
+                    });
+                    await Provider.of<Jobs_Section>(context, listen: false)
+                        .fetchAndSetAllJobs(role_id);
+                    // data = Provider.of<Jobs_Section>(context);
+                    setState(() {
+                      _isLoadingDrop = false;
+                    });
+                  },
+                  dropdownValue: selectedItem1,
+                ),
+                Container(
+                  //wrapper for City list
+                  margin: EdgeInsets.only(top: 5),
+                  child: _isLoadingDrop
+                      ? CircularProgressIndicator()
+                      : JobsRoleDrpodown(
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              job_id = value;
+                              selectedItem2 = value as String;
+                              _addcandidate = Candidate(
+                                  role_id: value,
+                                  fname: _addcandidate.fname,
+                                  lname: _addcandidate.lname,
+                                  national: _addcandidate.national,
+                                  gender: _addcandidate.gender,
+                                  location: _addcandidate.location,
+                                  mobile: _addcandidate.mobile,
+                                  title: _addcandidate.title,
+                                  email: _addcandidate.email,
+                                  Languages: _addcandidate.Languages,
+                                  nokname: _addcandidate.nokname,
+                                  nokaddress: _addcandidate.nokaddress,
+                                  nokmobile: _addcandidate.nokmobile,
+                                  user_name: _addcandidate.user_name,
+                                  passwd: _addcandidate.passwd,
+                                  imageUrl: _addcandidate.imageUrl);
+                            });
+                          },
+                          dropdownValue: selectedItem2,
+                        ),
+                ),
                 TitleDropdownFormField(
                   onChanged: (value) {
                     setState(() {
@@ -533,7 +616,6 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     print(_addcandidate.fname);
                   },
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

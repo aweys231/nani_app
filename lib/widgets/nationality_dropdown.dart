@@ -30,105 +30,7 @@ class _NatitinalityState extends State<Natitinality> {
       child: Expanded(
         // flex: 5,
         child:
-        //  DropdownButtonFormField(
-        //   // focusNode: regionFocusNode,
-        //   decoration: InputDecoration(
-        //     enabledBorder: OutlineInputBorder(
-        //       //<-- SEE HERE
-        //       borderSide: BorderSide(
-        //           color: Color.fromARGB(255, 162, 159, 159), width: 1),
-        //     ),
-        //     focusedBorder: OutlineInputBorder(
-        //       //<-- SEE HERE
-        //       borderSide: BorderSide(
-        //           color: Color.fromARGB(255, 162, 159, 159), width: 1),
-        //     ),
-        //     filled: true,
-        //   ),
-        //   // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-        //   hint: const Text(
-        //     'choose Nationality',
-        //   ),
-        //   onChanged: (v) => widget.onChanged!(v!),
-        //   // onChanged: (String? value) {
-
-        //   //   setState(() {
-        //   //     dropdownValue = value!;
-        //   //   });
-        //   // },
-        //   // validator: state.farmer.validateRequiredField,
-        //   // onSaved: state.farmer.saveFarmerCategory,
-        //   items: nationality.nationality.map((data) {
-        //   return DropdownMenuItem<String>(
-        //     value: data.id,
-        //     child: Text(
-        //       data.name,
-        //       style: const TextStyle(fontSize: 12),
-        //     ),
-        //   );
-        // }).toList(),
-        // ),
-
-// DropdownSearch(
-//   // mode: Mode.MENU,
-//   // showSelectedItem: true,
-//   items:  nationality.nationality.map((data) {
-//           return DropdownMenuItem<String>(
-//             value: data.id,
-//             child: Text(
-//               data.name,
-//               style: const TextStyle(fontSize: 12),
-//             ),
-//           );
-//         }).toList(),
-//   // label: "choose Nationality",
-//   popupProps: PopupProps.bottomSheet(
-//                           bottomSheetProps: BottomSheetProps(
-//                               elevation: 16,
-//                               backgroundColor: Color(0xFFAADCEE))),
-                   
-//     dropdownDecoratorProps: DropDownDecoratorProps(
-//                         dropdownSearchDecoration: InputDecoration(
-//                           labelText: "Choose Nationality",
-//                           hintText: "choose your nationality",
-//                           filled: true,
-//                         ),
-//                       ),
-//   // onChanged: (v) => widget.onChanged(v),
-//   // selectedItem: "Tunisia",
- 
-// )
-
-
-// DropdownSearch(
-//   mode: Mode.MENU,
-//   items:  nationality.nationality.map((data) {
-//           return DropdownMenuItem<String>(
-//             value: data.id,
-//             child: Text(
-//               data.name,
-//               style: const TextStyle(fontSize: 12),
-//             ),
-//           );
-//         }).toList(),
-//   label: "choose Nationality",
-//   onChanged: (v) => widget.onChanged(v),
-//       )
-
-// last
-// DropdownSearch<String>(
-//   mode: Mode.MENU,
-//   showSearchBox: true,
-//   items: nationality.nationality.map((item) {
-//                   return (item.name).toString();
-//                 }).toList(),
-//   label: "Name",
-//   // onFind: (String filter) => getData(filter),
-//   // itemAsString: (NationalityModel u) => u.userAsString(),
-//   // onChanged: (NationalityModel data) => print(data.id),
-//   onChanged: (v) => widget.onChanged(v),
-// ),
-
+       
  DropdownButtonFormField2<String>(
    decoration: InputDecoration(
     labelText: 'choose Nationality',
@@ -190,14 +92,7 @@ class _NatitinalityState extends State<Natitinality> {
                         ),
                       ),
                     ),
-                    // searchMatchFn: (rtItem, searchValue) {
-                    //   return (rtItem.value
-                    //       .toLowerCase()
-                    //       .contains(searchValue.toLowerCase()));
-                    // },
-
-                     searchMatchFn: (item, searchValue) {
-                      
+                     searchMatchFn: (item, searchValue) {        
             return (item.child.toString().toLowerCase().contains(searchValue));
           },
                     //This to clear the search value when you close the menu

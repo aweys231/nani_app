@@ -1,11 +1,15 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print, unused_import, prefer_final_fields
 
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:nanirecruitment/models/http_exception.dart';
 import 'package:nanirecruitment/providers/auth.dart';
+import 'package:nanirecruitment/providers/candidate_registration.dart';
+import 'package:nanirecruitment/providers/category_section.dart';
+import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
+import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -105,6 +109,7 @@ class _AuthCardState extends State<AuthCard>
     'email': '',
     'password': '',
   };
+  var _isInit = true;
   var _isLoading = false;
   final _passwordController = TextEditingController();
   late AnimationController _controller;
@@ -126,14 +131,23 @@ class _AuthCardState extends State<AuthCard>
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
     // _heightAnimation.addListener(() => setState(() {}));
+    
   }
+
+ 
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
   }
-
+ @override
+  void didChangeDependencies() {
+   
+     Provider.of<Candidate>(context).fetchAndSetnatinality().then((_) {});
+     Provider.of<Category_Section>(context).fetchAndSetAllCategory().then((_) {});
+    super.didChangeDependencies();
+  }
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -165,10 +179,10 @@ class _AuthCardState extends State<AuthCard>
       // Log user in
       await Provider.of<Auth>(context, listen: false)
           .login(_authData['email'], _authData['password']);
-          print('hello welocom');
+      print('hello welocom');
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
-        if (error.toString().contains('EMAIL_NOT_FOUND')) {
+      if (error.toString().contains('EMAIL_NOT_FOUND')) {
         errorMessage = 'Could not find a user with that user nam.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
@@ -255,8 +269,13 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 child: Text('SIGNUP  INSTEAD'),
                 onPressed: (() {
-                  Navigator.of(context)
-                      .pushReplacementNamed(Dhashboard.routeName);
+                  // Navigator.of(context)
+                  //     .pushReplacementNamed(Dhashboard.routeName);
+                  // Navigator.of(context).pushNamed(
+                  //   ClientRegistrationScreen.routeName,
+                  // );
+
+                   Navigator.pushNamed(context, ClientRegistrationScreen.routeName);
                 }),
               ),
             ],

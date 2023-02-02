@@ -20,9 +20,8 @@ class JobsModel with ChangeNotifier {
   // final String? end_date;
   // final String? shift_type;
   // final String? company_name;
-  
 
-  JobsModel(  {
+  JobsModel({
     required this.id,
     required this.name,
     required this.jobtitile,
@@ -30,14 +29,13 @@ class JobsModel with ChangeNotifier {
     required this.imageUrl,
     // required this.jv_id,
     // required this.jv_address,
-    // this.contactname, 
-    // this.contactnumber, 
-    // this.post_code, 
-    // this.start_date, 
-    // this.end_date, 
-    // this.shift_type, 
-    // this.company_name, 
-    
+    // this.contactname,
+    // this.contactnumber,
+    // this.post_code,
+    // this.start_date,
+    // this.end_date,
+    // this.shift_type,
+    // this.company_name,
   });
 
   factory JobsModel.fromJson(Map<String, dynamic> json) {
@@ -46,7 +44,7 @@ class JobsModel with ChangeNotifier {
       name: json['jobtitile'],
       jobtitile: json['jobrole'],
       description: json['description'],
-      imageUrl: json['c_image'], 
+      imageUrl: json['c_image'],
       // jv_id:json['jv_id'],
       // jv_address: json['jv_address'],
       // contactname: json['contactname'],
@@ -72,6 +70,7 @@ class Jobs_Section with ChangeNotifier {
   }
 
   Future<List<JobsModel>> fetchAndSetAllJobs(String jobIdd) async {
+    // _jobs.clear();
     // var url = 'https://myshop-e5cf5-default-rtdb.firebaseio.com/products.json';
     var url = "http://192.168.100.202/nanirecruitment/client_app/job_cate_id";
     try {
