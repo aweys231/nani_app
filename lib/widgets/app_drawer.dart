@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:nanirecruitment/helpers/custom_route.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
+import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
@@ -51,6 +52,15 @@ class AppDrawer extends StatelessWidget {
               //     .pushReplacementNamed(Availability.routeName);
                Navigator.of(context)
                   .pushReplacementNamed(Availability.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.location_on_outlined),
+            title: Text('location'),
+            onTap: () {
+               Navigator.of(context)
+                  .pushReplacementNamed(AddPlaceScreen.routeName);
             },
           ),
           Divider(),

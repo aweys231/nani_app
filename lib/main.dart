@@ -8,6 +8,7 @@ import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
+import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
 import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
@@ -94,7 +95,7 @@ class MyApp extends StatelessWidget {
               CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
-                // Availabilities.routeName: (ctx) => Availability(),
+                AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
         },
       ),
       )
