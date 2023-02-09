@@ -12,14 +12,15 @@ class PlaceLcation {
 }
 
 class Place {
-  final String id;
-  final String title;
+  final String? id;
+  final String? title;
   final PlaceLcation? location;
-  final File image;
+  // final File image;
 
   Place(
-      {required this.id,
-      required this.title,
+      { this.id,
+       this.title,
       required this.location,
-      required this.image});
+      // required this.image
+      });
 }

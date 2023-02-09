@@ -59,6 +59,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.location_on_outlined),
             title: Text('location'),
             onTap: () {
+              
                Navigator.of(context)
                   .pushReplacementNamed(AddPlaceScreen.routeName);
             },

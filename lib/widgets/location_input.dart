@@ -1,10 +1,11 @@
-// ignore_for_file: sized_box_for_whitespace, implementation_imports, unnecessary_import, unused_field, prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, unused_element, unused_import, avoid_print, avoid_web_libraries_in_flutter, depend_on_referenced_packages
+// ignore_for_file: sized_box_for_whitespace, implementation_imports, unnecessary_import, unused_field, prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, unused_element, unused_import, avoid_print, avoid_web_libraries_in_flutter, depend_on_referenced_packages, unnecessary_new, import_of_legacy_library_into_null_safe
 
 // import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:geocoder/geocoder.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:location/location.dart';
@@ -23,7 +24,7 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
-   void _showPreview(double lat, double lng) {
+  void _showPreview(double lat, double lng) {
     final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
       latitude: lat,
       longitude: lng,
@@ -43,32 +44,46 @@ class _LocationInputState extends State<LocationInput> {
   //   // print(locData.longitude);
   // }
 
- Future<void> _getCurrentUserLocation() async {
+  Future<void> _getCurrentUserLocation() async {
     try {
       final locData = await Location().getLocation();
       _showPreview(locData.latitude!, locData.longitude!);
+      // final coordinates = new Coordinates(locData.latitude, locData.longitude);
+      // var addresses =
+      //     await Geocoder.local.findAddressesFromCoordinates(coordinates);
+// first = addresses.first;
+      // print(addresses.first);
+      print(locData.latitude!);
+      print(locData.longitude!);
       widget.onSelectPlace(locData.latitude, locData.longitude);
     } catch (error) {
       return;
     }
   }
- Future<void> _selectOnMap() async {
+
+  Future<void> _selectOnMap() async {
     final selectedLocation = await Navigator.of(context).push<LatLng>(
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (ctx) => MapScreen(
-              isSelecting: true,
-            ),
+          isSelecting: true,
+        ),
       ),
     );
     if (selectedLocation == null) {
+      print('locationka  la lama soo doortay');
       return;
     }
-    print(selectedLocation.latitude);
+   
+    print(selectedLocation.latitude.toDouble());
+    
+      widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude,'');
+       print('locationka funtion ka waa loo pasay');
     _showPreview(selectedLocation.latitude, selectedLocation.longitude);
-    widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude);
+   
     // ...
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,7 +121,7 @@ class _LocationInputState extends State<LocationInput> {
               icon: Icon(Icons.map),
               label: Text('Select on Map'),
               // textColor: Theme.of(context).primaryColor,
-              onPressed:  _selectOnMap,
+              onPressed: _selectOnMap,
             )
           ],
         )

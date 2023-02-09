@@ -6,6 +6,7 @@ import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
+import 'package:nanirecruitment/providers/great_places.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
 import 'package:nanirecruitment/screens/add_place_screen.dart';
@@ -53,7 +54,9 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider.value(
           value: Availability_Section(),
         ),
-        
+         ChangeNotifierProvider.value(
+          value: GreatPlaces(),
+        ),
         
       ],
       child:Consumer<Auth>(
@@ -95,7 +98,7 @@ class MyApp extends StatelessWidget {
               CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
-                AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
+                AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
         },
       ),
       )

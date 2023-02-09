@@ -114,6 +114,9 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     //   return;
     // }
     // _form.currentState!.save();
+    if (_pickImage! == null) {
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
