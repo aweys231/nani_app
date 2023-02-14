@@ -58,7 +58,8 @@ class _DhashboardState extends State<Dhashboard> {
       appBar: AppBar(
         title: Text('Nani Recruitment'),
       ),
-      body: SingleChildScrollView(
+      body:
+       SingleChildScrollView(
         child: _isLoading
                   ? Center(
                       child: CircularProgressIndicator(),

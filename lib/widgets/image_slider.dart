@@ -10,7 +10,7 @@ import 'package:nanirecruitment/models/home_slider_model.dart';
 import 'package:nanirecruitment/size_config.dart';
 
 class ImageSlider extends StatefulWidget {
-  // const ImageSlider({Key? key}) : super(key: key);
+  
   @override
   State<ImageSlider> createState() => _ImageSliderState();
 }
@@ -26,26 +26,14 @@ class _ImageSliderState extends State<ImageSlider> {
 
     _imageUrls = imageUrls.images;
     return Container(
-      // padding: EdgeInsets.symmetric(
-      //   horizontal: getProportionateScreenWidth(2.0),
-      //   vertical: getProportionateScreenWidth(2),
-      // ),
+      
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: getProportionateScreenHeight(190),
-        // height: MediaQuery.of(context).size.height / 4,
+        // height: getProportionateScreenHeight(190),
+        height: MediaQuery.of(context).size.height / 4,
       
       padding: const EdgeInsets.all(0.0),
-        //    decoration: BoxDecoration(
-        //   color: Colors.white,
-        //   borderRadius: BorderRadius.circular(9.0),
-        //   boxShadow: [
-        //     BoxShadow(
-        //         color: Colors.grey[300]!,
-        //         blurRadius: 5.0,
-        //         offset: const Offset(0, 3))
-        //   ],
-        // ),
+       
           child: Column(
             mainAxisSize:MainAxisSize.min,
             children: [

@@ -49,12 +49,12 @@ class GreatPlaces with ChangeNotifier {
   Future<void> addPlace(
     PlaceLcation pickedLocation, String candidate_id
   ) async {
-    final address = await LocationHelper.getPlaceAddress(
-        pickedLocation.latitude, pickedLocation.longitude);
+    // final address = await LocationHelper.getPlaceAddress(
+    //     pickedLocation.latitude, pickedLocation.longitude);
     final updatedLocation = PlaceLcation(
       latitude: pickedLocation.latitude,
       longitude: pickedLocation.longitude,
-      address: address,
+      // address: address,
     );
 
     final url =
@@ -66,7 +66,7 @@ class GreatPlaces with ChangeNotifier {
           'candidate_id': candidate_id,
           'latitude': pickedLocation.latitude,
           'longitude': pickedLocation.longitude,
-          'address': pickedLocation.address!,
+          'address': '',
         }),
       );
       var message = jsonDecode(response.body);

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print, unused_import, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print, unused_import, prefer_final_fields, use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:math';
 
@@ -111,6 +111,7 @@ class _AuthCardState extends State<AuthCard>
   };
   var _isInit = true;
   var _isLoading = false;
+  bool _isLoadingDrop_data = false;
   final _passwordController = TextEditingController();
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
@@ -131,23 +132,32 @@ class _AuthCardState extends State<AuthCard>
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
     // _heightAnimation.addListener(() => setState(() {}));
-    
   }
-
- 
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
   }
- @override
-  void didChangeDependencies() {
-   
-     Provider.of<Candidate>(context).fetchAndSetnatinality().then((_) {});
-     Provider.of<Category_Section>(context).fetchAndSetAllCategory().then((_) {});
+
+  @override
+  Future<void> didChangeDependencies() async {
+    setState(() {
+      _isLoadingDrop_data = true;
+    });
+    await Provider.of<Candidate>(context, listen: false)
+        .fetchAndSetnatinality()
+        .then((_) {});
+    await Provider.of<Category_Section>(context, listen: false)
+        .fetchAndSetAllCategory()
+        .then((_) {});
+
+    setState(() {
+      _isLoadingDrop_data = false;
+    });
     super.didChangeDependencies();
   }
+
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -186,6 +196,8 @@ class _AuthCardState extends State<AuthCard>
         errorMessage = 'Could not find a user with that user nam.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
+      } else if (error.toString().contains('INACTIVE_EMAIL')) {
+        errorMessage = 'Your Email Is not Active.';
       }
       print(error.toString());
       print('hello welocom');
@@ -268,14 +280,24 @@ class _AuthCardState extends State<AuthCard>
                   primary: Theme.of(context).primaryColor,
                 ),
                 child: Text('SIGNUP  INSTEAD'),
-                onPressed: (() {
+                onPressed: (() async {
                   // Navigator.of(context)
                   //     .pushReplacementNamed(Dhashboard.routeName);
                   // Navigator.of(context).pushNamed(
                   //   ClientRegistrationScreen.routeName,
                   // );
+                  //  setState(() {
 
-                   Navigator.pushNamed(context, ClientRegistrationScreen.routeName);
+                  //     _isLoadingDrop_data = true;
+                  //   });
+                  //   await  Provider.of<Candidate>(context,listen: false).fetchAndSetnatinality().then((_) {});
+                  //   await Provider.of<Category_Section>(context,listen: false).fetchAndSetAllCategory().then((_) {});
+
+                  //   setState(() {
+                  //     _isLoadingDrop_data = false;
+                  //   });
+                  Navigator.pushNamed(
+                      context, ClientRegistrationScreen.routeName);
                 }),
               ),
             ],

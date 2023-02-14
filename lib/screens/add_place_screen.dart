@@ -81,7 +81,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           ),
           ElevatedButton.icon(
             icon: Icon(Icons.add),
-            label: Text('Add Place'),
+            label: Text('Add Location'),
             onPressed: _savePlace,
             // elevation: 0,
             // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

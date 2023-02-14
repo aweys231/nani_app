@@ -16,10 +16,7 @@ class HomeSlider with ChangeNotifier {
   }
 
   Future<List<HomeSliderModel>> fetchAndSetHomeSlideImage() async {
-    // var url = 'https://myshop-e5cf5-default-rtdb.firebaseio.com/products.json';
     var url = "http://192.168.100.202/nanirecruitment//client_app/imageslider";
-    // var url = "http://192.168.100.202/ex.asalxpress.com//Wallet/imageslider";
-
     try {
       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 'Access-Control-Allow-Origin': '*'});

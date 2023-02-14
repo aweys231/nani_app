@@ -515,9 +515,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       selectedItem1 = value as String;
                       _isLoadingDrop = true;
                     });
-                    await Provider.of<Jobs_Section>(context, listen: false)
-                        .fetchAndSetAllJobs(role_id);
-                    // data = Provider.of<Jobs_Section>(context);
+                    await Provider.of<Jobs_Section>(context, listen: false).fetchAndSetAllJobs(role_id);
                     setState(() {
                       _isLoadingDrop = false;
                     });

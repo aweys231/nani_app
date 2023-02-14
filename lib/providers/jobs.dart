@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, non_constant_identifier_names
+// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, non_constant_identifier_names, prefer_const_declarations
 import 'dart:convert';
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
@@ -70,8 +70,6 @@ class Jobs_Section with ChangeNotifier {
   }
 
   Future<List<JobsModel>> fetchAndSetAllJobs(String jobIdd) async {
-    // _jobs.clear();
-    // var url = 'https://myshop-e5cf5-default-rtdb.firebaseio.com/products.json';
     var url = "http://192.168.100.202/nanirecruitment/client_app/job_cate_id";
     try {
 //       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
@@ -106,6 +104,67 @@ class Jobs_Section with ChangeNotifier {
     } catch (error) {
       print(error);
       print(_jobs);
+      throw error;
+    }
+  }
+
+Future<List<JobsModel>> fetchAndSetVacuncy(String role_id, String candidate_id) async {
+    var url = "http://192.168.100.202/nanirecruitment/client_app/get_job_vacancy";
+    try {
+//       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
+// 'Access-Control-Allow-Origin': '*'});
+      final response = await http.post(Uri.parse(url),
+          body: json.encode(
+            {
+              'role_id': role_id,
+              'candidate_id': candidate_id,
+            },
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+      // final response = await http.get(Uri.parse(url));
+      // print(json.decode(response.body));
+      if (response.statusCode == 200) {
+        return _jobs = [
+          for (final alljobs in jsonDecode(response.body))
+            JobsModel.fromJson(alljobs),
+        ];
+
+        // return _images;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_jobs);
+      throw error;
+    }
+  }
+
+  Future<void> vacuncy_booking(String candidate_id, String vacuncy_id) async {
+    final url =
+        "http://192.168.100.202/nanirecruitment/client_app/vacuncy_booking";
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'candidate_id': candidate_id,
+          'vacuncy_id': vacuncy_id,
+        }),
+      );
+      var message = jsonDecode(response.body);
+      print(message);
+      return message;
+      notifyListeners();
+    } catch (error) {
+      print(error);
       throw error;
     }
   }

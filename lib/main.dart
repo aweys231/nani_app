@@ -15,6 +15,7 @@ import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/screens/client_dhashboard.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
+import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.purple,
           
         ),
-        // home: Dhashboard(),
+       
         home:  auth.isAuth
                 ? ClientDhashboard(auth.role_id,auth.candidate_id)
                 : FutureBuilder(
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
                 AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
+                // JobDetails.routeName: (ctx) => JobDetails(id: 1,),
         },
       ),
       )

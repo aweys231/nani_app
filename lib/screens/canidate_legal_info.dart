@@ -84,11 +84,16 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
 
   @override
   void initState() {
-    // Provider.of<LegalInfo>(context, listen: false)
-    //     .findByIdLegalInfo(widget.candidate_id.toString());
+  
+    
+    super.initState();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
     if (_isInit) {
       if (widget.candidate_id.toString() != null) {
-        _editeLegalInfot = Provider.of<LegalInfo>(context, listen: false)
+        _editeLegalInfot =await Provider.of<LegalInfo>(context, listen: false)
             .findById(widget.candidate_id.toString());
         _initValues = {
           'postcode': _editeLegalInfot.postcode!,
@@ -102,18 +107,10 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           'dbs_certificate_number': _editeLegalInfot.dbs_certificate_number!,
           'imageUrl': ''
         };
-        // _postcode.text = _initValues['postcode']!;
-        // print(widget.candidate_id.toString());
-        // _imageUrlControler.text = _editeLegalInfot.imageUrl as String;
-        // _expiry_date.text = _editeLegalInfot.expiry_date as String;
+       
       }
     }
     _isInit = false;
-    super.initState();
-  }
-
-  @override
-  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
   }
 

@@ -1,25 +1,16 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_import
 
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
 
 class DaleelBanner extends StatelessWidget {
-  const DaleelBanner({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 90,
+    return
+     Container(
       width: double.infinity,
-      // margin: EdgeInsets.all(getProportionateScreenWidth(15)),
-      margin: EdgeInsets.symmetric(vertical: getProportionateScreenWidth(15.0), horizontal: getProportionateScreenWidth(15.0)),
-      // padding: EdgeInsets.symmetric(
-      //   horizontal: getProportionateScreenWidth(20),
-      //   vertical: getProportionateScreenWidth(15),
-      // ),
+      margin: EdgeInsets.symmetric(vertical:15.0, horizontal: 15.0),
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         color: Color(0xFF4A3298),
@@ -34,7 +25,7 @@ class DaleelBanner extends StatelessWidget {
             TextSpan(
               text: "Job booking",
               style: TextStyle(
-                fontSize: getProportionateScreenWidth(20),
+                fontSize: 20,
                 // fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
