@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, non_constant_identifier_names, prefer_const_declarations
+// ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, non_constant_identifier_names, prefer_const_declarations, prefer_final_fields
 import 'dart:convert';
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
@@ -11,15 +11,6 @@ class JobsModel with ChangeNotifier {
   final String jobtitile;
   final String description;
   final String imageUrl;
-  // final String jv_id;
-  // final String jv_address;
-  // final String? contactname;
-  // final String? contactnumber;
-  // final String? post_code;
-  // final String? start_date;
-  // final String? end_date;
-  // final String? shift_type;
-  // final String? company_name;
 
   JobsModel({
     required this.id,
@@ -27,15 +18,6 @@ class JobsModel with ChangeNotifier {
     required this.jobtitile,
     required this.description,
     required this.imageUrl,
-    // required this.jv_id,
-    // required this.jv_address,
-    // this.contactname,
-    // this.contactnumber,
-    // this.post_code,
-    // this.start_date,
-    // this.end_date,
-    // this.shift_type,
-    // this.company_name,
   });
 
   factory JobsModel.fromJson(Map<String, dynamic> json) {
@@ -45,21 +27,72 @@ class JobsModel with ChangeNotifier {
       jobtitile: json['jobrole'],
       description: json['description'],
       imageUrl: json['c_image'],
-      // jv_id:json['jv_id'],
-      // jv_address: json['jv_address'],
-      // contactname: json['contactname'],
-      // contactnumber: json['contactnumber'],
-      // post_code: json['post_code'],
-      // start_date: json['start_date'],
-      // end_date: json['end_date'],
-      // shift_type: json['shift_type'],
-      // company_name: json['company_name']
     );
   }
 }
 
+class VacuncyModel with ChangeNotifier {
+  final String id;
+  final String name;
+  final String jobtitile;
+  final String description;
+  final String imageUrl;
+  final String? jobrole_id;
+  final String? jv_address;
+  final String? contactname;
+  final String? contactnumber;
+  final String? post_code;
+  final String? start_date;
+  final String? end_date;
+  final String? shift_type;
+  final String? company_name;
+  final String? businesunit;
+  final String? minut;
+  final String? km;
+
+  VacuncyModel(
+      {required this.id,
+      required this.name,
+      required this.jobtitile,
+      required this.description,
+      required this.imageUrl,
+      this.jobrole_id,
+      this.jv_address,
+      this.contactname,
+      this.contactnumber,
+      this.post_code,
+      this.start_date,
+      this.end_date,
+      this.shift_type,
+      this.company_name,
+      this.businesunit,
+      this.minut,
+      this.km});
+
+  // factory VacuncyModel.fromJson(Map<String, dynamic> json) {
+  //   return VacuncyModel(
+  //     id: json[0]['vacuncy_data']['jobvacancy_id'],
+  //     name: json[0]['vacuncy_data']['jobtitile'],
+  //     jobtitile: json[0]['vacuncy_data']['jobrole'],
+  //     description: json[0]['vacuncy_data']['description'],
+  //     imageUrl: json[0]['vacuncy_data']['c_image'],
+  //   //   jobrole_id:json[0]['vacuncy_data']['jobrole_id'],
+  //   //   jv_address: json[0]['vacuncy_data']['address'],
+  //   //   contactname: json[0]['contactname'],
+  //   //   contactnumber: json[0]['vacuncy_data']['contactname'],
+  //   //   post_code: json[0]['vacuncy_data']['post_code'],
+  //   //   start_date: json[0]['vacuncy_data']['sdate'],
+  //   //   end_date: json[0]['vacuncy_data']['edate'],
+  //   //   shift_type: json[0]['vacuncy_data']['shift_type'],
+  //   //   company_name: json[0]['vacuncy_data']['company_name'],
+  //   //   businesunit: json[0]['vacuncy_data']['businesunit'],
+  //   //    minut: json[0]['minut'],
+  //   //  km: json[0]['km'],
+  //   );
+  // }
+}
+
 class Jobs_Section with ChangeNotifier {
-  // ignore: prefer_final_fields
   List<JobsModel> _jobs = [];
   List<JobsModel> get jobs {
     return [..._jobs];
@@ -67,6 +100,15 @@ class Jobs_Section with ChangeNotifier {
 
   JobsModel findById(String id) {
     return _jobs.firstWhere((prod) => prod.id == id);
+  }
+
+  List<VacuncyModel> _vcuncyjobs = [];
+  List<VacuncyModel> get vcuncyjobs {
+    return [..._vcuncyjobs];
+  }
+
+  VacuncyModel findVacuncyById(String id) {
+    return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
   Future<List<JobsModel>> fetchAndSetAllJobs(String jobIdd) async {
@@ -108,8 +150,10 @@ class Jobs_Section with ChangeNotifier {
     }
   }
 
-Future<List<JobsModel>> fetchAndSetVacuncy(String role_id, String candidate_id) async {
-    var url = "http://192.168.100.202/nanirecruitment/client_app/get_job_vacancy";
+  Future<List<VacuncyModel>> fetchAndSetVacuncy(
+      String role_id, String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/chek_job_vacancy";
     try {
 //       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 // 'Access-Control-Allow-Origin': '*'});
@@ -125,14 +169,46 @@ Future<List<JobsModel>> fetchAndSetVacuncy(String role_id, String candidate_id) 
             'Access-Control-Allow-Origin': '*'
           });
       // final response = await http.get(Uri.parse(url));
-      // print(json.decode(response.body));
-      if (response.statusCode == 200) {
-        return _jobs = [
-          for (final alljobs in jsonDecode(response.body))
-            JobsModel.fromJson(alljobs),
-        ];
 
-        // return _images;
+      if (response.statusCode == 200) {
+        //  print(json.decode(response.body));
+        //    final responseData = json.decode(response.body);
+        // print(responseData[0]['vacuncy_data'].toString());
+
+        //   return _vcuncyjobs = [
+        //     for (final alljobs in jsonDecode(response.body))
+        //       VacuncyModel.fromJson(alljobs),
+        //   ];
+
+        final List<VacuncyModel> loadedvacuncy = [];
+        final extractedData = json.decode(response.body);
+
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedvacuncy.add(
+            VacuncyModel(
+              id: extractedData[i]['vacuncy_data']['jobvacancy_id'],
+              name: extractedData[i]['vacuncy_data']['jobtitile'],
+              jobtitile: extractedData[i]['vacuncy_data']['jobrole'],
+              description: extractedData[i]['vacuncy_data']['description'],
+              imageUrl: extractedData[i]['vacuncy_data']['c_image'],
+              jobrole_id: extractedData[i]['vacuncy_data']['jobrole_id'],
+              //   jv_address: extractedData[i]['vacuncy_data']['address'],
+              //   contactname: extractedData[i]['contactname'],
+              //   contactnumber: extractedData[i]['vacuncy_data']['contactname'],
+              //   post_code: extractedData[i]['vacuncy_data']['post_code'],
+              //   start_date: extractedData[i]['vacuncy_data']['sdate'],
+              //   end_date: extractedData[i]['vacuncy_data']['edate'],
+              //   shift_type: extractedData[i]['vacuncy_data']['shift_type'],
+              //   company_name: extractedData[i]['vacuncy_data']['company_name'],
+              //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
+              //    minut: extractedData[i]['minut'],
+              //  km: extractedData[i]['km'],
+            ),
+          );
+          print(extractedData[i]['vacuncy_data']['company_name']);
+        }
+        _vcuncyjobs = loadedvacuncy.toList();
+        return _vcuncyjobs;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.

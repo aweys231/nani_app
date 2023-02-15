@@ -21,7 +21,7 @@ class HomeSlider with ChangeNotifier {
       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 'Access-Control-Allow-Origin': '*'});
       // final response = await http.get(Uri.parse(url));
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       if (response.statusCode == 200) {
         return _images = [
           for (final image in jsonDecode(response.body))

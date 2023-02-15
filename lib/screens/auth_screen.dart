@@ -193,7 +193,7 @@ class _AuthCardState extends State<AuthCard>
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that user nam.';
+        errorMessage = 'Could not find a user with that email .';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
       } else if (error.toString().contains('INACTIVE_EMAIL')) {
@@ -203,7 +203,7 @@ class _AuthCardState extends State<AuthCard>
       print('hello welocom');
       _showErrorDialog(error.toString());
     } catch (error) {
-      const errorMessage =
+      const erroreMssage =
           'Could not authenticate you. Please try again later.';
       // _showErrorDialog(error.toString());
       _showErrorDialog(error.toString());

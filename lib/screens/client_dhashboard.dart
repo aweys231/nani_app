@@ -107,16 +107,16 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                         } else {
                                           return Consumer<job.Jobs_Section>(
                                               builder: (ctx, jobData, child) =>
-                                                  jobData.jobs.isNotEmpty
+                                                  jobData.vcuncyjobs.isNotEmpty
                                                       ? Expanded(
                                                         child: ListView.builder(
                                                             // scrollDirection: Axis.horizontal,
                                                             shrinkWrap: true,
                                                             itemCount:
-                                                                jobData.jobs.length,
+                                                                jobData.vcuncyjobs.length,
                                                             itemBuilder: (ctx, i) =>
                                                                 JobContainer(
-                                                                    jobData.jobs[i]),
+                                                                    jobData.vcuncyjobs[i]),
                                                           ),
                                                       )
                                                       : Center(

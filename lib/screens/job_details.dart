@@ -77,7 +77,7 @@ setState(() {
   @override
   Widget build(BuildContext context) {
     var jobList = Provider.of<Jobs_Section>(context, listen: false)
-        .findById(widget.id.toString());
+        .findVacuncyById(widget.id.toString());
     return SafeArea(
       child: Scaffold(
         body:  _isLoading

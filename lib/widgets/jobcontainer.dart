@@ -8,7 +8,7 @@ import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:provider/provider.dart';
 
 class JobContainer extends StatelessWidget {
-  final job.JobsModel jobs;
+  final job.VacuncyModel jobs;
   const JobContainer(this.jobs);
   // const JobContainer({
   //   required this.id,

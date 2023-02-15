@@ -126,11 +126,11 @@ print(_alljobs);
                             } else {
                               return Consumer<job.Jobs_Section>(
                                   builder: (ctx, jobData, child) => Expanded(
-                                        child: jobData.jobs.isNotEmpty ? ListView.builder(                                          
+                                        child: jobData.vcuncyjobs.isNotEmpty ? ListView.builder(                                          
                                           // scrollDirection: Axis.horizontal,
-                                          itemCount: jobData.jobs.length,
+                                          itemCount: jobData.vcuncyjobs.length,
                                           itemBuilder: (ctx, i) =>
-                                              JobContainer(jobData.jobs[i]),
+                                              JobContainer(jobData.vcuncyjobs[i]),
                                         )
                                         : Center(
                                           child: const Text(

@@ -57,7 +57,7 @@ List<LegalInfo> get infodata {
     try {
      final response = await http.post(Uri.parse(url),body: json.encode({'candidate_id': candidate_id }),);
       // final response = await http.get(Uri.parse(url));
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       final extractedData = json.decode(response.body) ;
       if (response.statusCode == 200) {
         // print(extractedData['postcode']);
