@@ -10,6 +10,7 @@ import 'package:nanirecruitment/providers/great_places.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
 import 'package:nanirecruitment/screens/add_place_screen.dart';
+import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
 import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
@@ -100,7 +101,7 @@ class MyApp extends StatelessWidget {
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
                 AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
-                // JobDetails.routeName: (ctx) => JobDetails(id: 1,),
+                CanidateAttandance.routeName: (ctx) => CanidateAttandance(),
         },
       ),
       )

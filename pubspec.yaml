@@ -52,7 +52,7 @@ dependencies:
   cached_network_image: ^3.2.2
   # google_maps_flutter: ^2.0.0
   google_maps_flutter: ^2.2.3
-  
+  slide_to_act: ^2.0.1
   # dropdown_search: ^5.0.5
   # simple_slider: ^0.0.2
 
