@@ -1,16 +1,19 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches
+// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches, unused_import, non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
+import 'package:provider/provider.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class CanidateAttandance extends StatefulWidget {
-  const CanidateAttandance({super.key});
   static const routeName = '/candidate-attandance';
+  const CanidateAttandance(this.candidate_id, {super.key});
+  final String? candidate_id;
 
   @override
   State<CanidateAttandance> createState() => _CanidateAttandanceState();
@@ -21,18 +24,42 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
   double screenWidth = 0;
   String checkInt = '--/--';
   String checkOut = '--/--';
+  var checkdat;
   void getRecode() async {
     try {
-      setState(() {
-        checkInt = 'checkInt';
-        checkOut = 'checkOut';
-      });
+      checkdat = await Provider.of<Jobs_Section>(context, listen: false)
+          .timeSheetChecking(widget.candidate_id.toString());
+      print('yes');
+      print(checkdat[0]['timein'].toString());
+      if (checkdat[0]['timein'] != '') {
+        setState(() {
+          checkInt = checkdat[0]['timein'].toString();
+          print(checkdat[0]['timein'].toString());
+          // checkOut = checkdat[0]['timeout'].toString();
+          checkOut = '--/--';
+          print(checkdat[0]['timein'].toString());
+        });
+      }
     } catch (e) {
-      setState(() {
-        checkInt = '--/--';
-        checkOut = '--/--';
-      });
+      // setState(() {
+      //   checkInt = '--/--';
+      //   checkOut = '--/--';
+      //   print(checkdat['timein'].toString());
+      // });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // ignore: todo
+    // TODO: implement didChangeDependencies
+    getRecode();
+    super.didChangeDependencies();
   }
 
   @override

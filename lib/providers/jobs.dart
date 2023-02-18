@@ -92,6 +92,23 @@ class VacuncyModel with ChangeNotifier {
   // }
 }
 
+// class CheckData with ChangeNotifier {
+//   String? checkIn;
+//   String? checkOut;
+
+//   CheckData({
+//     this.checkIn,
+//     this.checkOut,
+//   });
+
+//   factory CheckData.fromJson(Map<String, dynamic> json) {
+//     return CheckData(
+//       checkIn: json['userId'],
+//       checkOut: json['id'],
+//     );
+//   }
+// }
+
 class Jobs_Section with ChangeNotifier {
   List<JobsModel> _jobs = [];
   List<JobsModel> get jobs {
@@ -107,10 +124,70 @@ class Jobs_Section with ChangeNotifier {
     return [..._vcuncyjobs];
   }
 
+  // List<CheckData> _checkdata = [];
+  // List<CheckData> get checkdata {
+  //   return [..._checkdata];
+  // }
+
   VacuncyModel findVacuncyById(String id) {
     return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
+  Future timeSheetChecking(String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
+    final response = await http.post(Uri.parse(url),
+        body: json.encode(
+          {
+            'candidate_id': candidate_id,
+            'creation_date': '2022-10-23 00:00:00',
+          },
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print(responseData);
+      return responseData;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load check in');
+    }
+  }
+
+//   Future<List<CheckData>> timeSheetChecking(String candidate_id) async {
+//     var url =
+//         "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
+//   final response = await http.post(Uri.parse(url),
+//           body: json.encode(
+//             {
+//               'candidate_id': candidate_id,
+//             },
+//           ),
+//           headers: {
+//             'Content-Type': 'application/json',
+//             'Access-Control-Allow-Origin': '*'
+//           });
+
+//   if (response.statusCode == 200) {
+//     // If the server did return a 200 OK response,
+//     // then parse the JSON.
+//     // return CheckData.fromJson(jsonDecode(response.body));
+//       return _checkdata = [
+//             for (final allcheck in jsonDecode(response.body))
+//               CheckData.fromJson(allcheck),
+//           ];
+//   }
+//   else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Failed to load check in');
+//   }
+// }
   Future<List<JobsModel>> fetchAndSetAllJobs(String jobIdd) async {
     var url = "http://192.168.100.202/nanirecruitment/client_app/job_cate_id";
     try {

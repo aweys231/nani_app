@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
                 AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
-                CanidateAttandance.routeName: (ctx) => CanidateAttandance(),
+                CanidateAttandance.routeName: (ctx) => CanidateAttandance(auth.candidate_id),
         },
       ),
       )
