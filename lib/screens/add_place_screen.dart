@@ -42,8 +42,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
      print('data maleh');
     Provider.of<GreatPlaces>(context, listen: false)
         .addPlace(_pickedLocation!, widget.candidate_id!);
-    Navigator.of(context)
-                        .pushNamed('/');
+    Navigator.of(context).pushNamed('/');
   }
 
   @override

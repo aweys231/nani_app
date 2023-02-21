@@ -18,6 +18,7 @@ import 'package:nanirecruitment/screens/client_dhashboard.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
+import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import 'package:provider/provider.dart';
@@ -102,6 +103,7 @@ class MyApp extends StatelessWidget {
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
                 AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
                 CanidateAttandance.routeName: (ctx) => CanidateAttandance(auth.candidate_id),
+                ScanAttandance.routeName: (ctx) => ScanAttandance(),
         },
       ),
       )

@@ -7,6 +7,7 @@ import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
+import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import '../providers/auth.dart';
 
@@ -72,6 +73,16 @@ class AppDrawer extends StatelessWidget {
               
                Navigator.of(context)
                   .pushReplacementNamed(CanidateAttandance.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.qr_code_2_outlined),
+            title: Text('Attandance'),
+            onTap: () {
+              
+               Navigator.of(context)
+                  .pushReplacementNamed(ScanAttandance.routeName);
             },
           ),
           Divider(),
