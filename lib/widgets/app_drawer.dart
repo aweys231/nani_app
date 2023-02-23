@@ -40,7 +40,6 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(CanidateLegalInfor.routeName);
-              
             },
           ),
           Divider(),
@@ -48,10 +47,9 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.calendar_month),
             title: Text('Availability'),
             onTap: () {
-             
               // Navigator.of(context)
               //     .pushReplacementNamed(Availability.routeName);
-               Navigator.of(context)
+              Navigator.of(context)
                   .pushReplacementNamed(Availability.routeName);
             },
           ),
@@ -60,18 +58,16 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.location_on_outlined),
             title: Text('location'),
             onTap: () {
-              
-               Navigator.of(context)
+              Navigator.of(context)
                   .pushReplacementNamed(AddPlaceScreen.routeName);
             },
           ),
-           Divider(),
+          Divider(),
           ListTile(
-            leading: Icon(Icons.location_on_outlined),
+            leading: Icon(Icons.calendar_view_month),
             title: Text('Attandance'),
             onTap: () {
-              
-               Navigator.of(context)
+              Navigator.of(context)
                   .pushReplacementNamed(CanidateAttandance.routeName);
             },
           ),
@@ -80,9 +76,9 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.qr_code_2_outlined),
             title: Text('Attandance'),
             onTap: () {
-              
-               Navigator.of(context)
-                  .pushReplacementNamed(ScanAttandance.routeName);
+              Navigator.pushNamed(context, ScanAttandance.routeName);
+              //  Navigator.of(context)
+              //     .pushReplacementNamed(ScanAttandance.routeName);
             },
           ),
           Divider(),
@@ -97,7 +93,6 @@ class AppDrawer extends StatelessWidget {
               Provider.of<Auth>(context, listen: false).logout();
             },
           ),
-          
         ],
       ),
     );

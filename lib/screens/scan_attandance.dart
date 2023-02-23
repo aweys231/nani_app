@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports
+// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 class ScanAttandance extends StatefulWidget {
   static const routeName = '/scan-attandance';
   const ScanAttandance({super.key});
@@ -32,14 +34,21 @@ class _ScanAttandanceState extends State<ScanAttandance> {
     }
   }
 
- @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 150.0
+        : 300.0;
     return Scaffold(
       appBar: AppBar(
         title: Text('welcome'),
@@ -51,7 +60,29 @@ class _ScanAttandanceState extends State<ScanAttandance> {
             flex: 5,
             child: QRView(
               key: qrKey,
+              overlay: QrScannerOverlayShape(
+                  borderColor: Colors.red,
+                  borderRadius: 10,
+                  borderLength: 30,
+                  borderWidth: 10,
+                  cutOutSize: scanArea),
               onQRViewCreated: _onQRViewCreated,
+              onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              // alignment: Alignment.center,
+              child: IconButton(
+                icon: const Icon(Icons.camera, size: 72),
+                onPressed: ()  {
+                  setState(() async {
+                    await controller!.resumeCamera();
+                    print('object');
+                  });
+                },
+              ),
             ),
           ),
           Expanded(
@@ -67,12 +98,22 @@ class _ScanAttandanceState extends State<ScanAttandance> {
       ),
     );
   }
-    void _onQRViewCreated(QRViewController controller) {
+
+  void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
+
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        this.controller!.pauseCamera();
+        this.controller!.resumeCamera();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }
