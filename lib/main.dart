@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                 Availability.routeName: (ctx) => Availability(auth.candidate_id),
                 AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
                 CanidateAttandance.routeName: (ctx) => CanidateAttandance(auth.candidate_id),
-                ScanAttandance.routeName: (ctx) => ScanAttandance(),
+                ScanAttandance.routeName: (ctx) => ScanAttandance(auth.candidate_id),
         },
       ),
       )

@@ -153,41 +153,39 @@ class Jobs_Section with ChangeNotifier {
       print(responseData);
       return responseData;
     } else {
+
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load check in');
     }
   }
 
-//   Future<List<CheckData>> timeSheetChecking(String candidate_id) async {
-//     var url =
-//         "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
-//   final response = await http.post(Uri.parse(url),
-//           body: json.encode(
-//             {
-//               'candidate_id': candidate_id,
-//             },
-//           ),
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Access-Control-Allow-Origin': '*'
-//           });
+Future get_check_qrcode(String candidate_id,String qrcode) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
+    final response = await http.post(Uri.parse(url),
+        body: json.encode(
+          {
+            'candidate_id': candidate_id,
+            'qrcode': qrcode,
+          },
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
 
-//   if (response.statusCode == 200) {
-//     // If the server did return a 200 OK response,
-//     // then parse the JSON.
-//     // return CheckData.fromJson(jsonDecode(response.body));
-//       return _checkdata = [
-//             for (final allcheck in jsonDecode(response.body))
-//               CheckData.fromJson(allcheck),
-//           ];
-//   }
-//   else {
-//     // If the server did not return a 200 OK response,
-//     // then throw an exception.
-//     throw Exception('Failed to load check in');
-//   }
-// }
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print(responseData);
+      return responseData;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load check in');
+    }
+  }
+
   Future<List<JobsModel>> fetchAndSetAllJobs(String jobIdd) async {
     var url = "http://192.168.100.202/nanirecruitment/client_app/job_cate_id";
     try {
