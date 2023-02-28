@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables, unrelated_type_equality_checks
 
 import 'dart:developer';
 import 'dart:io';
@@ -118,12 +118,10 @@ class _ScanAttandanceState extends State<ScanAttandance> {
         
         // result = check_qrcode[0]['result']['qr_no'];
        
-        if(check_qrcode['result'][0]['qr_no'].toString()!=''){
-        _showErrorDialog(result!.code.toString());
-        }
-        else {
+        check_qrcode['result'].isNotEmpty?
+        _showErrorDialog(check_qrcode['result'][0]['qr_no'].toString()):
           _showErrorDialog('you dont have premission this work');
-        }
+       
       
       });
     });

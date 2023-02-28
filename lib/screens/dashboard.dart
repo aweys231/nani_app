@@ -70,8 +70,7 @@ class _DhashboardState extends State<Dhashboard> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               DaleelBanner(),
-               ImageSlider(),
-
+              ImageSlider(),
                   SizedBox(
                       height: 11,
                     ),
