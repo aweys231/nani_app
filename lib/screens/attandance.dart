@@ -33,9 +33,9 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
       checkdat = await Provider.of<Jobs_Section>(context, listen: false)
           .timeSheetChecking('113');
       print('object');
-      _showErrorDialog('hello');
+      // _showErrorDialog('hello');
       print(checkdat[0]['timein'].toString());
-      if (checkdat[0]['timein'].toString() != '') {
+      if (checkdat[0]['timein'].toString() != ''  && checkdat[0]['timeout'] != '') {
         setState(() {
           checkInt = checkdat[0]['timein'].toString();
           checkOut = checkdat[0]['timeout'].toString();
@@ -46,14 +46,14 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
           checkOut = '--/--';
         });
       }
-      // else
-      // {
-      //   setState(() {
-      //    checkInt = '--/--';
-      //    checkOut = '--/--';
-      //     });
+      else
+      {
+        setState(() {
+         checkInt = '--/--';
+         checkOut = '--/--';
+          });
 
-      // }
+      }
     } catch (e) {
       // setState(() {
       //   checkInt = '--/--';
