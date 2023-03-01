@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables, unrelated_type_equality_checks
+// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
+import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -119,7 +120,13 @@ class _ScanAttandanceState extends State<ScanAttandance> {
         // result = check_qrcode[0]['result']['qr_no'];
        
         check_qrcode['result'].isNotEmpty?
-        _showErrorDialog(check_qrcode['result'][0]['qr_no'].toString()):
+        // _showErrorDialog(check_qrcode['result'][0]['qr_no'].toString()):
+        // Navigator.of(context).pushReplacementNamed(CanidateAttandance("")):
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => CanidateAttandance(jobvacancy_id:check_qrcode['result'][0]['jobvacancy_id'].toString())
+          )):
           _showErrorDialog('you dont have premission this work');
        
       

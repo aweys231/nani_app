@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches, unused_import, non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches, unused_import, non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables, await_only_futures, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,9 @@ import 'package:slide_to_act/slide_to_act.dart';
 
 class CanidateAttandance extends StatefulWidget {
   static const routeName = '/candidate-attandance';
-  const CanidateAttandance(this.candidate_id, {super.key});
+  const CanidateAttandance({this.candidate_id, this.jobvacancy_id, super.key});
   final String? candidate_id;
+  final String? jobvacancy_id;
 
   @override
   State<CanidateAttandance> createState() => _CanidateAttandanceState();
@@ -25,21 +27,33 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
   String checkInt = '--/--';
   String checkOut = '--/--';
   var checkdat;
+  var candidateid;
   void getRecode() async {
     try {
       checkdat = await Provider.of<Jobs_Section>(context, listen: false)
-          .timeSheetChecking(widget.candidate_id.toString());
-      print('yes');
+          .timeSheetChecking('113');
+      print('object');
+      _showErrorDialog('hello');
       print(checkdat[0]['timein'].toString());
-      if (checkdat[0]['timein'] != '') {
+      if (checkdat[0]['timein'].toString() != '') {
         setState(() {
           checkInt = checkdat[0]['timein'].toString();
-          print(checkdat[0]['timein'].toString());
-          // checkOut = checkdat[0]['timeout'].toString();
+          checkOut = checkdat[0]['timeout'].toString();
+        });
+      } else if (checkdat[0]['timein'] != '' && checkdat[0]['timeout'] == '') {
+        setState(() {
+          checkInt = checkdat[0]['timein'].toString();
           checkOut = '--/--';
-          print(checkdat[0]['timein'].toString());
         });
       }
+      // else
+      // {
+      //   setState(() {
+      //    checkInt = '--/--';
+      //    checkOut = '--/--';
+      //     });
+
+      // }
     } catch (e) {
       // setState(() {
       //   checkInt = '--/--';
@@ -47,6 +61,24 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
       //   print(checkdat['timein'].toString());
       // });
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -66,9 +98,10 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
+    candidateid = Provider.of<Auth>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('welcome'),
+        title: Text('Attandance'),
       ),
       drawer: AppDrawer(),
       body: SingleChildScrollView(
@@ -79,7 +112,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                "wellcom",
+                candidateid.candidate_id.toString(),
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: screenWidth / 20,
@@ -91,7 +124,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
               alignment: Alignment.centerLeft,
               // margin: EdgeInsets.only(top: 32),
               child: Text(
-                "Canidate",
+                widget.jobvacancy_id.toString(),
                 style: TextStyle(
                   color: Color.fromARGB(255, 227, 73, 73),
                   fontSize: screenWidth / 18,
@@ -141,7 +174,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                           ),
                         ),
                         Text(
-                          "12:30",
+                          checkInt,
                           style: TextStyle(
                               fontSize: screenWidth / 18,
                               fontFamily: 'Lato',
@@ -163,7 +196,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                           ),
                         ),
                         Text(
-                          "17:30",
+                          checkOut,
                           style: TextStyle(
                               fontSize: screenWidth / 18,
                               fontFamily: 'Lato',

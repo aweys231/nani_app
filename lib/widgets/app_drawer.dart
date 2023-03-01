@@ -62,15 +62,15 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed(AddPlaceScreen.routeName);
             },
           ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.calendar_view_month),
-            title: Text('Attandance'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(CanidateAttandance.routeName);
-            },
-          ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.calendar_view_month),
+          //   title: Text('Attandance'),
+          //   onTap: () {
+          //     Navigator.of(context)
+          //         .pushReplacementNamed(CanidateAttandance.routeName);
+          //   },
+          // ),
           Divider(),
           ListTile(
             leading: Icon(Icons.qr_code_2_outlined),

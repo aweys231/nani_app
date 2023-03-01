@@ -151,16 +151,16 @@ class Jobs_Section with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       print(responseData);
+      print('data');
       return responseData;
     } else {
-
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load check in');
     }
   }
 
-Future get_check_qrcode(String candidate_id,String qrcode) async {
+  Future get_check_qrcode(String candidate_id, String qrcode) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
     final response = await http.post(Uri.parse(url),
