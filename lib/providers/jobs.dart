@@ -133,14 +133,15 @@ class Jobs_Section with ChangeNotifier {
     return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
-  Future timeSheetChecking(String candidate_id) async {
+  Future timeSheetChecking(String candidate_id, String jobvacancy_id,String creation_date) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
     final response = await http.post(Uri.parse(url),
         body: json.encode(
           {
             'candidate_id': candidate_id,
-            'creation_date': '2022-10-23 00:00:00',
+            'creation_date': creation_date,
+            'jobvacancy_id':jobvacancy_id
           },
         ),
         headers: {
@@ -161,8 +162,7 @@ class Jobs_Section with ChangeNotifier {
   }
 
   Future get_check_qrcode(String candidate_id, String qrcode) async {
-    var url =
-        "http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
+    var url ="http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
     final response = await http.post(Uri.parse(url),
         body: json.encode(
           {
@@ -246,18 +246,8 @@ class Jobs_Section with ChangeNotifier {
       // final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        //  print(json.decode(response.body));
-        //    final responseData = json.decode(response.body);
-        // print(responseData[0]['vacuncy_data'].toString());
-
-        //   return _vcuncyjobs = [
-        //     for (final alljobs in jsonDecode(response.body))
-        //       VacuncyModel.fromJson(alljobs),
-        //   ];
-
         final List<VacuncyModel> loadedvacuncy = [];
         final extractedData = json.decode(response.body);
-
         for (int i = 0; i < extractedData.length; i++) {
           loadedvacuncy.add(
             VacuncyModel(
@@ -308,6 +298,28 @@ class Jobs_Section with ChangeNotifier {
         body: json.encode({
           'candidate_id': candidate_id,
           'vacuncy_id': vacuncy_id,
+        }),
+      );
+      var message = jsonDecode(response.body);
+      print(message);
+      return message;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+    Future attandance_registration(String candidate_id, String vacuncy_id, String time,String day) async {
+    final url =
+        "http://192.168.100.202/nanirecruitment/client_app/attandance_registration";
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'candidate_id': candidate_id,
+          'vacuncy_id': vacuncy_id,
+          'timeinout': time,
+          'day': day,
         }),
       );
       var message = jsonDecode(response.body);
