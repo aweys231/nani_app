@@ -108,7 +108,7 @@ class _ScanAttandanceState extends State<ScanAttandance> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-
+  
     controller.scannedDataStream.listen((scanData) {
       setState(() async {
         result = scanData;
@@ -125,7 +125,7 @@ class _ScanAttandanceState extends State<ScanAttandance> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => CanidateAttandance(jobvacancy_id:check_qrcode['result'][0]['jobvacancy_id'].toString())
+            builder: (ctx) => CanidateAttandance(candidate_id:widget.candidate_id.toString(),jobvacancy_id:check_qrcode['result'][0]['jobvacancy_id'].toString())
           )):
           _showErrorDialog('you dont have premission this work');
        

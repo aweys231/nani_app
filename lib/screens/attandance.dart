@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches, unused_import, non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables, await_only_futures, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, unnecessary_import, implementation_imports, avoid_unnecessary_containers, unused_local_variable, empty_catches, unused_import, non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables, await_only_futures, use_build_context_synchronously, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -31,7 +31,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
   void getRecode() async {
     try {
       checkdat = await Provider.of<Jobs_Section>(context, listen: false)
-          .timeSheetChecking('113');
+          .timeSheetChecking(widget.candidate_id.toString());
       print('object');
       // _showErrorDialog('hello');
       print(checkdat[0]['timein'].toString());
@@ -46,14 +46,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
           checkOut = '--/--';
         });
       }
-      else
-      {
-        setState(() {
-         checkInt = '--/--';
-         checkOut = '--/--';
-          });
-
-      }
+    
     } catch (e) {
       // setState(() {
       //   checkInt = '--/--';
