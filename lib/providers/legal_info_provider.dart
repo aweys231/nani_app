@@ -45,12 +45,7 @@ List<LegalInfo> get infodata {
  LegalInfo findById(String id) {
     return _infodata.firstWhere((info) => info.candidateid == id);
   }
-  // factory LegalInfo.fromJson(Map<String, dynamic> json) {
-  //   return LegalInfo(
-  //     postcode: json['postcode'],have_license: json['have_license'],driver_licensetype:json['driver_licensetype'],member: json['member'],bodyname: json['bodyname'],
-  //     amountofcover: json['amountofcover'],policynumber: json['policynumber'],expiry_date: json['expiry_date'],dbs_certificate_number: json['dbs_certificate_number'],imageUrl:null,
-  //   );
-  // }
+ 
 
   Future<void> findByIdLegalInfo(String candidate_id) async {
     final url = "http://192.168.100.202/nanirecruitment/client_app/candidate_by_id";

@@ -92,22 +92,15 @@ class VacuncyModel with ChangeNotifier {
   // }
 }
 
-// class CheckData with ChangeNotifier {
-//   String? checkIn;
-//   String? checkOut;
+class DocumentsModel with ChangeNotifier {
+ final String id;
+ final String name;
 
-//   CheckData({
-//     this.checkIn,
-//     this.checkOut,
-//   });
-
-//   factory CheckData.fromJson(Map<String, dynamic> json) {
-//     return CheckData(
-//       checkIn: json['userId'],
-//       checkOut: json['id'],
-//     );
-//   }
-// }
+  DocumentsModel({
+    required this.id,
+    required this.name,
+  });
+}
 
 class Jobs_Section with ChangeNotifier {
   List<JobsModel> _jobs = [];
@@ -119,21 +112,51 @@ class Jobs_Section with ChangeNotifier {
     return _jobs.firstWhere((prod) => prod.id == id);
   }
 
+List<DocumentsModel> _document = [];
+  List<DocumentsModel> get document {
+    return [..._document];
+  }
+Future<List<DocumentsModel>> requirement_documents() async {
+    var url ="http://192.168.100.202/nanirecruitment/client_app/requirement_documents";
+    try {
+      final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'});
+      if (response.statusCode == 200) {
+        final List<DocumentsModel> loadedDocuments = [];
+        final extractedData = json.decode(response.body);
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedDocuments.add(
+            DocumentsModel(
+              id: extractedData[i]['result']['Id'],
+              name: extractedData[i]['result']['name'], 
+            ),
+          );
+        }
+        _document = loadedDocuments.toList();
+        return _document;
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_jobs);
+      throw error;
+    }
+  }
   List<VacuncyModel> _vcuncyjobs = [];
   List<VacuncyModel> get vcuncyjobs {
     return [..._vcuncyjobs];
   }
 
-  // List<CheckData> _checkdata = [];
-  // List<CheckData> get checkdata {
-  //   return [..._checkdata];
-  // }
+  
 
   VacuncyModel findVacuncyById(String id) {
     return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
-  Future timeSheetChecking(String candidate_id, String jobvacancy_id,String creation_date) async {
+  Future timeSheetChecking(String candidate_id, String jobvacancy_id, String creation_date) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
     final response = await http.post(Uri.parse(url),
@@ -141,7 +164,7 @@ class Jobs_Section with ChangeNotifier {
           {
             'candidate_id': candidate_id,
             'creation_date': creation_date,
-            'jobvacancy_id':jobvacancy_id
+            'jobvacancy_id': jobvacancy_id
           },
         ),
         headers: {
@@ -162,7 +185,8 @@ class Jobs_Section with ChangeNotifier {
   }
 
   Future get_check_qrcode(String candidate_id, String qrcode) async {
-    var url ="http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/get_check_qrcode";
     final response = await http.post(Uri.parse(url),
         body: json.encode(
           {
@@ -225,8 +249,7 @@ class Jobs_Section with ChangeNotifier {
     }
   }
 
-  Future<List<VacuncyModel>> fetchAndSetVacuncy(
-      String role_id, String candidate_id) async {
+  Future<List<VacuncyModel>> fetchAndSetVacuncy(String role_id, String candidate_id) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/chek_job_vacancy";
     try {
@@ -309,7 +332,8 @@ class Jobs_Section with ChangeNotifier {
       throw error;
     }
   }
-    Future attandance_registration(String candidate_id, String vacuncy_id, String time,String day) async {
+
+  Future attandance_registration(String candidate_id, String vacuncy_id, String time, String day) async {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/attandance_registration";
     try {
