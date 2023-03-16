@@ -86,10 +86,8 @@ List<LegalInfo> get infodata {
     }
   }
  Future<void> updateLegalInfo(LegalInfo LegalInfo, String imga, String have_license ,String member,String candidate_id) async {
-    
     final url = "http://192.168.100.202/nanirecruitment/client_app/editecandidate";
-    try {
-      
+    try { 
     // preparing the fil
      List<int> imageBytes = File(imga).readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
@@ -112,9 +110,9 @@ List<LegalInfo> get infodata {
     var message = jsonDecode(response.body);
     print(message);
 
-return message;
+    return message;
 
-      notifyListeners();
+    notifyListeners();
     } catch (error) {
       print(error);
       throw error;

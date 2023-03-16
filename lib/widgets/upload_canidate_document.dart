@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports, sort_child_properties_last, deprecated_member_use, deprecated_member_use, prefer_const_constructors, prefer_interpolation_to_compose_strings, avoid_print, unused_field, prefer_final_fields, duplicate_ignore, unnecessary_import, must_be_immutable, unused_element, use_key_in_widget_constructors, avoid_web_libraries_in_flutter
+// ignore_for_file: implementation_imports, sort_child_properties_last, deprecated_member_use, deprecated_member_use, prefer_const_constructors, prefer_interpolation_to_compose_strings, avoid_print, unused_field, prefer_final_fields, duplicate_ignore, unnecessary_import, must_be_immutable, unused_element, use_key_in_widget_constructors, avoid_web_libraries_in_flutter, non_constant_identifier_names, unused_import, unused_local_variable, avoid_unnecessary_containers
 
 import 'dart:io';
 
@@ -8,6 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/providers/jobs.dart';
+import 'package:nanirecruitment/widgets/upload_required_documents.dart';
+import 'package:provider/provider.dart';
+
 
 class UploadDocument extends StatefulWidget {
   final Function onSelectFile;
@@ -110,6 +114,7 @@ class _UploadDocumentState extends State<UploadDocument> {
 
   @override
   Widget build(BuildContext context) {
+    //  List documents = Provider.of<Jobs_Section>(context, listen: false).document;
     return Row(
       children: <Widget>[
         Container(
@@ -198,6 +203,9 @@ class _UploadDocumentState extends State<UploadDocument> {
         SizedBox(
           width: 10,
         ),
+
+
+// DocumentsList(context),
         Expanded(
           child: TextButton.icon(
               icon: Icon(Icons.upload_file_outlined),
@@ -209,10 +217,12 @@ class _UploadDocumentState extends State<UploadDocument> {
               // textColor: Theme.of(context).primaryColor,
               onPressed: (() {
                 _pickFiles();
-                // _saveFile();
+                //_saveFile();
               })),
         ),
       ],
     );
   }
 }
+
+  

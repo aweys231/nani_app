@@ -87,14 +87,14 @@ class VacuncyModel with ChangeNotifier {
   //   //   company_name: json[0]['vacuncy_data']['company_name'],
   //   //   businesunit: json[0]['vacuncy_data']['businesunit'],
   //   //    minut: json[0]['minut'],
-  //   //  km: json[0]['km'],
+    //  km: json[0]['km'],
   //   );
   // }
 }
 
 class DocumentsModel with ChangeNotifier {
- final String id;
- final String name;
+  final String id;
+  final String name;
 
   DocumentsModel({
     required this.id,
@@ -112,25 +112,37 @@ class Jobs_Section with ChangeNotifier {
     return _jobs.firstWhere((prod) => prod.id == id);
   }
 
-List<DocumentsModel> _document = [];
+  List<DocumentsModel> _document = [];
   List<DocumentsModel> get document {
     return [..._document];
   }
-Future<List<DocumentsModel>> requirement_documents() async {
-    var url ="http://192.168.100.202/nanirecruitment/client_app/requirement_documents";
+
+  Future<List<DocumentsModel>> requirement_documents() async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/requirement_documents";
     try {
-      final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'});
+      final response = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      });
+      
       if (response.statusCode == 200) {
         final List<DocumentsModel> loadedDocuments = [];
         final extractedData = json.decode(response.body);
+       print('documrnts');
+        print(extractedData['result'][0]['Id'].toString());
+
+        
+        print('documrnts data');
         for (int i = 0; i < extractedData.length; i++) {
           loadedDocuments.add(
             DocumentsModel(
-              id: extractedData[i]['result']['Id'],
-              name: extractedData[i]['result']['name'], 
+              id: extractedData['result'][i]['Id'],
+              name: extractedData['result'][i]['name'],
             ),
           );
         }
+         
         _document = loadedDocuments.toList();
         return _document;
       } else {
@@ -145,18 +157,18 @@ Future<List<DocumentsModel>> requirement_documents() async {
       throw error;
     }
   }
+
   List<VacuncyModel> _vcuncyjobs = [];
   List<VacuncyModel> get vcuncyjobs {
     return [..._vcuncyjobs];
   }
 
-  
-
   VacuncyModel findVacuncyById(String id) {
     return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
-  Future timeSheetChecking(String candidate_id, String jobvacancy_id, String creation_date) async {
+  Future timeSheetChecking(
+      String candidate_id, String jobvacancy_id, String creation_date) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/timeSheetChecking";
     final response = await http.post(Uri.parse(url),
@@ -249,7 +261,8 @@ Future<List<DocumentsModel>> requirement_documents() async {
     }
   }
 
-  Future<List<VacuncyModel>> fetchAndSetVacuncy(String role_id, String candidate_id) async {
+  Future<List<VacuncyModel>> fetchAndSetVacuncy(
+      String role_id, String candidate_id) async {
     var url =
         "http://192.168.100.202/nanirecruitment/client_app/chek_job_vacancy";
     try {
@@ -280,7 +293,8 @@ Future<List<DocumentsModel>> requirement_documents() async {
               description: extractedData[i]['vacuncy_data']['description'],
               imageUrl: extractedData[i]['vacuncy_data']['c_image'],
               jobrole_id: extractedData[i]['vacuncy_data']['jobrole_id'],
-              //   jv_address: extractedData[i]['vacuncy_data']['address'],
+              jv_address: extractedData[i]['vacuncy_data']['address'],
+
               //   contactname: extractedData[i]['contactname'],
               //   contactnumber: extractedData[i]['vacuncy_data']['contactname'],
               //   post_code: extractedData[i]['vacuncy_data']['post_code'],
@@ -289,8 +303,8 @@ Future<List<DocumentsModel>> requirement_documents() async {
               //   shift_type: extractedData[i]['vacuncy_data']['shift_type'],
               //   company_name: extractedData[i]['vacuncy_data']['company_name'],
               //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
-              //    minut: extractedData[i]['minut'],
-              //  km: extractedData[i]['km'],
+               minut: extractedData[i]['minut'].toString(),
+               km: extractedData[i]['km'].toString(),
             ),
           );
           print(extractedData[i]['vacuncy_data']['company_name']);
@@ -333,7 +347,8 @@ Future<List<DocumentsModel>> requirement_documents() async {
     }
   }
 
-  Future attandance_registration(String candidate_id, String vacuncy_id, String time, String day) async {
+  Future attandance_registration(
+      String candidate_id, String vacuncy_id, String time, String day) async {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/attandance_registration";
     try {

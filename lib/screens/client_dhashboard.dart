@@ -10,6 +10,7 @@ import 'package:nanirecruitment/widgets/daleel_banner.dart';
 import 'package:nanirecruitment/widgets/image_slider.dart';
 import 'package:nanirecruitment/widgets/jobcontainer.dart';
 import 'package:provider/provider.dart';
+import '../providers/jobs.dart';
 import '../providers/legal_info_provider.dart';
 import '../widgets/app_drawer.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
@@ -42,19 +43,24 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
         setState(() {
           Provider.of<LegalInfo>(context, listen: false)
               .findByIdLegalInfo(widget.candidate_id.toString());
-          _jobsFuture = _obtainOrdersFuture(widget.role_id.toString(),widget.candidate_id.toString());
+          _jobsFuture = _obtainOrdersFuture(
+              widget.role_id.toString(), widget.candidate_id.toString());
+         
           _isLoading = false;
         });
       });
+      Provider.of<Jobs_Section>(context, listen: false)
+      .requirement_documents()
+      .then((_) {});
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
   late Future _jobsFuture;
-  Future _obtainOrdersFuture(String role_id,String candidate_id) {
+  Future _obtainOrdersFuture(String role_id, String candidate_id) {
     return Provider.of<job.Jobs_Section>(context, listen: false)
-        .fetchAndSetVacuncy(role_id,candidate_id);
+        .fetchAndSetVacuncy(role_id, candidate_id);
   }
 
   @override
@@ -109,16 +115,20 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                               builder: (ctx, jobData, child) =>
                                                   jobData.vcuncyjobs.isNotEmpty
                                                       ? Expanded(
-                                                        child: ListView.builder(
+                                                          child:
+                                                              ListView.builder(
                                                             // scrollDirection: Axis.horizontal,
                                                             shrinkWrap: true,
-                                                            itemCount:
-                                                                jobData.vcuncyjobs.length,
-                                                            itemBuilder: (ctx, i) =>
+                                                            itemCount: jobData
+                                                                .vcuncyjobs
+                                                                .length,
+                                                            itemBuilder: (ctx,
+                                                                    i) =>
                                                                 JobContainer(
-                                                                    jobData.vcuncyjobs[i]),
+                                                                    jobData.vcuncyjobs[
+                                                                        i]),
                                                           ),
-                                                      )
+                                                        )
                                                       : Center(
                                                           child: const Text(
                                                             'No results found',

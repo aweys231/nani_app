@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, implementation_imports, unnecessary_import, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print, sized_box_for_whitespace, prefer_final_fields, unused_local_variable, await_only_futures, unnecessary_null_comparison, unused_import, unused_element
+// ignore_for_file: non_constant_identifier_names, implementation_imports, unnecessary_import, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print, sized_box_for_whitespace, prefer_final_fields, unused_local_variable, await_only_futures, unnecessary_null_comparison, unused_import, unused_element, dead_code
 
 import 'dart:io';
 
@@ -8,14 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/widgets/upload_canidate_document.dart';
+import 'package:nanirecruitment/widgets/upload_required_documents.dart';
 import 'package:provider/provider.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/image_input.dart';
 import '../widgets/license_type.dart';
 import '../widgets/radio_button.dart';
+import 'package:nanirecruitment/providers/jobs.dart' as job;
 
 class CanidateLegalInfor extends StatefulWidget {
   static const routeName = '/canidate-legal-infor';
@@ -74,18 +77,18 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   var _isLoading = false;
   final _titleControler = TextEditingController();
   final controller = TextEditingController();
-  String?  selectedfile;
+  String? selectedfile;
   String have_license = 'yes';
   String member = 'yes';
   void selectFiles(String pickFile) {
     selectedfile = pickFile;
   }
-  
 
   @override
   void initState() {
-  
-    
+       setState(() {
+         _documentsFuture = _obtainOrdersFuture();
+      });
     super.initState();
   }
 
@@ -93,7 +96,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   Future<void> didChangeDependencies() async {
     if (_isInit) {
       if (widget.candidate_id.toString() != null) {
-        _editeLegalInfot =await Provider.of<LegalInfo>(context, listen: false)
+        _editeLegalInfot = await Provider.of<LegalInfo>(context, listen: false)
             .findById(widget.candidate_id.toString());
         _initValues = {
           'postcode': _editeLegalInfot.postcode!,
@@ -107,8 +110,10 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           'dbs_certificate_number': _editeLegalInfot.dbs_certificate_number!,
           'imageUrl': ''
         };
-       
+        
       }
+   
+     
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -162,6 +167,12 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
     controller.clear();
     // Call setState to update the UI
     setState(() {});
+  }
+
+  late Future _documentsFuture;
+  Future _obtainOrdersFuture() {
+    return Provider.of<job.Jobs_Section>(context, listen: false)
+        .requirement_documents();
   }
 
   @override
@@ -269,7 +280,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                         dbs_certificate_number:
                             _editeLegalInfot.dbs_certificate_number,
                         imageUrl: null);
-                        setState(() {});
+                    setState(() {});
                   },
                   onChanged: (value) {
                     print(value);
@@ -565,7 +576,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                         expiry_date: _editeLegalInfot.expiry_date,
                         dbs_certificate_number: value,
                         imageUrl: null);
-                        setState(() {});
+                    setState(() {});
                   },
                 ),
               ],
@@ -581,18 +592,68 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
-                    Text('Candidate document...',
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.left),
-                  ],
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: const [
+                //     //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
+                //     Text('Candidate document...',
+                //         style: TextStyle(fontSize: 15),
+                //         textAlign: TextAlign.left),
+                //   ],
+                // ),
+                // UploadDocument(selectFiles),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Row(
+                              children: [
+                                Expanded(
+                                  child:
+                  FutureBuilder(
+                      future: _documentsFuture,
+                      builder: (ctx, dataSnapshot) {
+                        if (dataSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          if (dataSnapshot.error != null) {
+                            return Center(child: Text('An error Accour'));
+                            print(dataSnapshot.error);
+                          } else {
+                            return Consumer<job.Jobs_Section>(
+                                builder: (ctx, jobData, child) => jobData.document.isNotEmpty
+                                    ? ListView.builder(
+                                        // scrollDirection: Axis.horizontal,
+                                        itemCount: jobData.document.length,
+                                        itemBuilder: (ctx, i) =>
+                                        
+                                   Expanded(child:   Container(
+          
+                                child:  
+    UploadRequiredDocuments(
+                                          documents: jobData.document[i],
+                                          onClicked: (() {}),
+                                          icon: Icons.cloud_upload_outlined,
+                                        ),
+                                // Text(i.toString()),
+                                ))
+                                      )
+                                    : Center(
+                                        child: const Text(
+                                          'No results found',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                      ));
+                          }
+                        }
+                      }),)
+                              ]
+                                ),
                 ),
-                // ImageInput(selectImage),
-                UploadDocument(selectFiles),
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -624,56 +685,6 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           ),
         ),
       ),
-      // Step(
-      //   state: currentStep > 2 ? StepState.complete : StepState.indexed,
-      //   isActive: currentStep >= 2,
-      //   title: const Text("credentials"),
-      //   content: Container(
-      //     height: MediaQuery.of(context).size.height - 250,
-      //     child: SingleChildScrollView(
-      //       child: Column(
-      //         children: [
-      //           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      //   Step(
-      //   state: currentStep > 3 ? StepState.complete : StepState.indexed,
-      //   isActive: currentStep >= 3,
-      //   title: const Text("hh"),
-      //   content: Container(
-      //     height: MediaQuery.of(context).size.height - 250,
-      //     child: Column(
-      //       children: const [
-      //         CustomInput(
-      //           hint: "Bio",
-      //           inputBorder: OutlineInputBorder(),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-
-      //   Step(
-      //   state: currentStep > 4 ? StepState.complete : StepState.indexed,
-      //   isActive: currentStep >= 4,
-      //   title:
-      //   const Text("Misc"),
-      //   content: Container(
-      //     height: MediaQuery.of(context).size.height - 250,
-      //     child: Column(
-      //       children: const [
-      //         CustomInput(
-      //           hint: "Bio",
-      //           inputBorder: OutlineInputBorder(),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     ];
   }
 }

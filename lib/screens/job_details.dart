@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field, prefer_const_literals_to_create_immutables
 
 import "package:flutter/src/widgets/container.dart";
 import 'package:flutter/src/widgets/framework.dart';
@@ -89,9 +89,10 @@ setState(() {
               top: 0,
               left: 0,
               right: 0,
-              height: MediaQuery.of(context).size.height / 2,
-              child: Image.network(
-                "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
+              height: MediaQuery.of(context).size.height / 1.5,
+              child: Image.network(jobList.imageUrl
+                ,
+                // "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
                 fit: BoxFit.cover,
                 color: Colors.black38,
                 colorBlendMode: BlendMode.darken,
@@ -150,13 +151,52 @@ setState(() {
                         "${jobList.jobtitile}",
                         style: Theme.of(context).textTheme.headline5,
                       ),
-                      Text(
-                        "bondhere",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.apply(color: Colors.grey),
-                      ),
+      ListTile(
+        leading: Icon(Icons.location_on, size: 15,),
+        title: Text("${jobList.jv_address}", 
+        style: TextStyle(fontSize: 15, 
+        fontWeight: FontWeight.bold,
+        ),
+        textAlign:TextAlign.start,
+        ),
+      ),
+          SizedBox(
+            height: 5,
+          ),
+          ListTile(
+        leading: Icon(Icons.bus_alert_outlined, size: 15,),
+        title: Text("${jobList.km}km", 
+        style: TextStyle(fontSize: 15, 
+        fontWeight: FontWeight.bold,
+        ),
+        textAlign:TextAlign.start,
+        ),
+      ),
+      //     SizedBox(
+      //       height: 5,
+      //     ),
+      //     ListTile(
+      //   leading: Icon(Icons.share_arrival_time_outlined, size: 15,),
+      //   title: Text("${jobList.minut} minutes", 
+      //   style: TextStyle(fontSize: 15, 
+      //   fontWeight: FontWeight.bold,
+      //   ),
+      //   textAlign:TextAlign.start,
+      //   ),
+      // ),
+
+        SizedBox(
+            height: 5,
+          ),
+          ListTile(
+        leading: Icon(Icons.bus_alert_outlined, size: 15,),
+        title: Text("${jobList.minut} minutes", 
+        style: TextStyle(fontSize: 15, 
+        fontWeight: FontWeight.bold,
+        ),
+        textAlign:TextAlign.start,
+        ),
+      ),
                       SizedBox(
                         height: 15.0,
                       ),
@@ -165,7 +205,7 @@ setState(() {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       Text(
-                        "shaqadaan waa shaqo brograming ah",
+                        "${jobList.description}",
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1

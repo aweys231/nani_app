@@ -7,6 +7,7 @@ import 'package:nanirecruitment/models/http_exception.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
+import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
@@ -151,7 +152,7 @@ class _AuthCardState extends State<AuthCard>
     await Provider.of<Category_Section>(context, listen: false)
         .fetchAndSetAllCategory()
         .then((_) {});
-
+   
     setState(() {
       _isLoadingDrop_data = false;
     });
