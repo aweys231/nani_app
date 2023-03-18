@@ -19,18 +19,18 @@ class JobDetails extends StatefulWidget {
 
 class _JobDetailsState extends State<JobDetails> {
   var _isLoading = false;
-  
+
   Future<void> _savePlace() async {
     if (widget.candidate_id == '' || widget.id == '') {
       print('data maleh');
       return;
     }
-setState(() {
+    setState(() {
       _isLoading = true;
     });
     try {
       await Provider.of<Jobs_Section>(context, listen: false)
-        .vacuncy_booking(widget.candidate_id!,widget.id.toString());
+          .vacuncy_booking(widget.candidate_id!, widget.id.toString());
     } catch (error) {
       print(error);
       await showDialog(
@@ -43,7 +43,7 @@ setState(() {
                     child: Text('Okey'),
                     onPressed: () {
                       Navigator.of(ctx).pop();
-                       print(widget.candidate_id);
+                      print(widget.candidate_id);
                     },
                   )
                 ],
@@ -69,9 +69,6 @@ setState(() {
                 )
               ],
             ));
-            
-   
-   
   }
 
   @override
@@ -80,194 +77,418 @@ setState(() {
         .findVacuncyById(widget.id.toString());
     return SafeArea(
       child: Scaffold(
-        body:  _isLoading
-          ? Center(child: CircularProgressIndicator())
-          :
-         Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: Image.network(jobList.imageUrl
-                ,
-                // "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
-                fit: BoxFit.cover,
-                color: Colors.black38,
-                colorBlendMode: BlendMode.darken,
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Row(
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Stack(
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.chevron_left,
-                      color: Colors.white,
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: MediaQuery.of(context).size.height / 3.5,
+                    child: Image.network(
+                      jobList.imageUrl,
+                      // "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
+                      fit: BoxFit.cover,
+                      color: Colors.black38,
+                      colorBlendMode: BlendMode.darken,
                     ),
-                    onPressed: () => Navigator.pop(context),
                   ),
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(
-                      Icons.favorite,
-                      color: Colors.white,
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.file_upload,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
-                    onPressed: () {},
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.file_upload,
-                      color: Colors.white,
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    child: Container(
+                      padding: const EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "${jobList.jobtitile}",
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                    visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.location_on,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      "${jobList.jv_address}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // textScaleFactor: 2.5,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                     visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.calendar_view_day_outlined,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      "${jobList.shift_type}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // textScaleFactor: 2.5,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                     visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.directions_walk,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      "${jobList.km}km",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // textScaleFactor: 2.5,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                     visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.bus_alert_rounded,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      "${jobList.minut} minutes",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // textScaleFactor: 2.5,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                     visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.date_range_outlined,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      " star date ${jobList.start_date}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      // textScaleFactor: 2.5,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+ Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true, 
+                                     visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.date_range_outlined,
+                                      size: 30,
+                                    ),
+                                    title: Text(
+                                      "End date ${jobList.end_date}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      // textScaleFactor: 2.5,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: Colors.blue,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            //     SizedBox(
+                            //       height: 5,
+                            //     ),
+                            //     ListTile(
+                            //   leading: Icon(Icons.share_arrival_time_outlined, size: 15,),
+                            //   title: Text("${jobList.minut} minutes",
+                            //   style: TextStyle(fontSize: 15,
+                            //   fontWeight: FontWeight.bold,
+                            //   ),
+                            //   textAlign:TextAlign.start,
+                            //   ),
+                            // ),
+
+                            //   SizedBox(
+                            //       height: 5,
+                            //     ),
+                            //     ListTile(
+                            //   leading: Icon(Icons.bus_alert_outlined, size: 15,),
+                            //   title: Text("${jobList.minut} minutes",
+                            //   style: TextStyle(fontSize: 15,
+                            //   fontWeight: FontWeight.bold,
+                            //   ),
+                            //   textAlign:TextAlign.start,
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              "Overview",
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            Text(
+                              "${jobList.description}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.apply(color: Colors.grey),
+                              maxLines: 3,
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            // Text(
+                            //   "Photos",
+                            //   style: Theme.of(context).textTheme.subtitle1,
+                            // ),
+                            // SizedBox(height: 5),
+                            // Container(
+                            //   height: 80,
+                            //   child: ListView.builder(
+                            //     scrollDirection: Axis.horizontal,
+                            //     itemCount: jobList[id].photos.length,
+                            //     itemBuilder: (ctx, i) {
+                            //       return Padding(
+                            //         padding:
+                            //             const EdgeInsets.symmetric(horizontal: 9.0),
+                            //         child: ClipRRect(
+                            //           borderRadius: BorderRadius.circular(15.0),
+                            //           child:
+                            //               Image.network("${jobList[id].photos[i]}"),
+                            //         ),
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.height * .7,
+                              height: 45,
+                              child: ElevatedButton(
+                                // ignore: sort_child_properties_last
+                                child: Text(
+                                  "Booking Inquiry",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button!
+                                      .apply(color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  _savePlace();
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                    onPressed: () {},
-                  ),
+                  )
                 ],
               ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: MediaQuery.of(context).size.height / 2,
-              child: Container(
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "${jobList.jobtitile}",
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-      ListTile(
-        leading: Icon(Icons.location_on, size: 15,),
-        title: Text("${jobList.jv_address}", 
-        style: TextStyle(fontSize: 15, 
-        fontWeight: FontWeight.bold,
-        ),
-        textAlign:TextAlign.start,
-        ),
-      ),
-          SizedBox(
-            height: 5,
-          ),
-          ListTile(
-        leading: Icon(Icons.bus_alert_outlined, size: 15,),
-        title: Text("${jobList.km}km", 
-        style: TextStyle(fontSize: 15, 
-        fontWeight: FontWeight.bold,
-        ),
-        textAlign:TextAlign.start,
-        ),
-      ),
-      //     SizedBox(
-      //       height: 5,
-      //     ),
-      //     ListTile(
-      //   leading: Icon(Icons.share_arrival_time_outlined, size: 15,),
-      //   title: Text("${jobList.minut} minutes", 
-      //   style: TextStyle(fontSize: 15, 
-      //   fontWeight: FontWeight.bold,
-      //   ),
-      //   textAlign:TextAlign.start,
-      //   ),
-      // ),
-
-        SizedBox(
-            height: 5,
-          ),
-          ListTile(
-        leading: Icon(Icons.bus_alert_outlined, size: 15,),
-        title: Text("${jobList.minut} minutes", 
-        style: TextStyle(fontSize: 15, 
-        fontWeight: FontWeight.bold,
-        ),
-        textAlign:TextAlign.start,
-        ),
-      ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      Text(
-                        "Overview",
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      Text(
-                        "${jobList.description}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.apply(color: Colors.grey),
-                        maxLines: 3,
-                      ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      Text(
-                        "Photos",
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      SizedBox(height: 5),
-                      // Container(
-                      //   height: 80,
-                      //   child: ListView.builder(
-                      //     scrollDirection: Axis.horizontal,
-                      //     itemCount: jobList[id].photos.length,
-                      //     itemBuilder: (ctx, i) {
-                      //       return Padding(
-                      //         padding:
-                      //             const EdgeInsets.symmetric(horizontal: 9.0),
-                      //         child: ClipRRect(
-                      //           borderRadius: BorderRadius.circular(15.0),
-                      //           child:
-                      //               Image.network("${jobList[id].photos[i]}"),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.height * .7,
-                        height: 45,
-                        child: ElevatedButton(
-                          // ignore: sort_child_properties_last
-                          child: Text(
-                            "Booking Inquiry",
-                            style: Theme.of(context)
-                                .textTheme
-                                .button!
-                                .apply(color: Colors.white),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                          onPressed: () {
-                            _savePlace();
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

@@ -17,37 +17,39 @@ class UploadRequiredDocuments extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-    return
-     Container(
-       
-          margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-          padding: const EdgeInsets.all(15.0),
-        child:  ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
-                            //  Color.fromRGBO(29, 194, 95, 1),
-                            minimumSize: Size.fromHeight(50),
-                          ),
-                          child: buildContent(documents.name),
-                          onPressed: onClicked,
-                        )
-                   
-               );
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+        // padding: const EdgeInsets.all(5.0),
+        child: ElevatedButton(
+        
+          style: ElevatedButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+
+            ),
+            //  Color.fromRGBO(29, 194, 95, 1),
+            minimumSize: Size.fromHeight(40),
+          ),
+          child: buildContent(documents.name),
+          onPressed: onClicked,
+        ),
+      );
   }
 
   Widget buildContent(String documentName) => Row(
-        mainAxisSize: MainAxisSize.min,
+       crossAxisAlignment: CrossAxisAlignment.start,
+      //  mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 28),
-          SizedBox(width: 8),
+          Icon(icon, size: 25),
+          SizedBox(width: 5),
           Text(
             documentName,
-            // "imgae",
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: TextStyle(fontSize: 12, color: Colors.white),
           ),
+          
         ],
       );
 }

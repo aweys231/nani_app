@@ -87,7 +87,7 @@ class VacuncyModel with ChangeNotifier {
   //   //   company_name: json[0]['vacuncy_data']['company_name'],
   //   //   businesunit: json[0]['vacuncy_data']['businesunit'],
   //   //    minut: json[0]['minut'],
-    //  km: json[0]['km'],
+  //  km: json[0]['km'],
   //   );
   // }
 }
@@ -125,24 +125,23 @@ class Jobs_Section with ChangeNotifier {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       });
-      
+
       if (response.statusCode == 200) {
         final List<DocumentsModel> loadedDocuments = [];
         final extractedData = json.decode(response.body);
-       print('documrnts');
-        print(extractedData['result'][0]['Id'].toString());
+        print('documrnts');
+        // print(extractedData['result'][0]['Id'].toString());
 
-        
         print('documrnts data');
-        for (int i = 0; i < extractedData.length; i++) {
+       
+        for (int j = 0; j <= extractedData['result'][j].length; j++) {
           loadedDocuments.add(
             DocumentsModel(
-              id: extractedData['result'][i]['Id'],
-              name: extractedData['result'][i]['name'],
+              id: extractedData['result'][j]['Id'],
+              name: extractedData['result'][j]['name'],
             ),
           );
         }
-         
         _document = loadedDocuments.toList();
         return _document;
       } else {
@@ -296,15 +295,15 @@ class Jobs_Section with ChangeNotifier {
               jv_address: extractedData[i]['vacuncy_data']['address'],
 
               //   contactname: extractedData[i]['contactname'],
-              //   contactnumber: extractedData[i]['vacuncy_data']['contactname'],
+              contactnumber: extractedData[i]['vacuncy_data']['contactname'],
               //   post_code: extractedData[i]['vacuncy_data']['post_code'],
-              //   start_date: extractedData[i]['vacuncy_data']['sdate'],
-              //   end_date: extractedData[i]['vacuncy_data']['edate'],
-              //   shift_type: extractedData[i]['vacuncy_data']['shift_type'],
+                start_date: extractedData[i]['vacuncy_data']['sdate'],
+                end_date: extractedData[i]['vacuncy_data']['edate'],
+              shift_type: extractedData[i]['vacuncy_data']['shift_name'],
               //   company_name: extractedData[i]['vacuncy_data']['company_name'],
               //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
-               minut: extractedData[i]['minut'].toString(),
-               km: extractedData[i]['km'].toString(),
+              minut: extractedData[i]['minut'].toString(),
+              km: extractedData[i]['km'].toString(),
             ),
           );
           print(extractedData[i]['vacuncy_data']['company_name']);

@@ -86,9 +86,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
 
   @override
   void initState() {
-       setState(() {
-         _documentsFuture = _obtainOrdersFuture();
-      });
+    setState(() {
+      _documentsFuture = _obtainOrdersFuture();
+    });
     super.initState();
   }
 
@@ -110,10 +110,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           'dbs_certificate_number': _editeLegalInfot.dbs_certificate_number!,
           'imageUrl': ''
         };
-        
       }
-   
-     
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -594,65 +591,63 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: const [
-                //     //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
-                //     Text('Candidate document...',
-                //         style: TextStyle(fontSize: 15),
-                //         textAlign: TextAlign.left),
-                //   ],
-                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
+                    Text('Candidate document...',
+                        style: TextStyle(fontSize: 15),
+                        textAlign: TextAlign.left),
+                  ],
+                ),
                 // UploadDocument(selectFiles),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Row(
-                              children: [
-                                Expanded(
-                                  child:
-                  FutureBuilder(
-                      future: _documentsFuture,
-                      builder: (ctx, dataSnapshot) {
-                        if (dataSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          if (dataSnapshot.error != null) {
-                            return Center(child: Text('An error Accour'));
-                            print(dataSnapshot.error);
-                          } else {
-                            return Consumer<job.Jobs_Section>(
-                                builder: (ctx, jobData, child) => jobData.document.isNotEmpty
-                                    ? ListView.builder(
-                                        // scrollDirection: Axis.horizontal,
-                                        itemCount: jobData.document.length,
-                                        itemBuilder: (ctx, i) =>
-                                        
-                                   Expanded(child:   Container(
-          
-                                child:  
-    UploadRequiredDocuments(
-                                          documents: jobData.document[i],
-                                          onClicked: (() {}),
-                                          icon: Icons.cloud_upload_outlined,
-                                        ),
-                                // Text(i.toString()),
-                                ))
-                                      )
-                                    : Center(
-                                        child: const Text(
-                                          'No results found',
-                                          style: TextStyle(fontSize: 24),
-                                        ),
-                                      ));
-                          }
-                        }
-                      }),)
-                              ]
-                                ),
+                  // height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height / 2.0,
+                  child: Row(children: [
+                    Expanded(
+                      child: FutureBuilder(
+                          future: _documentsFuture,
+                          builder: (ctx, dataSnapshot) {
+                            if (dataSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              if (dataSnapshot.error != null) {
+                                return Center(child: Text('An error Accour'));
+                                print(dataSnapshot.error);
+                              } else {
+                                return Consumer<job.Jobs_Section>(
+                                    builder: (ctx, jobData, child) => jobData
+                                            .document.isNotEmpty
+                                        ? ListView.builder(
+                                            // scrollDirection: Axis.horizontal,
+                                            itemCount: jobData.document.length,
+                                            itemBuilder: (ctx, i) => Container(
+                                                  child:
+                                              UploadRequiredDocuments(
+                                            documents:
+                                                jobData.document[i],
+                                            onClicked: (() {}),
+                                            icon: Icons
+                                                .cloud_upload_outlined,
+                                                  ),
+                                                  // Text(i.toString()),
+                                                ))
+                                        : Center(
+                                            child: const Text(
+                                              'No results found',
+                                              style: TextStyle(fontSize: 24),
+                                            ),
+                                          ));
+                              }
+                            }
+                          }),
+                    )
+                  ]),
                 ),
                 Container(
                   width: double.infinity,
