@@ -15,9 +15,7 @@ import 'package:provider/provider.dart';
 
 class UploadDocument extends StatefulWidget {
   final Function onSelectFile;
-
   const UploadDocument(this.onSelectFile);
-
   @override
   State<UploadDocument> createState() => _UploadDocumentState();
 }

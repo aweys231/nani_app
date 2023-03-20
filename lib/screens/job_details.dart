@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/jobs.dart';
 
 class JobDetails extends StatefulWidget {

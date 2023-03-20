@@ -628,12 +628,12 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                                             itemCount: jobData.document.length,
                                             itemBuilder: (ctx, i) => Container(
                                                   child:
-                                              UploadRequiredDocuments(
-                                            documents:
-                                                jobData.document[i],
-                                            onClicked: (() {}),
-                                            icon: Icons
-                                                .cloud_upload_outlined,
+                                                      UploadRequiredDocuments(
+                                                    onSelectFile: selectFiles,
+                                                    documents:
+                                                        jobData.document[i],
+                                                    icon: Icons
+                                                        .cloud_upload_outlined,
                                                   ),
                                                   // Text(i.toString()),
                                                 ))
