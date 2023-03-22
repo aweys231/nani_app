@@ -102,47 +102,11 @@ class DocumentsModel with ChangeNotifier {
   });
 }
 
-class DocumentsListModel with ChangeNotifier {
-  final String id;
-  final String file;
 
-  DocumentsListModel({
-    required this.id,
-    required this.file,
-  });
-}
 class Jobs_Section with ChangeNotifier {
- List<DocumentsListModel> _fils = [];
 
-  List<DocumentsListModel> get fils {
-    return [..._fils];
-  }
 
-  void addIDocument(String document_id, String fileName) {
-    _fils.add(
-      DocumentsListModel(
-        id: document_id,
-        file: fileName,
-      ),
-    );
-    notifyListeners();
-  }
-
-  // this function will remove if there is  prrvious select if the user change the previous selecting
-  Future<void> removeSingleDocument(String documentid) async {
-    if (_fils.where((item) => item.id == documentid).isNotEmpty) {
-      _fils.removeWhere((item) => item.id == documentid);
-      print(documentid);
-      print('remove day');
-      return;
-    }
-    print('the the file list was added');
-    print(documentid);
-    print('length');
-    print(_fils.length);
-
-    notifyListeners();
-  }
+ 
 
   List<JobsModel> _jobs = [];
   List<JobsModel> get jobs {

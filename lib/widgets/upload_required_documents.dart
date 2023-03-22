@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
+import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/jobs.dart';
@@ -31,6 +32,7 @@ class UploadRequiredDocuments extends StatefulWidget {
 
 class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
   String? _fileName;
+  String? _filePath;
   String? _saveAsFileName;
   List<PlatformFile>? _paths;
   List<File>? files;
@@ -52,23 +54,21 @@ class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
         allowedExtensions: (_extension?.isNotEmpty ?? false)
             ? _extension?.replaceAll(' ', '').split(',')
             : null,
-      ))?.files;
+      ))
+          ?.files;
 
       print('fileName');
 
       widget.onSelectFile(_paths?.first.path);
 
-
       print(_paths?.first.path.toString());
 
-      _fileName =
-          _paths != null ? _paths!.map((e) => e.name).toString() : '...';
-      Provider.of<Jobs_Section>(context, listen: false)
-              .removeSingleDocument(widget.documents.id.toString());
-          // // this will add the model the new selection of the user
-          Provider.of<Jobs_Section>(context, listen: false)
-              .addIDocument(widget.documents.id, _fileName!);
-
+      _filePath =_paths != null ?  _paths!.first.path.toString() : '...';
+      Provider.of<LegalInfo>(context, listen: false)
+          .removeSingleDocument(widget.documents.id.toString());
+      // // this will add the model the new selection of the user
+      Provider.of<LegalInfo>(context, listen: false)
+          .addIDocument(widget.documents.id,_filePath!);
     } on PlatformException catch (e) {
       print('Unsupported operation' + e.toString());
     } catch (e) {
@@ -91,6 +91,7 @@ class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
       _isLoading = true;
       _directoryPath = null;
       _fileName = null;
+      _filePath = null;
       _paths = null;
       _saveAsFileName = null;
       _userAborted = false;
@@ -116,9 +117,7 @@ class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
           print('documents');
           _pickFiles();
           //_saveFile();
-        print('file picked');
-          
-          
+          print('file picked');
         }),
       ),
     );

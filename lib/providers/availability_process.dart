@@ -120,14 +120,9 @@ class Availability_Section with ChangeNotifier {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
     try {
-      // String candidateid = jsonEncode(_items.map((e) => e.candidateid).toList());
-      // String shift = jsonEncode(_items.map((e) => e.shift).toList());
-      // String year = jsonEncode(_items.map((e) => e.year).toList());
-      // String month = jsonEncode(_items.map((e) => e.month).toList());
-      // String day = jsonEncode(_items.map((e) => e.day).toList());
-      // String dayname = jsonEncode(_items.map((e) => e.dayname).toList());
+      
 
-      var jsonTags = _items.map((e){
+    var jsonTags = _items.map((e){
     return {
           'cand_id': e.candidateid,
           'availability':e.shift,
