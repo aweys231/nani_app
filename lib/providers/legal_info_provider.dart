@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_declarations, dead_code, avoid_print, use_rethrow_when_possible, prefer_final_fields, unused_import, unused_local_variable
+// ignore_for_file: non_constant_identifier_names, prefer_const_declarations, dead_code, avoid_print, use_rethrow_when_possible, prefer_final_fields, unused_import, unused_local_variable, no_leading_underscores_for_local_identifiers, unused_element, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
 import 'dart:io';
@@ -16,6 +16,25 @@ class DocumentsListModel with ChangeNotifier {
     required this.id,
     required this.file,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'document_id': id,
+      'file': file,
+    };
+  }
+
+  static dynamic getListMap(List<dynamic> items) {
+    if (items == null) {
+      return null;
+    }
+    List<Map<String, dynamic>> list = [];
+    items.forEach((element) {
+      list.add(element.toMap());
+    });
+    return list;
+  }
+
 }
 
 class LegalInfo with ChangeNotifier {
@@ -64,10 +83,14 @@ class LegalInfo with ChangeNotifier {
   }
 
   void addIDocument(String document_id, String filePath) {
+     // preparing the fil
+        List<int> imageBytes = File(filePath).readAsBytesSync();
+        var basefile = base64Encode(imageBytes);
+      //   //convert file image to Base64 encoding
     _fils.add(
       DocumentsListModel(
         id: document_id,
-        file: filePath,
+        file: basefile,
       ),
     );
     notifyListeners();
@@ -132,28 +155,17 @@ class LegalInfo with ChangeNotifier {
     }
   }
 
-  Future<void> updateLegalInfo(LegalInfo LegalInfo, String imga,
+  Future<String> updateLegalInfo(LegalInfo LegalInfo, String imga,
       String have_license, String member, String candidate_id) async {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/editecandidate";
     try {
-      var jsonTags = _fils.map((e) {
-        // preparing the fil
-        List<int> imageBytes = File(e.file).readAsBytesSync();
-        var basefile = base64Encode(imageBytes);
-
-        //convert file image to Base64 encoding
-        return {
-          'document_id': e.id,
-          'file': basefile,
-        };
-      }).toList(); //convert to map
-
     
-   
+var studentsmap1 = DocumentsListModel.getListMap(_fils);
 
-      String stringFiles = json.encode(jsonTags);
-      print(jsonTags);
+
+      // String stringFiles = jsonEncode(_itemToJson);
+     
       print(_fils.length);
       final response = await http.post(
         Uri.parse(url),
@@ -168,13 +180,14 @@ class LegalInfo with ChangeNotifier {
           'policynumber': LegalInfo.policynumber,
           'expiry_date': LegalInfo.expiry_date,
           'dbs_certificate_number': LegalInfo.dbs_certificate_number,
-          'file': stringFiles
+          'file': studentsmap1
         }),
       );
       var message = jsonDecode(response.body);
+      // var message = response.body;
       print(message);
       _fils.clear();
-      return message;
+      return message.toString();
 
       notifyListeners();
     } catch (error) {
