@@ -29,8 +29,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(125, 27, 164, 1).withOpacity(0.5),
-                  Color.fromRGBO(232, 169, 101, 1).withOpacity(0.9),
+                  Color.fromRGBO(13, 30, 113, 1).withOpacity(0.9),
+                  Color.fromRGBO(169, 31, 103, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -47,7 +47,9 @@ class AuthScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
-                    child: Container(
+                    child:
+ 
+                     Container(
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
@@ -55,7 +57,7 @@ class AuthScreen extends StatelessWidget {
                      
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
+                        color: Color.fromARGB(255, 255, 255, 255),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 8,
@@ -64,18 +66,27 @@ class AuthScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      child: Text(
-                        'NANI RECRUITMENT',
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .accentTextTheme
-                              .headline6!
-                              .color,
-                          fontSize: 18,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                      child: 
+                      
+                       Image.asset('assets/logoimage/logon.png',
+                  height: 50,
+                  fit: BoxFit.fill,
+                  scale: 3.5,
+                  // color: Color.fromARGB(255, 15, 147, 59),
+                  opacity:
+                      const AlwaysStoppedAnimation<double>(0.5)), 
+                      // Text(
+                      //   'NANI RECRUITMENT',
+                      //   style: TextStyle(
+                      //     color: Theme.of(context)
+                      //         .accentTextTheme
+                      //         .headline6!
+                      //         .color,
+                      //     fontSize: 18,
+                      //     fontFamily: 'Anton',
+                      //     fontWeight: FontWeight.normal,
+                      //   ),
+                      // ),
                     ),
                   ),
                   Flexible(
