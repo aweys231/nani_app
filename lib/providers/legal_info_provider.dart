@@ -9,27 +9,30 @@ import 'package:http/http.dart' as http;
 import 'package:nanirecruitment/models/http_exception.dart';
 
 class DocumentsListModel with ChangeNotifier {
+  final String candidateid;
   final String id;
   final String file;
 
   DocumentsListModel({
+    required this.candidateid,
     required this.id,
     required this.file,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'candidateid':candidateid,
       'document_id': id,
       'file': file,
     };
   }
 
-  static dynamic getListMap(List<dynamic> items) {
-    if (items == null) {
+  static dynamic getListMap(List<dynamic> documents) {
+    if (documents == null) {
       return null;
     }
     List<Map<String, dynamic>> list = [];
-    items.forEach((element) {
+    documents.forEach((element) {
       list.add(element.toMap());
     });
     return list;
@@ -82,13 +85,14 @@ class LegalInfo with ChangeNotifier {
     return [..._fils];
   }
 
-  void addIDocument(String document_id, String filePath) {
+  void addIDocument(String document_id, String filePath, String candidateid) {
      // preparing the fil
         List<int> imageBytes = File(filePath).readAsBytesSync();
         var basefile = base64Encode(imageBytes);
       //   //convert file image to Base64 encoding
     _fils.add(
       DocumentsListModel(
+        candidateid: candidateid,
         id: document_id,
         file: basefile,
       ),
@@ -161,11 +165,7 @@ class LegalInfo with ChangeNotifier {
         "http://192.168.100.202/nanirecruitment/client_app/editecandidate";
     try {
     
-var studentsmap1 = DocumentsListModel.getListMap(_fils);
-
-
-      // String stringFiles = jsonEncode(_itemToJson);
-     
+var documents = DocumentsListModel.getListMap(_fils);     
       print(_fils.length);
       final response = await http.post(
         Uri.parse(url),
@@ -180,14 +180,14 @@ var studentsmap1 = DocumentsListModel.getListMap(_fils);
           'policynumber': LegalInfo.policynumber,
           'expiry_date': LegalInfo.expiry_date,
           'dbs_certificate_number': LegalInfo.dbs_certificate_number,
-          'file': studentsmap1
+          'file': documents
         }),
       );
       var message = jsonDecode(response.body);
       // var message = response.body;
       print(message);
       _fils.clear();
-      return message.toString();
+      return message['messages'].toString();
 
       notifyListeners();
     } catch (error) {

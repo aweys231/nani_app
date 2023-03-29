@@ -29,8 +29,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color.fromRGBO(125, 27, 164, 1).withOpacity(0.5),
+                  Color.fromRGBO(232, 169, 101, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -51,9 +51,8 @@ class AuthScreen extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
-                      // ..translate(-10.0),
+                      transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
+                     
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.deepOrange.shade900,
@@ -66,13 +65,13 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        'MyShop',
+                        'NANI RECRUITMENT',
                         style: TextStyle(
                           color: Theme.of(context)
                               .accentTextTheme
                               .headline6!
                               .color,
-                          fontSize: 50,
+                          fontSize: 18,
                           fontFamily: 'Anton',
                           fontWeight: FontWeight.normal,
                         ),
@@ -221,7 +220,16 @@ class _AuthCardState extends State<AuthCard>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 8.0,
+       elevation: 8.0,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+        height:  260,
+        // height: _heightAnimation.value.height,
+        constraints: BoxConstraints(minHeight:  260),
+        width: deviceSize.width * 0.75,
+        padding: EdgeInsets.all(16.0),
+
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -282,21 +290,7 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 child: Text('SIGNUP  INSTEAD'),
                 onPressed: (() async {
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(Dhashboard.routeName);
-                  // Navigator.of(context).pushNamed(
-                  //   ClientRegistrationScreen.routeName,
-                  // );
-                  //  setState(() {
-
-                  //     _isLoadingDrop_data = true;
-                  //   });
-                  //   await  Provider.of<Candidate>(context,listen: false).fetchAndSetnatinality().then((_) {});
-                  //   await Provider.of<Category_Section>(context,listen: false).fetchAndSetAllCategory().then((_) {});
-
-                  //   setState(() {
-                  //     _isLoadingDrop_data = false;
-                  //   });
+          
                   Navigator.pushNamed(
                       context, ClientRegistrationScreen.routeName);
                 }),
@@ -305,6 +299,7 @@ class _AuthCardState extends State<AuthCard>
           ),
         ),
       ),
+      )
     );
   }
 }

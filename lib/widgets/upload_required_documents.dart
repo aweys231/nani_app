@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unused_import, avoid_unnecessary_containers, deprecated_member_use, unused_field, unused_element, prefer_final_fields, avoid_web_libraries_in_flutter, avoid_print, prefer_interpolation_to_compose_strings, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unused_import, avoid_unnecessary_containers, deprecated_member_use, unused_field, unused_element, prefer_final_fields, avoid_web_libraries_in_flutter, avoid_print, prefer_interpolation_to_compose_strings, use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -14,6 +14,7 @@ import '../providers/jobs.dart';
 class UploadRequiredDocuments extends StatefulWidget {
   final IconData icon;
   final Function onSelectFile;
+  final String candidate_id;
   // final String text;
   // final VoidCallback onClicked;
   final job.DocumentsModel documents;
@@ -23,6 +24,7 @@ class UploadRequiredDocuments extends StatefulWidget {
     // required this.text,
     required this.onSelectFile,
     required this.icon,
+    required this.candidate_id,
   }) : super(key: key);
 
   @override
@@ -68,7 +70,7 @@ class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
           .removeSingleDocument(widget.documents.id.toString());
       // // this will add the model the new selection of the user
       Provider.of<LegalInfo>(context, listen: false)
-          .addIDocument(widget.documents.id,_filePath!);
+          .addIDocument(widget.documents.id,_filePath!,widget.candidate_id.toString());
     } on PlatformException catch (e) {
       print('Unsupported operation' + e.toString());
     } catch (e) {

@@ -128,12 +128,28 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
     });
 
     try {
-      await Provider.of<LegalInfo>(context, listen: false).updateLegalInfo(
+    var message=  await Provider.of<LegalInfo>(context, listen: false).updateLegalInfo(
           _editeLegalInfot,
           selectedfile!,
           have_license,
           member,
           widget.candidate_id.toString());
+          await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text('success'),
+                content: Text(message.toString()),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Okey'),
+                    onPressed: () {
+                      // Navigator.of(ctx).pop();
+                         Navigator.of(context)
+                        .pushNamed('/');
+                    },
+                  )
+                ],
+              ));
     } catch (error) {
       print(error);
       await showDialog(
@@ -634,6 +650,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                                                         jobData.document[i],
                                                     icon: Icons
                                                         .cloud_upload_outlined,
+                                                    candidate_id: widget
+                                                        .candidate_id
+                                                        .toString(),
                                                   ),
                                                   // Text(i.toString()),
                                                 ))
