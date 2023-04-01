@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:nanirecruitment/helpers/custom_route.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
@@ -77,9 +78,10 @@ class MyApp extends StatelessWidget {
                 accentColor: Colors.deepOrange,
                 fontFamily: 'Lato',
                 backgroundColor: Colors.purple,
-          
-        ),
-       
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+                  TargetPlatform.android: CustomPageTransitionBuilder(),
+                  TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                })),
         home:  auth.isAuth
                 ? ClientDhashboard(auth.role_id,auth.candidate_id)
                 : FutureBuilder(
@@ -107,6 +109,21 @@ class MyApp extends StatelessWidget {
         },
       ),
       )
+    );
+  }
+}
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('MyShop'),
+      ),
+      body: Center(
+        child: Text('Let\'s build a shop!'),
+      ),
     );
   }
 }

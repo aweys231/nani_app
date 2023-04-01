@@ -43,18 +43,7 @@ var _isLoading = false;
 
 @override
   void initState() {
-    // if (_isInit) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-     
-    // getfieldlocation().then((_){
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   });
-    // }
-    // _isInit = false;
+    
     super.initState();
     
   }

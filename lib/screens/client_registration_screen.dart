@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, implementation_imports, unnecessary_import, avoid_print, sized_box_for_whitespace, unused_field, unused_import, prefer_final_fields, use_build_context_synchronously, unused_element, avoid_web_libraries_in_flutter, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, implementation_imports, unnecessary_import, avoid_print, sized_box_for_whitespace, unused_field, unused_import, prefer_final_fields, use_build_context_synchronously, unused_element, avoid_web_libraries_in_flutter, unnecessary_null_comparison, body_might_complete_normally_nullable
 
 import 'dart:io';
 
@@ -33,6 +33,7 @@ class ClientRegistrationScreen extends StatefulWidget {
 }
 
 class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
+  final _form = GlobalKey<FormState>();
   final _fnameFocusNode = FocusNode();
   final _fname = TextEditingController();
   final _lnameFocusNode = FocusNode();
@@ -61,6 +62,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   final _user_name = TextEditingController();
   final _passwdFocusNode = FocusNode();
   final _passwd = TextEditingController();
+  final _cpasswdFocusNode = FocusNode();
+  final _cpasswd = TextEditingController();
   final _imageUrlControler = TextEditingController();
 
   var _addcandidate = Candidate(
@@ -107,13 +110,15 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   //   return _jobsrolsFuture = Provider.of<Jobs_Section>(context, listen: false)
   //       .fetchAndSetAllJobs(id);
   // }
-
+  // var errorfname = null;
   Future<void> _saveForm() async {
     // final isValid = _form.currentState!.validate();
     // if (!isValid) {
     //   return;
     // }
     // _form.currentState!.save();
+
+    valiada();
     if (_pickImage! == null) {
       return;
     }
@@ -156,8 +161,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   child: Text('Okey'),
                   onPressed: () {
                     // Navigator.pop(context);
-                    Navigator.of(context)
-                        .pushNamed('/');
+                    Navigator.of(context).pushNamed('/');
                   },
                 )
               ],
@@ -171,12 +175,17 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
   @override
   void didChangeDependencies() {
-    // setState(() {
-    //   job_role_id();
-    // print(job_role_id());
-    //   // _jobsFuture = _saveForm();
-    // });
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _fname.dispose();
+    _lname.dispose();
+    _user_name.dispose();
+    _passwd.dispose();
+    _cpasswd.dispose();
+    super.dispose();
   }
 
   String? selectedItem1;
@@ -243,6 +252,119 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     );
   }
 
+  bool errorfname = false;
+  bool errorlname = false;
+  bool erroruser = false;
+  bool errorpassword = false;
+  bool errorcpassword = false;
+  Future<void> valiada() async {
+    if (_errorfname == null) {
+      setState(() {
+        errorfname = true;
+      });
+
+      return;
+    }
+     else {
+      setState(() {
+        errorfname = false;
+      });
+    }
+
+    if (_errorlname == null) {
+      setState(() {
+        errorlname = true;
+      });
+
+      return;
+    }
+    if (_erroruser == null) {
+      setState(() {
+        erroruser = true;
+      });
+
+      // return;
+    }
+    if (_errorpassword == null) {
+      setState(() {
+        errorpassword = true;
+      });
+
+      return;
+    }
+    if (_errorpasswordconfirm == null) {
+      setState(() {
+        errorcpassword = true;
+      });
+
+      return;
+    }
+    else {
+      setState(() {
+        errorcpassword = false;
+      });
+    }
+  }
+
+  String? get _errorfname {
+    // at any time, we can get the text from _controller.value.text
+    if (errorfname) {
+      final text = _fname.value.text;
+
+      if (text.isEmpty) {
+        return 'First Name Can\'t be empty';
+      }
+      return null;
+    }
+  }
+
+  String? get _errorlname {
+    if (errorlname) {
+      if (_lname.value.text.isEmpty) {
+        return 'Last Name Can\'t be empty';
+      }
+      return null;
+    }
+  }
+
+  String? get _erroruser {
+    if (erroruser) {
+      if (_user_name.value.text.isEmpty) {
+        return 'Password Can\'t be empty';
+      }
+      return null;
+    }
+  }
+
+  String? get _errorpassword {
+    if (errorpassword) {
+      if (_passwd.value.text.isEmpty) {
+        return 'Password Can\'t be empty';
+      }
+      if (_passwd.value.text.length < 5) {
+        return 'Too short';
+      }
+      // return null if the text is valid
+      return null;
+    }
+  }
+
+  String? get _errorpasswordconfirm {
+    if (errorcpassword) {
+      if (_cpasswd.value.text.isEmpty) {
+        return 'Password confirm Can\'t be empty';
+      }
+      if (_cpasswd.value.text.length < 5) {
+        return 'Too short';
+      }
+      if (_passwd.value.text != _cpasswd.value.text) {
+        return "Password does not match";
+      }
+      // return null if the text is valid
+      return null;
+    }
+  }
+
   List<Step> getSteps(void Function(File pickImage) selectImage) {
     // var data ;
     return <Step>[
@@ -260,6 +382,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   label: "First Name",
                   icon: Icon(Icons.person_outline),
                   controller: _fname,
+                  validator: _errorfname,
                   textInputAction: TextInputAction.next,
                   focusNode: _fnameFocusNode,
                   onSubmitted: (value) {
@@ -308,6 +431,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   label: "Last Name",
                   icon: Icon(Icons.person_outline),
                   controller: _lname,
+                  validator: _errorlname,
                   textInputAction: TextInputAction.next,
                   focusNode: _lnameFocusNode,
                   onSubmitted: (value) {
@@ -515,7 +639,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       selectedItem1 = value as String;
                       _isLoadingDrop = true;
                     });
-                    await Provider.of<Jobs_Section>(context, listen: false).fetchAndSetAllJobs(role_id);
+                    await Provider.of<Jobs_Section>(context, listen: false)
+                        .fetchAndSetAllJobs(role_id);
                     setState(() {
                       _isLoadingDrop = false;
                     });
@@ -738,6 +863,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   keyboardtype: TextInputType.emailAddress,
                   label: "Enter User Name",
                   controller: _user_name,
+                  validator: _erroruser,
                   icon: Icon(Icons.person_outline),
                   textInputAction: TextInputAction.next,
                   focusNode: _user_nameFocusNode,
@@ -767,6 +893,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                 PasswordInput(
                   text: 'Type your password below...',
                   textInputAction: TextInputAction.next,
+                  controller: _passwd,
+                  validator: _errorpassword,
                   focusNode: _passwdFocusNode,
                   onSubmitted: (value) {
                     _saveForm();
@@ -791,7 +919,11 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         imageUrl: _addcandidate.imageUrl);
                   },
                 ),
-                PasswordInput(text: 'Confirm password'),
+                PasswordInput(
+                  text: 'Confirm password',
+                  controller: _cpasswd,
+                  validator: _errorpasswordconfirm,
+                ),
                 Container(
                   width: double.infinity,
                   height: 50,
