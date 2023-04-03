@@ -64,7 +64,7 @@ class Auth with ChangeNotifier {
       _userId = responseData['user_id'];
       _expiryDate = DateTime.now().add(
         Duration(
-          seconds:  int.parse(
+          seconds: int.parse(
             responseData['expiresIn'].toString(),
           ),
         ),
@@ -95,22 +95,32 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> tryAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
+     print('expiryDate tryAutoLogin');
+    final prefs = await SharedPreferences.getInstance(); 
+    
+    print(prefs.containsKey('userData').toString());
     if (!prefs.containsKey('userData')) {
+      print('userData');
       return false;
     }
-    final extractedUserData = json
-        .decode(prefs.getString('userData').toString()) as Map<String, Object>;
+ print(' tryAutoLogin');
+    final extractedUserData = json.decode(prefs.getString('userData').toString());
+    print(extractedUserData['userId'].toString());
     final expiryDate = DateTime.parse(extractedUserData['expiryDate'].toString());
-
+     print('extractedUserData');
+     print('expiryDate');
+    print(expiryDate.toString());
+    
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
     }
+    
     _token = extractedUserData['token'].toString();
     _candidate_id = extractedUserData['candidate_id'].toString();
     _userId = extractedUserData['userId'].toString();
     _role_id = extractedUserData['role_id'].toString();
     _expiryDate = expiryDate;
+    print(_token);
     notifyListeners();
     _autoLogout();
     return true;
@@ -122,7 +132,7 @@ class Auth with ChangeNotifier {
     _role_id = null;
     _candidate_id = null;
     _expiryDate = null;
-    // print(_authTimer);
+    //    
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -139,6 +149,10 @@ class Auth with ChangeNotifier {
     }
     final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
+    
+      print(_expiryDate!.difference(DateTime.now()).inSeconds.toString());
+      
+    
     // _authTimer = Timer(Duration(seconds: 30), logout);
   }
 }

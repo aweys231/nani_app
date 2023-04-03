@@ -21,6 +21,7 @@ import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
 import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
+import 'package:nanirecruitment/splash.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
@@ -32,86 +33,89 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: HomeSlider(),
-        ),
-         ChangeNotifierProvider.value(
-          value: Category_Section(),
-        ),
+        providers: [
           ChangeNotifierProvider.value(
-          value: Jobs_Section(),
-        ),
-         ChangeNotifierProvider.value(
-          value: Candidate(),
-        ),
-         ChangeNotifierProvider.value(
-          value: Auth(),
-        ),
-         ChangeNotifierProvider.value(
-          value: LegalInfo(),
-        ),
-         ChangeNotifierProvider.value(
-          value: Availability_Section(),
-        ),
-         ChangeNotifierProvider.value(
-          value: GreatPlaces(),
-        ),
-        
-      ],
-      child:Consumer<Auth>(
-        builder: (ctx, auth, _) =>
-       MaterialApp(
-        title: 'My Nani',
-        localizationsDelegates: [
-        GlobalWidgetsLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        MonthYearPickerLocalizations.delegate,
-      ],
-      debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-        primarySwatch: Colors.purple,
+            value: HomeSlider(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Category_Section(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Jobs_Section(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Candidate(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Auth(),
+          ),
+          ChangeNotifierProvider.value(
+            value: LegalInfo(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Availability_Section(),
+          ),
+          ChangeNotifierProvider.value(
+            value: GreatPlaces(),
+          ),
+        ],
+        child: Consumer<Auth>(
+          builder: (ctx, auth, _) => MaterialApp(
+            title: 'My Nani',
+            localizationsDelegates: [
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              MonthYearPickerLocalizations.delegate,
+            ],
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                primarySwatch: Colors.purple,
                 accentColor: Colors.deepOrange,
                 fontFamily: 'Lato',
                 backgroundColor: Colors.purple,
-          pageTransitionsTheme: PageTransitionsTheme(builders: {
+                pageTransitionsTheme: PageTransitionsTheme(builders: {
                   TargetPlatform.android: CustomPageTransitionBuilder(),
                   TargetPlatform.iOS: CustomPageTransitionBuilder(),
                 })),
-        home:  auth.isAuth
-                ? ClientDhashboard(auth.role_id,auth.candidate_id)
+            home: auth.isAuth
+                ? ClientDhashboard(auth.role_id, auth.candidate_id)
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
                         authResultSnapshot.connectionState ==
                                 ConnectionState.waiting
-                            ? SplashScreen()
+                            ?
+                             splash()
                             : AuthScreen(),
                   ),
-        routes: {
-          VerificationNumberScreen.routeName: (ctx) =>
-              VerificationNumberScreen(),
-              JobsScreen.routeName: (ctx) =>
-              JobsScreen(),
+            // initialRoute: splash.id,
+            routes: {
+              VerificationNumberScreen.routeName: (ctx) =>
+                  VerificationNumberScreen(),
+              JobsScreen.routeName: (ctx) => JobsScreen(),
               ClientRegistrationScreen.routeName: (ctx) =>
-              ClientRegistrationScreen(),
+                  ClientRegistrationScreen(),
               Dhashboard.routeName: (ctx) => Dhashboard(),
-              CanidateLegalInfor.routeName: (ctx) => CanidateLegalInfor(auth.candidate_id),
+              CanidateLegalInfor.routeName: (ctx) =>
+                  CanidateLegalInfor(auth.candidate_id),
               FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
               Availability.routeName: (ctx) => Availability(auth.candidate_id),
-              AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(auth.candidate_id),
-              CanidateAttandance.routeName: (ctx) => CanidateAttandance(candidate_id:auth.candidate_id),
-              ScanAttandance.routeName: (ctx) => ScanAttandance(auth.candidate_id),
-        },
-      ),
-      )
-    );
+              AddPlaceScreen.routeName: (ctx) =>
+                  AddPlaceScreen(auth.candidate_id),
+              CanidateAttandance.routeName: (ctx) =>
+                  CanidateAttandance(candidate_id: auth.candidate_id),
+              ScanAttandance.routeName: (ctx) =>
+                  ScanAttandance(auth.candidate_id),
+              // splash.id: (_) => splash(),
+            },
+          ),
+        ));
   }
 }
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
