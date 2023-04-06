@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
 import 'package:nanirecruitment/screens/section_title.dart';
+import 'package:nanirecruitment/widgets/bottom_navigation_bar.dart';
 import 'package:nanirecruitment/widgets/daleel_banner.dart';
 import 'package:nanirecruitment/widgets/image_slider.dart';
 import 'package:nanirecruitment/widgets/jobcontainer.dart';
@@ -45,13 +46,13 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
               .findByIdLegalInfo(widget.candidate_id.toString());
           _jobsFuture = _obtainOrdersFuture(
               widget.role_id.toString(), widget.candidate_id.toString());
-         
+
           _isLoading = false;
         });
       });
       Provider.of<Jobs_Section>(context, listen: false)
-      .requirement_documents()
-      .then((_) {});
+          .requirement_documents()
+          .then((_) {});
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -66,55 +67,57 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xfff0f0f6),
-        appBar: AppBar(
-          title: Text('welcome'),
-        ),
-        drawer: AppDrawer(),
-        body: SingleChildScrollView(
-            child: _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Padding(
-                    padding: EdgeInsets.all(5),
-                    // ignore: prefer_const_literals_to_create_immutables
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // DaleelBanner(),
-                          ImageSlider(),
-                          SizedBox(
-                            height: 11,
+      backgroundColor: Color(0xfff0f0f6),
+      appBar: AppBar(
+        title: Text('welcome'),
+      ),
+      drawer: AppDrawer(),
+      body: SingleChildScrollView(
+          child: _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(5),
+                  // ignore: prefer_const_literals_to_create_immutables
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // DaleelBanner(),
+                        ImageSlider(),
+                        SizedBox(
+                          height: 11,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: SectionTitle(
+                            title: "Available Jobs",
+                            press: () {},
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: SectionTitle(
-                              title: "Available Jobs",
-                              press: () {},
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: FutureBuilder(
-                                    future: _jobsFuture,
-                                    builder: (ctx, dataSnapshot) {
-                                      if (dataSnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FutureBuilder(
+                                  future: _jobsFuture,
+                                  builder: (ctx, dataSnapshot) {
+                                    if (dataSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      if (dataSnapshot.error != null) {
+                                        return Center(
+                                            child: Text('An error Accour'));
+                                        print(dataSnapshot.error);
                                       } else {
-                                        if (dataSnapshot.error != null) {
-                                          return Center(
-                                              child: Text('An error Accour'));
-                                          print(dataSnapshot.error);
-                                        } else {
-                                          return Consumer<job.Jobs_Section>(
-                                              builder: (ctx, jobData, child) =>
-                                                  jobData.vcuncyjobs.isNotEmpty
-                                                      ? Expanded(
+                                        return Consumer<job.Jobs_Section>(
+                                            builder: (ctx, jobData, child) =>
+                                                jobData.vcuncyjobs.isNotEmpty
+                                                    ? Expanded(
+                                                        child: Container(
+                                                          //  margin: EdgeInsets.only(bottom: 100),
                                                           child:
                                                               ListView.builder(
                                                             // scrollDirection: Axis.horizontal,
@@ -128,20 +131,23 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                                     jobData.vcuncyjobs[
                                                                         i]),
                                                           ),
-                                                        )
-                                                      : Center(
-                                                          child: const Text(
-                                                            'No results found',
-                                                            style: TextStyle(
-                                                                fontSize: 24),
-                                                          ),
-                                                        ));
-                                        }
+                                                        ),
+                                                      )
+                                                    : Center(
+                                                        child: const Text(
+                                                          'No results found',
+                                                          style: TextStyle(
+                                                              fontSize: 24),
+                                                        ),
+                                                      ));
                                       }
-                                    }),
-                              ),
-                            ],
-                          )
-                        ]))));
+                                    }
+                                  }),
+                            ),
+                          ],
+                        )
+                      ]))),
+      // bottomNavigationBar: BottomNavigationBars(),
+    );
   }
 }

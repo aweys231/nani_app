@@ -7,6 +7,7 @@ import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/screens/availability.dart';
 import 'package:nanirecruitment/screens/canidate_legal_info.dart';
+import 'package:nanirecruitment/screens/my_shifts.dart';
 import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import '../providers/auth.dart';
@@ -62,15 +63,15 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed(AddPlaceScreen.routeName);
             },
           ),
-          // Divider(),
-          // ListTile(
-          //   leading: Icon(Icons.calendar_view_month),
-          //   title: Text('Attandance'),
-          //   onTap: () {
-          //     Navigator.of(context)
-          //         .pushReplacementNamed(CanidateAttandance.routeName);
-          //   },
-          // ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.calendar_view_month),
+            title: Text('My Shifts'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(MyShifts.routeName);
+            },
+          ),
           Divider(),
           ListTile(
             leading: Icon(Icons.qr_code_2_outlined),

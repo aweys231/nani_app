@@ -19,9 +19,11 @@ import 'package:nanirecruitment/screens/client_dhashboard.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:nanirecruitment/screens/jobs_screen.dart';
+import 'package:nanirecruitment/screens/my_shifts.dart';
 import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:nanirecruitment/splash.dart';
+import 'package:nanirecruitment/widgets/bottom_navigation_bar.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
@@ -81,7 +83,9 @@ class MyApp extends StatelessWidget {
                   TargetPlatform.iOS: CustomPageTransitionBuilder(),
                 })),
             home: auth.isAuth
-                ? ClientDhashboard(auth.role_id, auth.candidate_id)
+                ?
+                // BottomNavigationBars(auth.role_id, auth.candidate_id)
+                 ClientDhashboard(auth.role_id, auth.candidate_id)
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
@@ -109,6 +113,8 @@ class MyApp extends StatelessWidget {
                   CanidateAttandance(candidate_id: auth.candidate_id),
               ScanAttandance.routeName: (ctx) =>
                   ScanAttandance(auth.candidate_id),
+                  MyShifts.routeName: (ctx) =>
+                  MyShifts(auth.role_id, auth.candidate_id),
               // splash.id: (_) => splash(),
             },
           ),
