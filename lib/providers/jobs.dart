@@ -93,7 +93,7 @@ class VacuncyModel with ChangeNotifier {
 }
 
 class DocumentsModel with ChangeNotifier {
-  final String id;
+   final String id;
   final String name;
 
   DocumentsModel({
@@ -102,10 +102,33 @@ class DocumentsModel with ChangeNotifier {
   });
 }
 
+class UpcomingModel with ChangeNotifier {
+ 
+
+  final String availabilityid;
+  final String daynumber;
+  final String dayname;
+  final String shiftname;
+  final String title;
+  final String companies_name;
+  final String address;
+  UpcomingModel({
+    required this.availabilityid,
+    required this.daynumber,
+    required this.dayname,
+    required this.shiftname,
+    required this.title,
+    required this.companies_name,
+     required this.address,
+  });
+}
 
 class Jobs_Section with ChangeNotifier {
 
-
+ List<UpcomingModel> _upcoming = [];
+  List<UpcomingModel> get upcoming {
+    return [..._upcoming];
+  }
  
 
   List<JobsModel> _jobs = [];
@@ -372,6 +395,57 @@ class Jobs_Section with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print(error);
+      throw error;
+    }
+  }
+
+   Future<List<UpcomingModel>> fetchAndSetVacuncyUpcoming(
+       String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/fill_upcoming";
+    try {
+//       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
+// 'Access-Control-Allow-Origin': '*'});
+      final response = await http.post(Uri.parse(url),
+          body: json.encode(
+            {
+              'candidate_id': candidate_id,
+            },
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+      // final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final List<UpcomingModel> loadedupcoming = [];
+        final extractedData = json.decode(response.body);
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedupcoming.add(
+            UpcomingModel(availabilityid:extractedData[i]['availability_id'] ,
+            daynumber: extractedData[i]['day'], 
+            dayname: extractedData[i]['day_name'], 
+            shiftname: extractedData[i]['name'], 
+            title:  extractedData[i]['title'],
+            companies_name:  extractedData[i]['companies_name'],
+            address:  extractedData[i]['address'])
+          );
+          print(extractedData[i]['day_name']);
+        }
+        _upcoming = loadedupcoming.toList();
+        return _upcoming;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_jobs);
       throw error;
     }
   }
