@@ -123,6 +123,26 @@ class UpcomingModel with ChangeNotifier {
   });
 }
 
+class CompletedgModel with ChangeNotifier {
+ 
+
+  final String availabilityid;
+  final String daynumber;
+  final String dayname;
+  final String shiftname;
+  final String title;
+  final String companies_name;
+  final String address;
+  CompletedgModel({
+    required this.availabilityid,
+    required this.daynumber,
+    required this.dayname,
+    required this.shiftname,
+    required this.title,
+    required this.companies_name,
+     required this.address,
+  });
+}
 class Jobs_Section with ChangeNotifier {
 
  List<UpcomingModel> _upcoming = [];
@@ -130,6 +150,10 @@ class Jobs_Section with ChangeNotifier {
     return [..._upcoming];
   }
  
+ List<CompletedgModel> _compeleted = [];
+  List<CompletedgModel> get compeleted {
+    return [..._compeleted];
+  }
 
   List<JobsModel> _jobs = [];
   List<JobsModel> get jobs {
@@ -417,7 +441,7 @@ class Jobs_Section with ChangeNotifier {
             'Access-Control-Allow-Origin': '*'
           });
       // final response = await http.get(Uri.parse(url));
-
+        _upcoming.clear();
       if (response.statusCode == 200) {
         final List<UpcomingModel> loadedupcoming = [];
         final extractedData = json.decode(response.body);
@@ -446,6 +470,78 @@ class Jobs_Section with ChangeNotifier {
     } catch (error) {
       print(error);
       print(_jobs);
+      throw error;
+    }
+  }
+
+    Future<List<CompletedgModel>> fetchAndSetVacuncyCompleted(
+       String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/fill_compeleted";
+    try {
+//       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
+// 'Access-Control-Allow-Origin': '*'});
+      final response = await http.post(Uri.parse(url),
+          body: json.encode(
+            {
+              'candidate_id': candidate_id,
+            },
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+      // final response = await http.get(Uri.parse(url));
+ _compeleted.clear();
+      if (response.statusCode == 200) {
+        final List<CompletedgModel> loadedcompleted = [];
+        final extractedData = json.decode(response.body);
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedcompleted.add(
+            CompletedgModel(availabilityid:extractedData[i]['availability_id'] ,
+            daynumber: extractedData[i]['day'], 
+            dayname: extractedData[i]['day_name'], 
+            shiftname: extractedData[i]['name'], 
+            title:  extractedData[i]['title'],
+            companies_name:  extractedData[i]['companies_name'],
+            address:  extractedData[i]['address'])
+          );
+          print(extractedData[i]['day_name']);
+        }
+        _compeleted = loadedcompleted.toList();
+        return _compeleted;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_jobs);
+      throw error;
+    }
+  }
+
+    Future shift_cancelation(
+      String availability_id) async {
+    final url =
+        "http://192.168.100.202/nanirecruitment/client_app/shift_cancelation";
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'availability_id': availability_id,
+        }),
+      );
+      var message = jsonDecode(response.body);
+      print(message);
+      return message;
+      notifyListeners();
+    } catch (error) {
+      print(error);
       throw error;
     }
   }
