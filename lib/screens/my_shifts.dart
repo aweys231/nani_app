@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unnecessary_import, prefer_const_constructors, implementation_imports, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_string_interpolations, avoid_print, dead_code, unused_element, unused_field
+// ignore_for_file: non_constant_identifier_names, unnecessary_import, prefer_const_constructors, implementation_imports, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_string_interpolations, avoid_print, dead_code, unused_element, unused_field, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -47,13 +47,12 @@ class _MyShiftsState extends State<MyShifts> {
     if (_isInit) {
       setState(() {
         _isLoading = true;
-       
       });
 
       setState(() {
         _completer = _obtainCompeletedFuture(widget.candidate_id.toString());
          _upcominge = _obtainUpcomingFuture(widget.candidate_id.toString());
-        _isLoading = false;
+            _isLoading = false;
       });
     }
     _isInit = false;
@@ -62,7 +61,6 @@ class _MyShiftsState extends State<MyShifts> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         backgroundColor: Color(0xfff0f0f6),
         appBar: AppBar(
@@ -177,7 +175,7 @@ class _MyShiftsState extends State<MyShifts> {
                       onTap: () {
                         setState(() {
                           currentIndex = 1;
-                           _display = false;
+                          _display = false;
                         });
                       },
                       child: Container(
@@ -264,21 +262,23 @@ class _MyShiftsState extends State<MyShifts> {
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
-                // : _display? Center(
-                //     child: CircularProgressIndicator(),
-                //   )
-                  : Container(
-                    child: MyContainer(),
-                  )
+            //     // : _display? Center(
+            //     //     child: CircularProgressIndicator(),
+            //     //   )
+                  :
            
+            Container(
+              child: MyContainer(),
+            )
           ],
         ));
   }
 
   Expanded MyContainer() {
+    // final jobData = Provider.of<job.Jobs_Section>(context);
     return Expanded(
       child: _display
-          ? FutureBuilder(
+          ?FutureBuilder(
               future: _upcominge,
               builder: (ctx, dataSnapshot) {
                 if (dataSnapshot.connectionState == ConnectionState.waiting) {
@@ -291,36 +291,47 @@ class _MyShiftsState extends State<MyShifts> {
                     print(dataSnapshot.error);
                   } else {
                     return Consumer<job.Jobs_Section>(
-                        builder: (ctx, jobData, child) => Expanded(
-                              child: jobData.upcoming.isNotEmpty
-                                  ? CustomScrollView(
-                                      // center: centerKey,
-                                      slivers: <Widget>[
-                                        SliverList(
-                                          // key: centerKey,
-                                          delegate:
-                                              SliverChildBuilderDelegate(
-                                            (BuildContext context,
-                                                int index) {
-                                              print('CustomScrollView');
-                                              return UpcomingSchedule(
-                                                  jobData.upcoming[index]);
-                                            },
-                                            childCount:
-                                                jobData.upcoming.length,
-                                            addAutomaticKeepAlives: true,
-                                            addRepaintBoundaries: true,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Center(
-                                      child: const Text(
-                                        'No results found',
-                                        style: TextStyle(fontSize: 24),
-                                      ),
-                                    ),
-                            ));
+                      builder: (ctx, upcomingData, child) => upcomingData.upcoming.isNotEmpty
+              ? CustomScrollView(
+                  // center: centerKey,
+                  slivers: <Widget>[
+                    SliverList(
+                      // key: centerKey,
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          print('CustomScrollView');
+                          return UpcomingSchedule(upcomingData.upcoming[index]);
+                        },
+                        childCount: upcomingData.upcoming.length,
+                        addAutomaticKeepAlives: true,
+                        addRepaintBoundaries: true,
+                      ),
+                    ),
+                  ],
+                )
+              : CustomScrollView(
+                  // center: centerKey,
+                  slivers: <Widget>[
+                    SliverList(
+                      // key: centerKey,
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          print('CustomScrollView');
+                          return Center(
+                            child: const Text(
+                              'No results found',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          );
+                        },
+                        childCount: 1,
+                        addAutomaticKeepAlives: true,
+                        addRepaintBoundaries: true,
+                      ),
+                    ),
+                  ],
+                )
+                 );
                   }
                 }
               })
@@ -337,39 +348,53 @@ class _MyShiftsState extends State<MyShifts> {
                     print(dataSnapshot.error);
                   } else {
                     return Consumer<job.Jobs_Section>(
-                        builder: (ctx, jobData, child) => Expanded(
-                              child: jobData.compeleted.isNotEmpty
-                                  ? CustomScrollView(
-                                      // center: centerKey,
-                                      slivers: <Widget>[
-                                        SliverList(
-                                          // key: centerKey,
-                                          delegate:
-                                              SliverChildBuilderDelegate(
-                                            (BuildContext context,
-                                                int index) {
-                                              print('CustomScrollView');
-                                              return CompeletedSchedule(
-                                                  jobData.compeleted[index]);
-                                            },
-                                            childCount:
-                                                jobData.compeleted.length,
-                                            addAutomaticKeepAlives: true,
-                                            addRepaintBoundaries: true,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Center(
-                                      child: const Text(
-                                        'No results found',
-                                        style: TextStyle(fontSize: 24),
+                      builder: (ctx, compeletedData, child) =>
+                          compeletedData.compeleted.isNotEmpty
+                              ? CustomScrollView(
+                                  // center: centerKey,
+                                  slivers: <Widget>[
+                                    SliverList(
+                                      // key: centerKey,
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          print('CustomScrollView');
+                                          return CompeletedSchedule(
+                                              compeletedData.compeleted[index]);
+                                        },
+                                        childCount: compeletedData.compeleted.length,
+                                        addAutomaticKeepAlives: true,
+                                        addRepaintBoundaries: true,
                                       ),
                                     ),
-                            ));
+                                  ],
+                                )
+                              : CustomScrollView(
+                                  // center: centerKey,
+                                  slivers: <Widget>[
+                                    SliverList(
+                                      // key: centerKey,
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          print('CustomScrollView');
+                                          return Center(
+                                            child: const Text(
+                                              'No results found',
+                                              style: TextStyle(fontSize: 24),
+                                            ),
+                                          );
+                                        },
+                                        childCount: 1,
+                                        addAutomaticKeepAlives: true,
+                                        addRepaintBoundaries: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                    );
                   }
                 }
-              }));
+              }),
+    );
   }
 
   Card UpcomingSchedule(job.UpcomingModel jobs) {
@@ -462,26 +487,26 @@ class _MyShiftsState extends State<MyShifts> {
                         child: Text("Cancel"),
                         onPressed: () async {
                           // widget.candidate_id.toString();
-                          var message = await Provider.of<job.Jobs_Section>(context,
+                          var message = await Provider.of<job.Jobs_Section>(
+                                  context,
                                   listen: false)
                               .shift_cancelation(jobs.availabilityid);
                           print(message.toString());
-                           await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: Text('success'),
-                content: Text(message.toString()),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Okey'),
-                    onPressed: () {
-                      // Navigator.of(ctx).pop();
-                         Navigator.of(context)
-                        .pushNamed('/');
-                    },
-                  )
-                ],
-              ));
+                          await showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                    title: Text('success'),
+                                    content: Text(message.toString()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Okey'),
+                                        onPressed: () {
+                                          // Navigator.of(ctx).pop();
+                                          Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
+                                        },
+                                      )
+                                    ],
+                                  ));
                         },
                       ),
                     ],

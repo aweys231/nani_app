@@ -53,10 +53,12 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
       Provider.of<Jobs_Section>(context, listen: false)
           .requirement_documents()
           .then((_) {});
+          Provider.of<job.Jobs_Section>(context, listen: false)
+        .fetchAndSetVacuncyUpcoming(widget.candidate_id.toString());
+      // Provider.of<job.Jobs_Section>(context, listen: false)
+      //   .fetchAndSetVacuncyCompleted(widget.candidate_id.toString()).then((_) {});
 
-          // Provider.of<Jobs_Section>(context, listen: false)
-          // .fetchAndSetVacuncyUpcoming(widget.candidate_id.toString())
-          // .then((_) {});
+       
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -143,7 +145,8 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                           style: TextStyle(
                                                               fontSize: 24),
                                                         ),
-                                                      ));
+                                                      )
+                                                      );
                                       }
                                     }
                                   }),
