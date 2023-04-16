@@ -21,7 +21,7 @@ class MyShifts extends StatefulWidget {
 class _MyShiftsState extends State<MyShifts> {
   int currentIndex = 0;
   final formatter = DateFormat('E');
-  List<DateTime>? days;
+  // List<DateTime>? days;
   late Future _upcominge;
   late Future _completer;
   Future _obtainUpcomingFuture(String candidate_id) {
@@ -70,201 +70,13 @@ class _MyShiftsState extends State<MyShifts> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 65,
-              margin: EdgeInsets.only(left: 5, right: 5, top: 8),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        offset: Offset(2, 2))
-                  ]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          currentIndex = 0;
-                          _display = true;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 244, 238, 238),
-                            // borderRadius: BorderRadius.all(Radius.circular(35)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  offset: Offset(2, 2))
-                            ]),
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.calendarDay,
-                                          color: currentIndex == 0
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context)
-                                                  .primaryColorLight,
-                                          size: currentIndex == 0 ? 30 : 26,
-                                        ),
-                                        currentIndex == 0
-                                            ? Container(
-                                                margin: EdgeInsets.only(top: 1),
-                                                height: 3,
-                                                width: 24,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12)),
-                                                ),
-                                              )
-                                            : SizedBox(),
-                                      ]),
-                                  Container(
-                                    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'UPCOMIN',
-                                        style: TextStyle(
-                                            color: currentIndex == 0
-                                                ? Theme.of(context).primaryColor
-                                                : Theme.of(context)
-                                                    .primaryColorLight,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Lato'),
-                                        // children: <TextSpan>[
-                                        //     TextSpan(text: ' Sign up',
-                                        //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
-                                        //     )
-                                        // ]
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          currentIndex = 1;
-                          _display = false;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 244, 238, 238),
-                            // borderRadius: BorderRadius.all(Radius.circular(35)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  offset: Offset(2, 2))
-                            ]),
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.calendarDay,
-                                          color: currentIndex == 1
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context)
-                                                  .primaryColorLight,
-                                          size: currentIndex == 1 ? 30 : 26,
-                                        ),
-                                        currentIndex == 1
-                                            ? Container(
-                                                margin: EdgeInsets.only(top: 1),
-                                                height: 3,
-                                                width: 24,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12)),
-                                                ),
-                                              )
-                                            : SizedBox(),
-                                      ]),
-                                  Container(
-                                    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'COMPLETED',
-                                        style: TextStyle(
-                                            color: currentIndex == 1
-                                                ? Theme.of(context).primaryColor
-                                                : Theme.of(context)
-                                                    .primaryColorLight,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Lato'),
-                                        // children: <TextSpan>[
-                                        //     TextSpan(text: ' Sign up',
-                                        //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
-                                        //     )
-                                        // ]
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-                  ],
-                ),
-              ),
-            ),
-            // _display
-            //     ?
+            HeaderButtons(context),
+           
             _isLoading
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
-            //     // : _display? Center(
-            //     //     child: CircularProgressIndicator(),
-            //     //   )
+           
                   :
            
             Container(
@@ -272,6 +84,195 @@ class _MyShiftsState extends State<MyShifts> {
             )
           ],
         ));
+  }
+
+  Container HeaderButtons(BuildContext context) {
+    return Container(
+            height: 65,
+            margin: EdgeInsets.only(left: 5, right: 5, top: 8),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(2, 2))
+                ]),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentIndex = 0;
+                        _display = true;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 244, 238, 238),
+                          // borderRadius: BorderRadius.all(Radius.circular(35)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 10,
+                                offset: Offset(2, 2))
+                          ]),
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.calendarDay,
+                                        color: currentIndex == 0
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context)
+                                                .primaryColorLight,
+                                        size: currentIndex == 0 ? 30 : 26,
+                                      ),
+                                      currentIndex == 0
+                                          ? Container(
+                                              margin: EdgeInsets.only(top: 1),
+                                              height: 3,
+                                              width: 24,
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(12)),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                    ]),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'UPCOMIN',
+                                      style: TextStyle(
+                                          color: currentIndex == 0
+                                              ? Theme.of(context).primaryColor
+                                              : Theme.of(context)
+                                                  .primaryColorLight,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Lato'),
+                                      // children: <TextSpan>[
+                                      //     TextSpan(text: ' Sign up',
+                                      //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
+                                      //     )
+                                      // ]
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                      child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentIndex = 1;
+                        _display = false;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 244, 238, 238),
+                          // borderRadius: BorderRadius.all(Radius.circular(35)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 10,
+                                offset: Offset(2, 2))
+                          ]),
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.calendarDay,
+                                        color: currentIndex == 1
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context)
+                                                .primaryColorLight,
+                                        size: currentIndex == 1 ? 30 : 26,
+                                      ),
+                                      currentIndex == 1
+                                          ? Container(
+                                              margin: EdgeInsets.only(top: 1),
+                                              height: 3,
+                                              width: 24,
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(12)),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                    ]),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'COMPLETED',
+                                      style: TextStyle(
+                                          color: currentIndex == 1
+                                              ? Theme.of(context).primaryColor
+                                              : Theme.of(context)
+                                                  .primaryColorLight,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Lato'),
+                                      // children: <TextSpan>[
+                                      //     TextSpan(text: ' Sign up',
+                                      //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
+                                      //     )
+                                      // ]
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+            ),
+          );
   }
 
   Expanded MyContainer() {
@@ -376,7 +377,8 @@ class _MyShiftsState extends State<MyShifts> {
                                       delegate: SliverChildBuilderDelegate(
                                         (BuildContext context, int index) {
                                           print('CustomScrollView');
-                                          return Center(
+                                          return 
+                                          Center(
                                             child: const Text(
                                               'No results found',
                                               style: TextStyle(fontSize: 24),
@@ -525,11 +527,12 @@ class _MyShiftsState extends State<MyShifts> {
   }
 
   Card CompeletedSchedule(job.CompletedgModel jobs) {
-    return Card(
+    return
+     Card(
       elevation: 8,
       margin: EdgeInsets.symmetric(
         vertical: 8,
-        horizontal: 5,
+        horizontal: 0,
       ),
       child: ListTile(
         leading: Container(
@@ -542,7 +545,7 @@ class _MyShiftsState extends State<MyShifts> {
               Icon(Icons.calendar_month_outlined),
               Text(
                 jobs.dayname,
-                // "${formatter.format(days![index])}",
+                
                 style: TextStyle(color: Colors.green, fontSize: 10),
               ),
               Text(jobs.daynumber
@@ -622,9 +625,7 @@ class _MyShiftsState extends State<MyShifts> {
           ),
         ),
 
-        // subtitle: AvaliabiltityDropDown(),
-        // trailing:  Text("${formatter.format(days[index])}",
-        //   style: TextStyle(color: Colors.green, fontSize: 15),),
+       
       ),
     );
   }

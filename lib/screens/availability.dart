@@ -1,9 +1,10 @@
-// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace, must_call_super, non_constant_identifier_names, unused_field, no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace, must_call_super, non_constant_identifier_names, unused_field, no_leading_underscores_for_local_identifiers, prefer_const_literals_to_create_immutables, deprecated_member_use
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -87,6 +88,8 @@ class _AvailabilityState extends State<Availability> {
   }
 
   final formatter = DateFormat('E');
+  int currentIndex = 0;
+  var _display = true;
 
   @override
   void initState() {
@@ -157,19 +160,412 @@ class _AvailabilityState extends State<Availability> {
         body: _isInit
             ? LayoutBuilder(builder: (ctx, constraints) {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'No Timetable Selected yet !',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
+                    HeaderButtons(context),
+                   
                     SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
                     Container(
                         height: constraints.maxHeight * 0.6,
-                        child: Image.asset(
-                          'assets/images/waiting.png',
-                          fit: BoxFit.cover,
+                        child: Expanded(
+                          child: CustomScrollView(
+                            // center: centerKey,
+                            slivers: <Widget>[
+                              SliverList(
+                                // key: centerKey,
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    print('CustomScrollView');
+                                    return Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Card(
+                                                  elevation: 8,
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 8,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child:
+                                                   Row(
+                                                    crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                                     children: [
+                                                       Expanded(
+                                                        child: ListTile(
+                                                          leading:
+                                                           Container(
+                                                            height: 80,
+                                                            color: Color.fromARGB(
+                                                                255, 255, 255, 255),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets.only(
+                                                                      right: 1.0),
+                                                             
+                                                              child: Column(
+                                                                  // mainAxisSize:
+                                                                  //     MainAxisSize.min,
+                                                                       mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                  children: [
+                                                                     Icon(
+                                                                            FontAwesomeIcons
+                                                                                .checkCircle,
+                                                                            color: currentIndex ==
+                                                                                    0
+                                                                                ? Theme.of(context)
+                                                                                    .primaryColor
+                                                                                : Theme.of(context)
+                                                                                    .primaryColorLight,
+                                                                            size: currentIndex ==
+                                                                                    0
+                                                                                ? 18
+                                                                                : 15,
+                                                                          ),
+                                                                          currentIndex ==
+                                                                                  0
+                                                                              ? Container(
+                                                                                  margin:
+                                                                                      EdgeInsets.only(top: 1),
+                                                                                  height:
+                                                                                      3,
+                                                                                  width:
+                                                                                      15,
+                                                                                  decoration:
+                                                                                      BoxDecoration(
+                                                                                    color:
+                                                                                        Theme.of(context).primaryColor,
+                                                                                    borderRadius:
+                                                                                        BorderRadius.all(Radius.circular(12)),
+                                                                                  ),
+                                                                                )
+                                                                              : SizedBox(),
+                                                                          SizedBox(
+                                                                              height:
+                                                                                  2),
+                                                                          Container(
+                                                                            padding: EdgeInsets
+                                                                                .fromLTRB(
+                                                                                    0,
+                                                                                    0,
+                                                                                    0,
+                                                                                    0),
+                                                                            child:
+                                                                                RichText(
+                                                                              text:
+                                                                                  TextSpan(
+                                                                                text:
+                                                                                    'Longe Day',
+                                                                                style: TextStyle(
+                                                                                    color: currentIndex == 0
+                                                                                        ? Theme.of(context).primaryColor
+                                                                                        : Theme.of(context).primaryColorLight,
+                                                                                    fontSize: 10,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontFamily: 'Lato'),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                  ]
+                                                                  ),
+                                                             
+                                                            ),
+                                                          ),
+                                                        
+
+                                                         
+                                                        ),
+                                                  ),
+                                                     Expanded(
+                                                        child: ListTile(
+                                                          leading:
+                                                           Container(
+                                                            height: 80,
+                                                            color: Color.fromARGB(
+                                                                255, 255, 255, 255),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets.only(
+                                                                      right: 1.0),
+                                                              // child: Expanded(
+                                                              child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize.min,
+                                                                       mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                  children: [
+                                                                     Icon(
+                                                                            FontAwesomeIcons
+                                                                                .checkCircle,
+                                                                            color: currentIndex ==
+                                                                                    0
+                                                                                ? Theme.of(context)
+                                                                                    .primaryColor
+                                                                                : Theme.of(context)
+                                                                                    .primaryColorLight,
+                                                                            size: currentIndex ==
+                                                                                    0
+                                                                                ? 18
+                                                                                : 15,
+                                                                          ),
+                                                                          currentIndex ==
+                                                                                  0
+                                                                              ? Container(
+                                                                                  margin:
+                                                                                      EdgeInsets.only(top: 1),
+                                                                                  height:
+                                                                                      3,
+                                                                                  width:
+                                                                                      15,
+                                                                                  decoration:
+                                                                                      BoxDecoration(
+                                                                                    color:
+                                                                                        Theme.of(context).primaryColor,
+                                                                                    borderRadius:
+                                                                                        BorderRadius.all(Radius.circular(12)),
+                                                                                  ),
+                                                                                )
+                                                                              : SizedBox(),
+                                                                          SizedBox(
+                                                                              height:
+                                                                                  2),
+                                                                          Container(
+                                                                            padding: EdgeInsets
+                                                                                .fromLTRB(
+                                                                                    0,
+                                                                                    0,
+                                                                                    0,
+                                                                                    0),
+                                                                            child:
+                                                                                RichText(
+                                                                              text:
+                                                                                  TextSpan(
+                                                                                text:
+                                                                                    'Morning',
+                                                                                style: TextStyle(
+                                                                                    color: currentIndex == 0
+                                                                                        ? Theme.of(context).primaryColor
+                                                                                        : Theme.of(context).primaryColorLight,
+                                                                                    fontSize: 10,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontFamily: 'Lato'),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                  ]
+                                                                  ),
+                                                              // )
+                                                            ),
+                                                          ),
+                                                        
+
+                                                         
+                                                        ),
+                                                  ),
+                                                     Expanded(
+                                                        child: ListTile(
+                                                          leading:
+                                                           Container(
+                                                            height: 80,
+                                                            color: Color.fromARGB(
+                                                                255, 255, 255, 255),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets.only(
+                                                                      right: 1.0),
+                                                             
+                                                              child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize.min,
+                                                                       mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                  children: [
+                                                                     Icon(
+                                                                            FontAwesomeIcons
+                                                                                .checkCircle,
+                                                                            color: currentIndex ==
+                                                                                    0
+                                                                                ? Theme.of(context)
+                                                                                    .primaryColor
+                                                                                : Theme.of(context)
+                                                                                    .primaryColorLight,
+                                                                            size: currentIndex ==
+                                                                                    0
+                                                                                ? 18
+                                                                                : 15,
+                                                                          ),
+                                                                          currentIndex ==
+                                                                                  0
+                                                                              ? Container(
+                                                                                  margin:
+                                                                                      EdgeInsets.only(top: 1),
+                                                                                  height:
+                                                                                      3,
+                                                                                  width:
+                                                                                      15,
+                                                                                  decoration:
+                                                                                      BoxDecoration(
+                                                                                    color:
+                                                                                        Theme.of(context).primaryColor,
+                                                                                    borderRadius:
+                                                                                        BorderRadius.all(Radius.circular(12)),
+                                                                                  ),
+                                                                                )
+                                                                              : SizedBox(),
+                                                                          SizedBox(
+                                                                              height:
+                                                                                  2),
+                                                                          Container(
+                                                                            padding: EdgeInsets
+                                                                                .fromLTRB(
+                                                                                    0,
+                                                                                    0,
+                                                                                    0,
+                                                                                    0),
+                                                                            child:
+                                                                                RichText(
+                                                                              text:
+                                                                                  TextSpan(
+                                                                                text:
+                                                                                    'Afternoon',
+                                                                                style: TextStyle(
+                                                                                    color: currentIndex == 0
+                                                                                        ? Theme.of(context).primaryColor
+                                                                                        : Theme.of(context).primaryColorLight,
+                                                                                    fontSize: 10,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontFamily: 'Lato'),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                  ]
+                                                                  ),
+                                                              // )
+                                                            ),
+                                                          ),
+                                                        
+
+                                                         
+                                                        ),
+                                                  ),
+                                                     Expanded(
+                                                        child: ListTile(
+                                                          leading:
+                                                           Container(
+                                                            height: 80,
+                                                            color: Color.fromARGB(
+                                                                255, 255, 255, 255),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets.only(
+                                                                      right: 2.0),
+                                                              // child: Expanded(
+                                                              child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize.min,
+                                                                       mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                  children: [
+                                                                     Icon(
+                                                                            FontAwesomeIcons
+                                                                                .checkCircle,
+                                                                            color: currentIndex ==
+                                                                                    0
+                                                                                ? Theme.of(context)
+                                                                                    .primaryColor
+                                                                                : Theme.of(context)
+                                                                                    .primaryColorLight,
+                                                                            size: currentIndex ==
+                                                                                    0
+                                                                                ? 18
+                                                                                : 15,
+                                                                          ),
+                                                                          currentIndex ==
+                                                                                  0
+                                                                              ? Container(
+                                                                                  margin:
+                                                                                      EdgeInsets.only(top: 1),
+                                                                                  height:
+                                                                                      3,
+                                                                                  width:
+                                                                                      15,
+                                                                                  decoration:
+                                                                                      BoxDecoration(
+                                                                                    color:
+                                                                                        Theme.of(context).primaryColor,
+                                                                                    borderRadius:
+                                                                                        BorderRadius.all(Radius.circular(12)),
+                                                                                  ),
+                                                                                )
+                                                                              : SizedBox(),
+                                                                          SizedBox(
+                                                                              height:
+                                                                                  2),
+                                                                          Container(
+                                                                            padding: EdgeInsets
+                                                                                .fromLTRB(
+                                                                                    0,
+                                                                                    0,
+                                                                                    0,
+                                                                                    0),
+                                                                            child:
+                                                                                RichText(
+                                                                              text:
+                                                                                  TextSpan(
+                                                                                text:
+                                                                                    'Night',
+                                                                                style: TextStyle(
+                                                                                    color: currentIndex == 0
+                                                                                        ? Theme.of(context).primaryColor
+                                                                                        : Theme.of(context).primaryColorLight,
+                                                                                    fontSize: 10,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontFamily: 'Lato'),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                  ]
+                                                                  ),
+                                                              // )
+                                                            ),
+                                                          ),
+                                                        
+
+                                                         
+                                                        ),
+                                                  ),
+                                                     ],
+                                                   ),
+                                                  
+                                                ),
+                                              ),
+                                           
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  childCount: 2,
+                                  addAutomaticKeepAlives: true,
+                                  addRepaintBoundaries: true,
+                                ),
+                              ),
+                            ],
+                          ),
                         ))
                   ],
                 );
@@ -181,17 +577,189 @@ class _AvailabilityState extends State<Availability> {
                       children: <Widget>[
                         Container(
                           height: constraints.maxHeight * 0.9,
-                          child:
-                              // calander(days!),
-                              schedulelist(days!),
+                          child: schedulelist(days!),
                         ),
                         Container(height: 65, child: submit(context)),
                       ],
                     );
-                  })
-        // calander(days!),
+                  }));
+  }
 
-        );
+  Container HeaderButtons(BuildContext context) {
+    return Container(
+      height: 65,
+      margin: EdgeInsets.only(left: 5, right: 5, top: 8),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26, blurRadius: 10, offset: Offset(2, 2))
+          ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+                child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  currentIndex = 0;
+                  _display = true;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 244, 238, 238),
+                    // borderRadius: BorderRadius.all(Radius.circular(35)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(2, 2))
+                    ]),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.calendarDay,
+                                  color: currentIndex == 0
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).primaryColorLight,
+                                  size: currentIndex == 0 ? 30 : 26,
+                                ),
+                                currentIndex == 0
+                                    ? Container(
+                                        margin: EdgeInsets.only(top: 1),
+                                        height: 3,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ]),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'My Availability',
+                                style: TextStyle(
+                                    color: currentIndex == 0
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(context).primaryColorLight,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Lato'),
+                                // children: <TextSpan>[
+                                //     TextSpan(text: ' Sign up',
+                                //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
+                                //     )
+                                // ]
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
+            Expanded(
+                child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  currentIndex = 1;
+                  _display = false;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 244, 238, 238),
+                    // borderRadius: BorderRadius.all(Radius.circular(35)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(2, 2))
+                    ]),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.calendarDay,
+                                  color: currentIndex == 1
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).primaryColorLight,
+                                  size: currentIndex == 1 ? 30 : 26,
+                                ),
+                                currentIndex == 1
+                                    ? Container(
+                                        margin: EdgeInsets.only(top: 1),
+                                        height: 3,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ]),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'My Booking',
+                                style: TextStyle(
+                                    color: currentIndex == 1
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(context).primaryColorLight,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Lato'),
+                                // children: <TextSpan>[
+                                //     TextSpan(text: ' Sign up',
+                                //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
+                                //     )
+                                // ]
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
+          ],
+        ),
+      ),
+    );
   }
 
   CustomScrollView schedulelist(List<DateTime> day) {
@@ -290,9 +858,8 @@ class _AvailabilityState extends State<Availability> {
             dayname: formatter.format(days![index]).toString(),
             fulldate: DateFormat("dd/MM/yyyy")
                 .parse(
-                    "${days![index].day.toString()}/${days![index].month.toString()}/${days![index].year.toString()}").toString()
-           
-            ),
+                    "${days![index].day.toString()}/${days![index].month.toString()}/${days![index].year.toString()}")
+                .toString()),
 
         // subtitle: AvaliabiltityDropDown(),
         // trailing:  Text("${formatter.format(days[index])}",
