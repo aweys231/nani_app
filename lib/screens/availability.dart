@@ -163,7 +163,6 @@ class _AvailabilityState extends State<Availability> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     HeaderButtons(context),
-                   
                     SizedBox(
                       height: 5,
                     ),
@@ -194,365 +193,346 @@ class _AvailabilityState extends State<Availability> {
                                                     vertical: 8,
                                                     horizontal: 5,
                                                   ),
-                                                  child:
-                                                   Row(
+                                                  child: Column(
                                                     crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                                     children: [
-                                                       Expanded(
-                                                        child: ListTile(
-                                                          leading:
-                                                           Container(
-                                                            height: 80,
-                                                            color: Color.fromARGB(
-                                                                255, 255, 255, 255),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets.only(
-                                                                      right: 1.0),
-                                                             
-                                                              child: Column(
-                                                                  // mainAxisSize:
-                                                                  //     MainAxisSize.min,
-                                                                       mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                  children: [
-                                                                     Icon(
-                                                                            FontAwesomeIcons
-                                                                                .checkCircle,
-                                                                            color: currentIndex ==
-                                                                                    0
-                                                                                ? Theme.of(context)
-                                                                                    .primaryColor
-                                                                                : Theme.of(context)
-                                                                                    .primaryColorLight,
-                                                                            size: currentIndex ==
-                                                                                    0
-                                                                                ? 18
-                                                                                : 15,
-                                                                          ),
-                                                                          currentIndex ==
-                                                                                  0
-                                                                              ? Container(
-                                                                                  margin:
-                                                                                      EdgeInsets.only(top: 1),
-                                                                                  height:
-                                                                                      3,
-                                                                                  width:
-                                                                                      15,
-                                                                                  decoration:
-                                                                                      BoxDecoration(
-                                                                                    color:
-                                                                                        Theme.of(context).primaryColor,
-                                                                                    borderRadius:
-                                                                                        BorderRadius.all(Radius.circular(12)),
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                              height:
-                                                                                  2),
-                                                                          Container(
-                                                                            padding: EdgeInsets
-                                                                                .fromLTRB(
-                                                                                    0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    0),
-                                                                            child:
-                                                                                RichText(
-                                                                              text:
-                                                                                  TextSpan(
-                                                                                text:
-                                                                                    'Longe Day',
-                                                                                style: TextStyle(
-                                                                                    color: currentIndex == 0
-                                                                                        ? Theme.of(context).primaryColor
-                                                                                        : Theme.of(context).primaryColorLight,
-                                                                                    fontSize: 10,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontFamily: 'Lato'),
-                                                                              ),
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                10, 0, 5, 0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(top: 5),
+                                                              child: RichText(
+                                                                text: TextSpan(
+                                                                    text:
+                                                                        'Jan 11 2023',
+                                                                    style: TextStyle(
+                                                                        color: currentIndex ==
+                                                                                0
+                                                                            ? Theme.of(context)
+                                                                                .primaryColor
+                                                                            : Theme.of(context)
+                                                                                .primaryColorLight,
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontFamily:
+                                                                            'Lato')),
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "....",
+                                                              style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Expanded(
+                                                            child: ListTile(
+                                                              leading:
+                                                                  Container(
+                                                                height: 80,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          1.0),
+                                                                  child: Column(
+                                                                      // mainAxisSize:
+                                                                      //     MainAxisSize.min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                          FontAwesomeIcons
+                                                                              .checkCircle,
+                                                                          color: currentIndex == 0
+                                                                              ? Theme.of(context).primaryColor
+                                                                              : Theme.of(context).primaryColorLight,
+                                                                          size: currentIndex == 0
+                                                                              ? 18
+                                                                              : 15,
+                                                                        ),
+                                                                        currentIndex ==
+                                                                                0
+                                                                            ? Container(
+                                                                                margin: EdgeInsets.only(top: 1),
+                                                                                height: 3,
+                                                                                width: 15,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Theme.of(context).primaryColor,
+                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                                ),
+                                                                              )
+                                                                            : SizedBox(),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                2),
+                                                                        Container(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                          child:
+                                                                              RichText(
+                                                                            text:
+                                                                                TextSpan(
+                                                                              text: 'Week Day',
+                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
                                                                             ),
                                                                           ),
-                                                                  ]
-                                                                  ),
-                                                             
+                                                                        ),
+                                                                      ]),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        
-
-                                                         
-                                                        ),
-                                                  ),
-                                                     Expanded(
-                                                        child: ListTile(
-                                                          leading:
-                                                           Container(
-                                                            height: 80,
-                                                            color: Color.fromARGB(
-                                                                255, 255, 255, 255),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets.only(
-                                                                      right: 1.0),
-                                                              // child: Expanded(
-                                                              child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize.min,
-                                                                       mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                  children: [
-                                                                     Icon(
-                                                                            FontAwesomeIcons
-                                                                                .checkCircle,
-                                                                            color: currentIndex ==
-                                                                                    0
-                                                                                ? Theme.of(context)
-                                                                                    .primaryColor
-                                                                                : Theme.of(context)
-                                                                                    .primaryColorLight,
-                                                                            size: currentIndex ==
-                                                                                    0
-                                                                                ? 18
-                                                                                : 15,
-                                                                          ),
-                                                                          currentIndex ==
-                                                                                  0
-                                                                              ? Container(
-                                                                                  margin:
-                                                                                      EdgeInsets.only(top: 1),
-                                                                                  height:
-                                                                                      3,
-                                                                                  width:
-                                                                                      15,
-                                                                                  decoration:
-                                                                                      BoxDecoration(
-                                                                                    color:
-                                                                                        Theme.of(context).primaryColor,
-                                                                                    borderRadius:
-                                                                                        BorderRadius.all(Radius.circular(12)),
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                              height:
-                                                                                  2),
-                                                                          Container(
-                                                                            padding: EdgeInsets
-                                                                                .fromLTRB(
-                                                                                    0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    0),
-                                                                            child:
-                                                                                RichText(
-                                                                              text:
-                                                                                  TextSpan(
-                                                                                text:
-                                                                                    'Morning',
-                                                                                style: TextStyle(
-                                                                                    color: currentIndex == 0
-                                                                                        ? Theme.of(context).primaryColor
-                                                                                        : Theme.of(context).primaryColorLight,
-                                                                                    fontSize: 10,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontFamily: 'Lato'),
-                                                                              ),
+                                                          Expanded(
+                                                            child: ListTile(
+                                                              leading:
+                                                                  Container(
+                                                                height: 80,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          1.0),
+                                                                  // child: Expanded(
+                                                                  child: Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                          FontAwesomeIcons
+                                                                              .checkCircle,
+                                                                          color: currentIndex == 0
+                                                                              ? Theme.of(context).primaryColor
+                                                                              : Theme.of(context).primaryColorLight,
+                                                                          size: currentIndex == 0
+                                                                              ? 18
+                                                                              : 15,
+                                                                        ),
+                                                                        currentIndex ==
+                                                                                0
+                                                                            ? Container(
+                                                                                margin: EdgeInsets.only(top: 1),
+                                                                                height: 3,
+                                                                                width: 15,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Theme.of(context).primaryColor,
+                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                                ),
+                                                                              )
+                                                                            : SizedBox(),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                2),
+                                                                        Container(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                          child:
+                                                                              RichText(
+                                                                            text:
+                                                                                TextSpan(
+                                                                              text: 'Week Night',
+                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
                                                                             ),
                                                                           ),
-                                                                  ]
-                                                                  ),
-                                                              // )
+                                                                        ),
+                                                                      ]),
+                                                                  // )
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        
+                                                          Expanded(
+                                                            child: ListTile(
+                                                              leading:
+                                                                  Container(
+                                                                height: 80,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          1.0),
 
-                                                         
-                                                        ),
-                                                  ),
-                                                     Expanded(
-                                                        child: ListTile(
-                                                          leading:
-                                                           Container(
-                                                            height: 80,
-                                                            color: Color.fromARGB(
-                                                                255, 255, 255, 255),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets.only(
-                                                                      right: 1.0),
-                                                             
-                                                              child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize.min,
-                                                                       mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                  children: [
-                                                                     Icon(
-                                                                            FontAwesomeIcons
-                                                                                .checkCircle,
-                                                                            color: currentIndex ==
-                                                                                    0
-                                                                                ? Theme.of(context)
-                                                                                    .primaryColor
-                                                                                : Theme.of(context)
-                                                                                    .primaryColorLight,
-                                                                            size: currentIndex ==
-                                                                                    0
-                                                                                ? 18
-                                                                                : 15,
-                                                                          ),
-                                                                          currentIndex ==
-                                                                                  0
-                                                                              ? Container(
-                                                                                  margin:
-                                                                                      EdgeInsets.only(top: 1),
-                                                                                  height:
-                                                                                      3,
-                                                                                  width:
-                                                                                      15,
-                                                                                  decoration:
-                                                                                      BoxDecoration(
-                                                                                    color:
-                                                                                        Theme.of(context).primaryColor,
-                                                                                    borderRadius:
-                                                                                        BorderRadius.all(Radius.circular(12)),
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                              height:
-                                                                                  2),
-                                                                          Container(
-                                                                            padding: EdgeInsets
-                                                                                .fromLTRB(
-                                                                                    0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    0),
-                                                                            child:
-                                                                                RichText(
-                                                                              text:
-                                                                                  TextSpan(
-                                                                                text:
-                                                                                    'Afternoon',
-                                                                                style: TextStyle(
-                                                                                    color: currentIndex == 0
-                                                                                        ? Theme.of(context).primaryColor
-                                                                                        : Theme.of(context).primaryColorLight,
-                                                                                    fontSize: 10,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontFamily: 'Lato'),
-                                                                              ),
+                                                                  child: Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                          FontAwesomeIcons
+                                                                              .checkCircle,
+                                                                          color: currentIndex == 0
+                                                                              ? Theme.of(context).primaryColor
+                                                                              : Theme.of(context).primaryColorLight,
+                                                                          size: currentIndex == 0
+                                                                              ? 18
+                                                                              : 15,
+                                                                        ),
+                                                                        currentIndex ==
+                                                                                0
+                                                                            ? Container(
+                                                                                margin: EdgeInsets.only(top: 1),
+                                                                                height: 3,
+                                                                                width: 15,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Theme.of(context).primaryColor,
+                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                                ),
+                                                                              )
+                                                                            : SizedBox(),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                2),
+                                                                        Container(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                          child:
+                                                                              RichText(
+                                                                            text:
+                                                                                TextSpan(
+                                                                              text: 'Week-End Day',
+                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
                                                                             ),
                                                                           ),
-                                                                  ]
-                                                                  ),
-                                                              // )
+                                                                        ),
+                                                                      ]),
+                                                                  // )
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        
-
-                                                         
-                                                        ),
-                                                  ),
-                                                     Expanded(
-                                                        child: ListTile(
-                                                          leading:
-                                                           Container(
-                                                            height: 80,
-                                                            color: Color.fromARGB(
-                                                                255, 255, 255, 255),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets.only(
-                                                                      right: 2.0),
-                                                              // child: Expanded(
-                                                              child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize.min,
-                                                                       mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                  children: [
-                                                                     Icon(
-                                                                            FontAwesomeIcons
-                                                                                .checkCircle,
-                                                                            color: currentIndex ==
-                                                                                    0
-                                                                                ? Theme.of(context)
-                                                                                    .primaryColor
-                                                                                : Theme.of(context)
-                                                                                    .primaryColorLight,
-                                                                            size: currentIndex ==
-                                                                                    0
-                                                                                ? 18
-                                                                                : 15,
-                                                                          ),
-                                                                          currentIndex ==
-                                                                                  0
-                                                                              ? Container(
-                                                                                  margin:
-                                                                                      EdgeInsets.only(top: 1),
-                                                                                  height:
-                                                                                      3,
-                                                                                  width:
-                                                                                      15,
-                                                                                  decoration:
-                                                                                      BoxDecoration(
-                                                                                    color:
-                                                                                        Theme.of(context).primaryColor,
-                                                                                    borderRadius:
-                                                                                        BorderRadius.all(Radius.circular(12)),
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                              height:
-                                                                                  2),
-                                                                          Container(
-                                                                            padding: EdgeInsets
-                                                                                .fromLTRB(
-                                                                                    0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    0),
-                                                                            child:
-                                                                                RichText(
-                                                                              text:
-                                                                                  TextSpan(
-                                                                                text:
-                                                                                    'Night',
-                                                                                style: TextStyle(
-                                                                                    color: currentIndex == 0
-                                                                                        ? Theme.of(context).primaryColor
-                                                                                        : Theme.of(context).primaryColorLight,
-                                                                                    fontSize: 10,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontFamily: 'Lato'),
-                                                                              ),
+                                                          Expanded(
+                                                            child: ListTile(
+                                                              leading:
+                                                                  Container(
+                                                                height: 120,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          2.0),
+                                                                  
+                                                                  child: Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                          FontAwesomeIcons
+                                                                              .checkCircle,
+                                                                          color: currentIndex == 0
+                                                                              ? Theme.of(context).primaryColor
+                                                                              : Theme.of(context).primaryColorLight,
+                                                                          size: currentIndex == 0
+                                                                              ? 18
+                                                                              : 15,
+                                                                        ),
+                                                                        currentIndex ==
+                                                                                0
+                                                                            ? Container(
+                                                                                margin: EdgeInsets.only(top: 1),
+                                                                                height: 3,
+                                                                                width: 15,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Theme.of(context).primaryColor,
+                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                                ),
+                                                                              )
+                                                                            : SizedBox(),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                2),
+                                                                        Container(
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                          child:
+                                                                              RichText(
+                                                                            text:
+                                                                                TextSpan(
+                                                                              text: 'Week-End Night',
+                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
                                                                             ),
                                                                           ),
-                                                                  ]
-                                                                  ),
-                                                              // )
+                                                                        ),
+                                                                      ]),
+                                                                  // )
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        
-
-                                                         
-                                                        ),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                     ],
-                                                   ),
-                                                  
                                                 ),
                                               ),
-                                           
                                             ],
                                           ),
                                         ],
