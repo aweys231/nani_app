@@ -492,7 +492,7 @@ class Jobs_Section with ChangeNotifier {
             'Access-Control-Allow-Origin': '*'
           });
       // final response = await http.get(Uri.parse(url));
- _compeleted.clear();
+          _compeleted.clear();
       if (response.statusCode == 200) {
         final List<CompletedgModel> loadedcompleted = [];
         final extractedData = json.decode(response.body);
@@ -525,10 +525,8 @@ class Jobs_Section with ChangeNotifier {
     }
   }
 
-    Future shift_cancelation(
-      String availability_id) async {
-    final url =
-        "http://192.168.100.202/nanirecruitment/client_app/shift_cancelation";
+    Future shift_cancelation(String availability_id) async {
+    final url =   "http://192.168.100.202/nanirecruitment/client_app/shift_cancelation";
     try {
       final response = await http.post(
         Uri.parse(url),

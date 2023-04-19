@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace, must_call_super, non_constant_identifier_names, unused_field, no_leading_underscores_for_local_identifiers, prefer_const_literals_to_create_immutables, deprecated_member_use
+// ignore_for_file: unnecessary_import, implementation_imports, unused_import, unnecessary_late, unnecessary_string_interpolations, prefer_const_constructors, unused_element, avoid_unnecessary_containers, depend_on_referenced_packages, unused_local_variable, avoid_print, unnecessary_null_comparison, sized_box_for_whitespace, must_call_super, non_constant_identifier_names, unused_field, no_leading_underscores_for_local_identifiers, prefer_const_literals_to_create_immutables, deprecated_member_use, dead_code, unnecessary_new
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,9 @@ import 'package:nanirecruitment/widgets/availability_dropdown.dart';
 import 'package:nanirecruitment/widgets/availability_items.dart';
 import 'package:nanirecruitment/widgets/license_type.dart';
 import 'package:path/path.dart';
+
 import 'package:provider/provider.dart';
+import 'package:nanirecruitment/providers/jobs.dart' as job;
 
 class Availability extends StatefulWidget {
   static const routeName = '/availability';
@@ -29,6 +31,9 @@ class _AvailabilityState extends State<Availability> {
   var _isInit = true;
 
   var _isLoading = false;
+  var _isInitav = true;
+
+  var _isLoadingav = false;
   DateTime? _selected;
   List<DateTime>? days;
 
@@ -91,6 +96,22 @@ class _AvailabilityState extends State<Availability> {
   int currentIndex = 0;
   var _display = true;
 
+  late Future _myavailability;
+  late Future _mybooking;
+  Future _obtainmyavailabilityFuture(
+    String candidate_id,
+  ) {
+    return Provider.of<Availability_Section>(this.context, listen: false)
+        .fetchAndSetMyAvailability(widget.candidate_id.toString());
+  }
+
+  Future _obtainCompeletedFuture(
+    String candidate_id,
+  ) {
+    return Provider.of<job.Jobs_Section>(this.context, listen: false)
+        .fetchAndSetVacuncyCompleted(widget.candidate_id.toString());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -98,14 +119,20 @@ class _AvailabilityState extends State<Availability> {
 
   @override
   void didChangeDependencies() {
-    // ignore: todo
-    // TODO: implement didChangeDependencies
-// if (_isInit) {
-//      Provider.of<Availability_Section>(context).fetchAndSetshifts().then((_) {
+    BuildContext? context;
+    if (_isInitav) {
+      setState(() {
+        _isLoadingav = true;
+      });
 
-//       });
-//     super.didChangeDependencies();
-//   }
+      setState(() {
+        _myavailability =
+            _obtainmyavailabilityFuture(widget.candidate_id.toString());
+        _mybooking = _obtainCompeletedFuture(widget.candidate_id.toString());
+        _isLoadingav = false;
+      });
+    }
+    _isInitav = false;
   }
 
   // var _availability;
@@ -158,398 +185,23 @@ class _AvailabilityState extends State<Availability> {
         ]),
         drawer: AppDrawer(),
         body: _isInit
-            ? LayoutBuilder(builder: (ctx, constraints) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    HeaderButtons(context),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                        height: constraints.maxHeight * 0.6,
-                        child: Expanded(
-                          child: CustomScrollView(
-                            // center: centerKey,
-                            slivers: <Widget>[
-                              SliverList(
-                                // key: centerKey,
-                                delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                    print('CustomScrollView');
-                                    return Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Expanded(
-                                                child: Card(
-                                                  elevation: 8,
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 5,
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                10, 0, 5, 0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(top: 5),
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                    text:
-                                                                        'Jan 11 2023',
-                                                                    style: TextStyle(
-                                                                        color: currentIndex ==
-                                                                                0
-                                                                            ? Theme.of(context)
-                                                                                .primaryColor
-                                                                            : Theme.of(context)
-                                                                                .primaryColorLight,
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontFamily:
-                                                                            'Lato')),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "....",
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColor),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              leading:
-                                                                  Container(
-                                                                height: 80,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          1.0),
-                                                                  child: Column(
-                                                                      // mainAxisSize:
-                                                                      //     MainAxisSize.min,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        Icon(
-                                                                          FontAwesomeIcons
-                                                                              .checkCircle,
-                                                                          color: currentIndex == 0
-                                                                              ? Theme.of(context).primaryColor
-                                                                              : Theme.of(context).primaryColorLight,
-                                                                          size: currentIndex == 0
-                                                                              ? 18
-                                                                              : 15,
-                                                                        ),
-                                                                        currentIndex ==
-                                                                                0
-                                                                            ? Container(
-                                                                                margin: EdgeInsets.only(top: 1),
-                                                                                height: 3,
-                                                                                width: 15,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: Theme.of(context).primaryColor,
-                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                                                ),
-                                                                              )
-                                                                            : SizedBox(),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                2),
-                                                                        Container(
-                                                                          padding: EdgeInsets.fromLTRB(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              0),
-                                                                          child:
-                                                                              RichText(
-                                                                            text:
-                                                                                TextSpan(
-                                                                              text: 'Week Day',
-                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ]),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              leading:
-                                                                  Container(
-                                                                height: 80,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          1.0),
-                                                                  // child: Expanded(
-                                                                  child: Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        Icon(
-                                                                          FontAwesomeIcons
-                                                                              .checkCircle,
-                                                                          color: currentIndex == 0
-                                                                              ? Theme.of(context).primaryColor
-                                                                              : Theme.of(context).primaryColorLight,
-                                                                          size: currentIndex == 0
-                                                                              ? 18
-                                                                              : 15,
-                                                                        ),
-                                                                        currentIndex ==
-                                                                                0
-                                                                            ? Container(
-                                                                                margin: EdgeInsets.only(top: 1),
-                                                                                height: 3,
-                                                                                width: 15,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: Theme.of(context).primaryColor,
-                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                                                ),
-                                                                              )
-                                                                            : SizedBox(),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                2),
-                                                                        Container(
-                                                                          padding: EdgeInsets.fromLTRB(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              0),
-                                                                          child:
-                                                                              RichText(
-                                                                            text:
-                                                                                TextSpan(
-                                                                              text: 'Week Night',
-                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ]),
-                                                                  // )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              leading:
-                                                                  Container(
-                                                                height: 80,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          1.0),
-
-                                                                  child: Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        Icon(
-                                                                          FontAwesomeIcons
-                                                                              .checkCircle,
-                                                                          color: currentIndex == 0
-                                                                              ? Theme.of(context).primaryColor
-                                                                              : Theme.of(context).primaryColorLight,
-                                                                          size: currentIndex == 0
-                                                                              ? 18
-                                                                              : 15,
-                                                                        ),
-                                                                        currentIndex ==
-                                                                                0
-                                                                            ? Container(
-                                                                                margin: EdgeInsets.only(top: 1),
-                                                                                height: 3,
-                                                                                width: 15,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: Theme.of(context).primaryColor,
-                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                                                ),
-                                                                              )
-                                                                            : SizedBox(),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                2),
-                                                                        Container(
-                                                                          padding: EdgeInsets.fromLTRB(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              0),
-                                                                          child:
-                                                                              RichText(
-                                                                            text:
-                                                                                TextSpan(
-                                                                              text: 'Week-End Day',
-                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ]),
-                                                                  // )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              leading:
-                                                                  Container(
-                                                                height: 120,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          2.0),
-                                                                  
-                                                                  child: Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        Icon(
-                                                                          FontAwesomeIcons
-                                                                              .checkCircle,
-                                                                          color: currentIndex == 0
-                                                                              ? Theme.of(context).primaryColor
-                                                                              : Theme.of(context).primaryColorLight,
-                                                                          size: currentIndex == 0
-                                                                              ? 18
-                                                                              : 15,
-                                                                        ),
-                                                                        currentIndex ==
-                                                                                0
-                                                                            ? Container(
-                                                                                margin: EdgeInsets.only(top: 1),
-                                                                                height: 3,
-                                                                                width: 15,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: Theme.of(context).primaryColor,
-                                                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                                                ),
-                                                                              )
-                                                                            : SizedBox(),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                2),
-                                                                        Container(
-                                                                          padding: EdgeInsets.fromLTRB(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              0),
-                                                                          child:
-                                                                              RichText(
-                                                                            text:
-                                                                                TextSpan(
-                                                                              text: 'Week-End Night',
-                                                                              style: TextStyle(color: currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColorLight, fontSize: 10, fontWeight: FontWeight.normal, fontFamily: 'Lato'),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ]),
-                                                                  // )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  childCount: 2,
-                                  addAutomaticKeepAlives: true,
-                                  addRepaintBoundaries: true,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                  ],
-                );
-              })
+            ? _isLoadingav
+                ? Center(child: CircularProgressIndicator())
+                : LayoutBuilder(builder: (ctx, constraints) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        HeaderButtons(context),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          // height: constraints.maxHeight * 0.6,
+                          child: MyContainer(context),
+                        )
+                      ],
+                    );
+                  })
             : _isLoading
                 ? Center(child: CircularProgressIndicator())
                 : LayoutBuilder(builder: (ctx, constraints) {
@@ -644,11 +296,6 @@ class _AvailabilityState extends State<Availability> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Lato'),
-                                // children: <TextSpan>[
-                                //     TextSpan(text: ' Sign up',
-                                //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
-                                //     )
-                                // ]
                               ),
                             ),
                           ),
@@ -721,11 +368,6 @@ class _AvailabilityState extends State<Availability> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Lato'),
-                                // children: <TextSpan>[
-                                //     TextSpan(text: ' Sign up',
-                                //         style: TextStyle(color: Colors.blueAccent, fontSize: 20)
-                                //     )
-                                // ]
                               ),
                             ),
                           ),
@@ -742,6 +384,512 @@ class _AvailabilityState extends State<Availability> {
     );
   }
 
+  Expanded MyContainer(BuildContext context) {
+    return Expanded(
+      child: _display
+          ? FutureBuilder(
+              future: _myavailability,
+              builder: (ctx, dataSnapshot) {
+                if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  if (dataSnapshot.error != null) {
+                    return Center(child: Text('An error Accour'));
+                    print(dataSnapshot.error);
+                  } else {
+                    return Consumer<Availability_Section>(
+                        builder: (ctx, availabilityData, child) =>
+                            availabilityData.myAvailability.isNotEmpty
+                                ? CustomScrollView(
+                                    // center: centerKey,
+                                    slivers: <Widget>[
+                                      SliverList(
+                                        // key: centerKey,
+                                        delegate: SliverChildBuilderDelegate(
+                                          (BuildContext context, int index) {
+                                            print('CustomScrollView');
+                                            return Container(
+                                              child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Expanded(
+                                                        child: MyAvailability(
+                                                            availabilityData
+                                                                    .myAvailability[
+                                                                index],
+                                                            context),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          childCount: availabilityData
+                                              .myAvailability.length,
+                                          addAutomaticKeepAlives: true,
+                                          addRepaintBoundaries: true,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : CustomScrollView(
+                                    // center: centerKey,
+                                    slivers: <Widget>[
+                                      SliverList(
+                                        // key: centerKey,
+                                        delegate: SliverChildBuilderDelegate(
+                                          (BuildContext context, int index) {
+                                            print('CustomScrollView');
+                                            return Center(
+                                              child: const Text(
+                                                'No results found',
+                                                style: TextStyle(fontSize: 24),
+                                              ),
+                                            );
+                                          },
+                                          childCount: 1,
+                                          addAutomaticKeepAlives: true,
+                                          addRepaintBoundaries: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                  }
+                }
+              })
+          : FutureBuilder(
+              future: _mybooking,
+              builder: (ctx, dataSnapshot) {
+                if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  if (dataSnapshot.error != null) {
+                    return Center(child: Text('An error Accour'));
+                    print(dataSnapshot.error);
+                  } else {
+                    return Consumer<job.Jobs_Section>(
+                      builder: (ctx, compeletedData, child) =>
+                          compeletedData.compeleted.isNotEmpty
+                              ? CustomScrollView(
+                                  // center: centerKey,
+                                  slivers: <Widget>[
+                                    SliverList(
+                                      // key: centerKey,
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          print('CustomScrollView');
+                                          return CompeletedSchedule(
+                                              compeletedData.compeleted[index]);
+                                        },
+                                        childCount:
+                                            compeletedData.compeleted.length,
+                                        addAutomaticKeepAlives: true,
+                                        addRepaintBoundaries: true,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : CustomScrollView(
+                                  // center: centerKey,
+                                  slivers: <Widget>[
+                                    SliverList(
+                                      // key: centerKey,
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          print('CustomScrollView');
+                                          return Center(
+                                            child: const Text(
+                                              'No results found',
+                                              style: TextStyle(fontSize: 24),
+                                            ),
+                                          );
+                                        },
+                                        childCount: 1,
+                                        addAutomaticKeepAlives: true,
+                                        addRepaintBoundaries: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                    );
+                  }
+                }
+              }),
+    );
+  }
+
+  Card MyAvailability(MyAvailability_Model av, BuildContext context) {
+ 
+    return Card(
+      elevation: 8,
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 5,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: RichText(
+                    text: TextSpan(
+                        text:
+                        // formattedDate,
+                        DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
+                        style: TextStyle(
+                            color: currentIndex == 0
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).primaryColorLight,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Lato')),
+                  ),
+                ),
+                Text(
+                  "....",
+                  style: TextStyle(
+                      fontSize: 18, color: Theme.of(context).primaryColor),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: ListTile(
+                  leading: Container(
+                    height: 80,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 1.0),
+                      child: Column(
+                          // mainAxisSize:
+                          //     MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.checkCircle,
+                              color: av.shift == 'Week Day'
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).primaryColorLight,
+                              size: av.shift == 'Week Day' ? 18 : 15,
+                            ),
+                            av.shift == 'Week Day'
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    height: 3,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            SizedBox(height: 2),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Week Day',
+                                  style: TextStyle(
+                                      color: av.shift == 'Week Day'
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Lato'),
+                                ),
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListTile(
+                  leading: Container(
+                    height: 80,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 1.0),
+                      // child: Expanded(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.checkCircle,
+                              color: av.shift == 'Week Night'
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).primaryColorLight,
+                              size: av.shift == 'Week Night' ? 18 : 15,
+                            ),
+                            av.shift == 'Week Night'
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    height: 3,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            SizedBox(height: 2),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Week Night',
+                                  style: TextStyle(
+                                      color: av.shift == 'Week Night'
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Lato'),
+                                ),
+                              ),
+                            ),
+                          ]),
+                      // )
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListTile(
+                  leading: Container(
+                    height: 80,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 1.0),
+
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.checkCircle,
+                              color: av.shift == 'Week-End Day'
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).primaryColorLight,
+                              size: av.shift == 'Week-End Day' ? 18 : 15,
+                            ),
+                            av.shift == 'Week-End Day'
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    height: 3,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            SizedBox(height: 2),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: RichText(
+                                text: TextSpan(
+                                  text:'Week-End Day',
+                                  style: TextStyle(
+                                      color: av.shift == 'Week-End Day'
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Lato'),
+                                ),
+                              ),
+                            ),
+                          ]),
+                      // )
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListTile(
+                  leading: Container(
+                    height: 80,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.checkCircle,
+                              color: av.shift == 'Week-End Night'
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).primaryColorLight,
+                              size: currentIndex == 0 ? 18 : 15,
+                            ),
+                            av.shift == 'Week-End Night'
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    height: 3,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            SizedBox(height: 2),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Week-End Night',
+                                  style: TextStyle(
+                                      color: av.shift == 'Week-End Night'
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Lato'),
+                                ),
+                              ),
+                            ),
+                          ]),
+                      // )
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Card CompeletedSchedule(job.CompletedgModel jobs) {
+    return Card(
+      elevation: 8,
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 0,
+      ),
+      child: ListTile(
+        leading: Container(
+          height: 80,
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 2.0),
+            // child: Expanded(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.calendar_month_outlined),
+              Text(
+                jobs.dayname,
+                style: TextStyle(color: Colors.green, fontSize: 10),
+              ),
+              Text(jobs.daynumber
+                  // "${days![index].day}"
+                  ),
+            ]),
+            // )
+          ),
+        ),
+        title: Center(
+          child: Container(
+            color: Colors.white,
+            width: double.infinity,
+            height: 80,
+            padding: EdgeInsets.all(1),
+            margin: EdgeInsets.all(1),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Shift ${jobs.shiftname}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          jobs.companies_name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          jobs.address,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Container(
+                  decoration: BoxDecoration(
+                  color: Theme.of(this.context).primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        offset: Offset(2, 2))
+                  ]),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        child: Text("Cancel"),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+// start of availablity creating
   CustomScrollView schedulelist(List<DateTime> day) {
     return CustomScrollView(
       // center: centerKey,
@@ -885,4 +1033,5 @@ class _AvailabilityState extends State<Availability> {
       _isInit = false;
     }
   }
+  // end of availablity creating
 }

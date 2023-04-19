@@ -23,16 +23,33 @@ class Shifts_Model with ChangeNotifier {
   final String month;
   final String day;
   final String dayname;
-  String  fulldate;
-  Shifts_Model({
-    required this.candidateid,
-    required this.shift,
-    required this.year,
-    required this.month,
-    required this.day,
-    required this.dayname,
-    required this.fulldate
-  });
+  String fulldate;
+  Shifts_Model(
+      {required this.candidateid,
+      required this.shift,
+      required this.year,
+      required this.month,
+      required this.day,
+      required this.dayname,
+      required this.fulldate});
+}
+
+class MyAvailability_Model with ChangeNotifier {
+  final String candidateid;
+  final String shift;
+  final String year;
+  final String month;
+  final String daynumber;
+  final String dayname;
+ final String fulldate;
+  MyAvailability_Model(
+      {required this.candidateid,
+      required this.shift,
+      required this.year,
+      required this.month,
+      required this.daynumber,
+      required this.dayname,
+      required this.fulldate});
 }
 
 class Availability_Section with ChangeNotifier {
@@ -47,18 +64,23 @@ class Availability_Section with ChangeNotifier {
     return [..._items];
   }
 
+  List<MyAvailability_Model> _myAvailability = [];
+
+  List<MyAvailability_Model> get myAvailability {
+    return [..._myAvailability];
+  }
+
   void addItem(String candidateid, String shift, String year, String month,
-      String day, String dayname, String  fulldate) {
+      String day, String dayname, String fulldate) {
     _items.add(
       Shifts_Model(
-        candidateid: candidateid,
-        shift: shift,
-        year: year,
-        month: month,
-        day: day,
-        dayname: dayname,
-        fulldate:fulldate
-      ),
+          candidateid: candidateid,
+          shift: shift,
+          year: year,
+          month: month,
+          day: day,
+          dayname: dayname,
+          fulldate: fulldate),
     );
     notifyListeners();
   }
@@ -120,29 +142,24 @@ class Availability_Section with ChangeNotifier {
     final url =
         "http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
     try {
-      
-
-    var jsonTags = _items.map((e){
-    return {
+      var jsonTags = _items.map((e) {
+        return {
           'cand_id': e.candidateid,
-          'availability':e.shift,
+          'availability': e.shift,
           'day_name': e.dayname,
           'year': e.year,
           'month': e.month,
           'day': e.day,
-          'full_date' : e.fulldate, 
-          'creation_date' : DateTime.now().toString(),  
+          'full_date': e.fulldate,
+          'creation_date': DateTime.now().toString(),
         };
-  }).toList(); //convert to map
+      }).toList(); //convert to map
 
-  
-String stringstudents = json.encode(jsonTags);
+// String stringstudents = json.encode(jsonTags);
 
       final response = await http.post(
         Uri.parse(url),
-        body: json.encode({
-          'items': jsonTags
-        }),
+        body: json.encode({'items': jsonTags}),
       );
       // var message = jsonDecode(response.body);
       var message = response.body;
@@ -155,6 +172,56 @@ String stringstudents = json.encode(jsonTags);
       notifyListeners();
     } catch (error) {
       print(error);
+      throw error;
+    }
+  }
+
+  Future<List<MyAvailability_Model>> fetchAndSetMyAvailability(
+      String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/fill_My_Availability";
+    try {
+//       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
+// 'Access-Control-Allow-Origin': '*'});
+      final response = await http.post(Uri.parse(url),
+          body: json.encode(
+            {
+              'candidate_id': candidate_id,
+            },
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+     
+      _myAvailability.clear();
+      if (response.statusCode == 200) {
+        final List<MyAvailability_Model> loadedMyAvailability = [];
+        final extractedData = json.decode(response.body);
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedMyAvailability.add(MyAvailability_Model(
+              candidateid: extractedData[i]['cand_id'],
+              shift: extractedData[i]['name'],
+              year: extractedData[i]['year'],
+              month: extractedData[i]['month'],
+              daynumber: extractedData[i]['day'],
+              dayname: extractedData[i]['day_name'],
+              fulldate: extractedData[i]['full_date']));
+          print(extractedData[i]['full_date']);
+        }
+        _myAvailability = loadedMyAvailability.toList();
+        return _myAvailability;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_myAvailability);
       throw error;
     }
   }
