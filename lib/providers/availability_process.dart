@@ -52,12 +52,33 @@ class MyAvailability_Model with ChangeNotifier {
       required this.fulldate});
 }
 
+class MyBookin_Model with ChangeNotifier {
+  final String candidateid;
+  final String shift;
+  final String year;
+  final String month;
+  final String daynumber;
+  final String dayname;
+ final String fulldate;
+  MyBookin_Model(
+      {required this.candidateid,
+      required this.shift,
+      required this.year,
+      required this.month,
+      required this.daynumber,
+      required this.dayname,
+      required this.fulldate});
+}
 class Availability_Section with ChangeNotifier {
   List<AvailabilityModel> _availability = [];
   List<AvailabilityModel> get availability {
     return [..._availability];
   }
 
+List<MyBookin_Model> _booking = [];
+  List<MyBookin_Model> get booking {
+    return [..._booking];
+  }
   List<Shifts_Model> _items = [];
 
   List<Shifts_Model> get items {
@@ -222,6 +243,55 @@ class Availability_Section with ChangeNotifier {
     } catch (error) {
       print(error);
       print(_myAvailability);
+      throw error;
+    }
+  }
+
+  Future<List<MyBookin_Model>> fetchAndSetMyBooking(
+      String candidate_id) async {
+    var url =
+        "http://192.168.100.202/nanirecruitment/client_app/fill_my_booking";
+    try {
+//       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
+// 'Access-Control-Allow-Origin': '*'});
+      final response = await http.post(Uri.parse(url),
+          body: json.encode(
+            {
+              'candidate_id': candidate_id,
+            },
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+      _booking.clear();
+      if (response.statusCode == 200) {
+        final List<MyBookin_Model> loadedMyBooking = [];
+        final extractedData = json.decode(response.body);
+        for (int i = 0; i < extractedData.length; i++) {
+          loadedMyBooking.add(MyBookin_Model(
+              candidateid: extractedData[i]['cand_id'],
+              shift: extractedData[i]['name'],
+              year: extractedData[i]['year'],
+              month: extractedData[i]['month'],
+              daynumber: extractedData[i]['day'],
+              dayname: extractedData[i]['day_name'],
+              fulldate: extractedData[i]['full_date']));
+          print(extractedData[i]['full_date']);
+        }
+        _booking = loadedMyBooking.toList();
+        return _booking;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        print('Request failed with status: ${response.statusCode}.');
+        throw Exception('Failed to load album');
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      print(_booking);
       throw error;
     }
   }
