@@ -552,7 +552,7 @@ class _AvailabilityState extends State<Availability> {
                         // formattedDate,
                         DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
                         style: TextStyle(
-                            color: currentIndex == 0
+                            color: currentIndex == 1
                                 ? Theme.of(context).primaryColor
                                 : Theme.of(context).primaryColorLight,
                             fontSize: 12,
