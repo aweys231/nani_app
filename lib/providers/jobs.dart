@@ -49,6 +49,8 @@ class VacuncyModel with ChangeNotifier {
   final String? businesunit;
   final String? minut;
   final String? km;
+  double? fieldLatitude;
+  double? fieldLogitude;
 
   VacuncyModel(
       {required this.id,
@@ -67,7 +69,10 @@ class VacuncyModel with ChangeNotifier {
       this.company_name,
       this.businesunit,
       this.minut,
-      this.km});
+      this.km,
+      this.fieldLatitude,
+      this.fieldLogitude
+      });
 
   // factory VacuncyModel.fromJson(Map<String, dynamic> json) {
   //   return VacuncyModel(
@@ -357,6 +362,8 @@ class Jobs_Section with ChangeNotifier {
               //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
               minut: extractedData[i]['minut'].toString(),
               km: extractedData[i]['km'].toString(),
+                fieldLatitude: double.parse( extractedData[i]['vacuncy_data']['latitude']),
+                fieldLogitude: double.parse( extractedData[i]['vacuncy_data']['longitude']),
             ),
           );
           print(extractedData[i]['vacuncy_data']['company_name']);

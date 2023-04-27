@@ -1,7 +1,11 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field, prefer_const_literals_to_create_immutables, unnecessary_new
+
+
 
 import "package:flutter/src/widgets/container.dart";
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +21,70 @@ class JobDetails extends StatefulWidget {
 }
 
 class _JobDetailsState extends State<JobDetails> {
-  var _isLoading = false;
+   LatLng? _pickedLocation;
 
+  void _selectLocation(LatLng position) {
+    setState(() {
+      _pickedLocation = position;
+    });
+  }
+  var _isLoading = false;
+  Location location = new Location();
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  double? fieldLatitude;
+  double? fieldLogitude;
+  var _isInit = true;
+  var _isLoadingm = false;
+  @override
+  void initState() {
+    
+      if (_isInit) {
+      setState(() {
+        _isLoadingm = true;
+      });
+     
+      getfieldlocation().then((_){
+        setState(() {
+          _isLoadingm = false;
+        });
+      });
+     
+    }
+    _isInit = false;
+    super.initState();
+  }
+   @override
+  void didChangeDependencies() {
+  
+    super.didChangeDependencies();
+  }
+   Future<void> getfieldlocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled!) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled!) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
+    setState(() {
+      fieldLatitude = _locationData?.latitude;
+      fieldLogitude = _locationData?.longitude;
+      
+      print(fieldLatitude);
+      print(fieldLogitude);
+    });
+  }
   Future<void> _savePlace() async {
     if (widget.candidate_id == '' || widget.id == '') {
       print('data maleh');
@@ -85,45 +151,70 @@ class _JobDetailsState extends State<JobDetails> {
                     left: 0,
                     right: 0,
                     height: MediaQuery.of(context).size.height / 3.5,
-                    child: Image.network(
-                      jobList.imageUrl,
-                      // "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
-                      fit: BoxFit.cover,
-                      color: Colors.black38,
-                      colorBlendMode: BlendMode.darken,
-                    ),
+                    child:
+
+                    _isLoadingm
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  :
+        GoogleMap(
+        initialCameraPosition: 
+                   CameraPosition(
+          target: LatLng(jobList.
+            fieldLatitude!,jobList.fieldLogitude!
+          ),
+          zoom: 16,
+        ),
+        // onTap: widget.isSelecting ? _selectLocation : null,
+        markers:
+             {
+                Marker(
+                  markerId: MarkerId('m1'),
+                  position: LatLng(jobList.
+            fieldLatitude!,jobList.fieldLogitude!),
+                ),
+              },
+      ),
+                    //  Image.network(
+                    //   jobList.imageUrl,
+                    //   // "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
+                    //   fit: BoxFit.cover,
+                    //   color: Colors.black38,
+                    //   colorBlendMode: BlendMode.darken,
+                    // ),
                   ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.chevron_left,
-                            color: Colors.white,
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        Spacer(),
-                        IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.file_upload,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: 0,
+                  //   left: 0,
+                  //   right: 0,
+                  //   child: Row(
+                  //     children: <Widget>[
+                  //       IconButton(
+                  //         icon: Icon(
+                  //           Icons.chevron_left,
+                  //           color: Colors.white,
+                  //         ),
+                  //         onPressed: () => Navigator.pop(context),
+                  //       ),
+                  //       Spacer(),
+                  //       IconButton(
+                  //         icon: Icon(
+                  //           Icons.favorite,
+                  //           color: Colors.white,
+                  //         ),
+                  //         onPressed: () {},
+                  //       ),
+                  //       IconButton(
+                  //         icon: Icon(
+                  //           Icons.file_upload,
+                  //           color: Colors.white,
+                  //         ),
+                  //         onPressed: () {},
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Positioned(
                     left: 0,
                     right: 0,
