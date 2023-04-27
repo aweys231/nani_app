@@ -173,6 +173,10 @@ class _JobDetailsState extends State<JobDetails> {
                   markerId: MarkerId('m1'),
                   position: LatLng(jobList.
             fieldLatitude!,jobList.fieldLogitude!),
+            infoWindow: InfoWindow( //popup info 
+          title: jobList.company_name,
+          snippet: jobList.jv_address,
+        ),
                 ),
               },
       ),

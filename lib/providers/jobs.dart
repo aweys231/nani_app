@@ -358,7 +358,7 @@ class Jobs_Section with ChangeNotifier {
                 start_date: extractedData[i]['vacuncy_data']['sdate'],
                 end_date: extractedData[i]['vacuncy_data']['edate'],
               shift_type: extractedData[i]['vacuncy_data']['shift_name'],
-              //   company_name: extractedData[i]['vacuncy_data']['company_name'],
+                company_name: extractedData[i]['vacuncy_data']['company_name'],
               //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
               minut: extractedData[i]['minut'].toString(),
               km: extractedData[i]['km'].toString(),
