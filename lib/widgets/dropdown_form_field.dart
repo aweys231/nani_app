@@ -22,40 +22,9 @@ class _TitleDropdownFormFieldState extends State<TitleDropdownFormField> {
        Container(
         height: 60,
         margin: const EdgeInsets.only(bottom: 15, top: 5),
-        child: Expanded(
-          // flex: 5,
-          child:
-//          DropdownButtonFormField(
-//   decoration: InputDecoration(
-//     enabledBorder: OutlineInputBorder( //<-- SEE HERE
-//       borderSide: BorderSide(color: Colors.black, width: 2),
-//     ),
-//     focusedBorder: OutlineInputBorder( //<-- SEE HERE
-//       borderSide: BorderSide(color: Colors.black, width: 2),
-//     ),
-//     filled: true,
-//     fillColor: Colors.greenAccent,
-//   ),
-//   dropdownColor: Colors.greenAccent,
-//   value: dropdownValue,
-//   onChanged: (String? newValue) {
-//     setState(() {
-//       dropdownValue = newValue!;
-//     });
-//   },
-//   items: <String>['Secodry', 'Bachelor', 'Master', 'PHD' ,'Other'].map<DropdownMenuItem<String>>((String value) {
-//     return DropdownMenuItem<String>(
-//       value: value,
-//       child: Text(
-//         value,
-//         style: TextStyle(fontSize: 20),
-//       ),
-//     );
-//   }).toList(),
-// )
-          DropdownButtonFormField(
-            // focusNode: regionFocusNode,
-            decoration: InputDecoration(
+        child: DropdownButtonFormField(
+          // focusNode: regionFocusNode,
+          decoration: InputDecoration(
     enabledBorder: OutlineInputBorder( //<-- SEE HERE
         borderSide: BorderSide(color: Color.fromARGB(255, 162, 159, 159), width: 1),
      ),
@@ -64,28 +33,27 @@ class _TitleDropdownFormFieldState extends State<TitleDropdownFormField> {
     ),
     filled: true,
      ),
-            // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-            hint: const Text( 'choose Your Title', ),
-            onChanged: (v) => widget.onChanged!(v!),
+          // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
+          hint: const Text( 'choose Your Title', ),
+          onChanged: (v) => widget.onChanged!(v!),
+          
+          // (String? value) {
             
-            // (String? value) {
-              
-            //   setState(() {
-            //     dropdownValue = value!;
-            //   });
-            // },
-            // validator: state.farmer.validateRequiredField,
-            // onSaved: state.farmer.saveFarmerCategory,
-             items: <String>['Secodry', 'Bachelor', 'Master', 'PHD' ,'Other'].map<DropdownMenuItem<String>>((String value) {
+          //   setState(() {
+          //     dropdownValue = value!;
+          //   });
+          // },
+          // validator: state.farmer.validateRequiredField,
+          // onSaved: state.farmer.saveFarmerCategory,
+           items: <String>['Secodry', 'Bachelor', 'Master', 'PHD' ,'Other'].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 14),
-          ),
+        value: value,
+        child: Text(
+          value,
+          style: const TextStyle(fontSize: 14),
+        ),
         );
   }).toList(),
-          ),
         ),
     );
   }

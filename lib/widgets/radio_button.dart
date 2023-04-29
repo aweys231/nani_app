@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports, avoid_unnecessary_containers, unnecessary_import, unused_import, non_constant_identifier_names
+// ignore_for_file: implementation_imports, avoid_unnecessary_containers, unnecessary_import, unused_import, non_constant_identifier_names, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -28,34 +28,32 @@ class _RadioButtonState extends State<RadioButton> {
   @override
   Widget build(BuildContext context) {
     // selectedValue = widget.radio_one;
-    return SizedBox(
+    return Container(
       height: 65,
       // margin: const EdgeInsets.only(bottom: 10,top: 5),
-      child: Expanded(
-        child: ListView(
-          shrinkWrap: true,
-          // scrollDirection: Axis.horizontal,
+      child: ListView(
+        shrinkWrap: true,
+        // scrollDirection: Axis.horizontal,
 
-          children: [
-            Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                      child: RadioListTile<String>(
-                          title: Text(widget.radio_one),
-                          value: widget.radio_one_value,
-                          groupValue: widget.selectedValue,
-                          onChanged: (v) =>widget.onChanged!(v!),)),
-                  Expanded(
-                      child: RadioListTile<String>(
-                          title: Text(widget.radio_two),
-                          value: widget.radio_two_value,
-                          groupValue: widget.selectedValue,
-                          onChanged:  (v) =>widget.onChanged!(v!),)),
-                ])
-            // Center(child: Text(selectedValue == 'Male' ? 'Your gender is Male ' : 'Your gender is Female'))
-          ],
-        ),
+        children: [
+          Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                    child: RadioListTile<String>(
+                        title: Text(widget.radio_one),
+                        value: widget.radio_one_value,
+                        groupValue: widget.selectedValue,
+                        onChanged: (v) =>widget.onChanged!(v!),)),
+                Expanded(
+                    child: RadioListTile<String>(
+                        title: Text(widget.radio_two),
+                        value: widget.radio_two_value,
+                        groupValue: widget.selectedValue,
+                        onChanged:  (v) =>widget.onChanged!(v!),)),
+              ])
+          // Center(child: Text(selectedValue == 'Male' ? 'Your gender is Male ' : 'Your gender is Female'))
+        ],
       ),
     );
   }

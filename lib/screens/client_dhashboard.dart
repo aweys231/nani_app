@@ -102,55 +102,54 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                           ),
                         ),
                         Row(
+                           mainAxisAlignment: MainAxisAlignment.center,  
                           children: [
-                            Expanded(
-                              child: FutureBuilder(
-                                  future: _jobsFuture,
-                                  builder: (ctx, dataSnapshot) {
-                                    if (dataSnapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
+                            FutureBuilder(
+                                future: _jobsFuture,
+                                builder: (ctx, dataSnapshot) {
+                                  if (dataSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    if (dataSnapshot.error != null) {
+                                      return Center(
+                                          child: Text('An error Accour'));
+                                      print(dataSnapshot.error);
                                     } else {
-                                      if (dataSnapshot.error != null) {
-                                        return Center(
-                                            child: Text('An error Accour'));
-                                        print(dataSnapshot.error);
-                                      } else {
-                                        return Consumer<job.Jobs_Section>(
-                                            builder: (ctx, jobData, child) =>
-                                                jobData.vcuncyjobs.isNotEmpty
-                                                    ? Expanded(
-                                                        child: Container(
-                                                          //  margin: EdgeInsets.only(bottom: 100),
-                                                          child:
-                                                              ListView.builder(
-                                                            // scrollDirection: Axis.horizontal,
-                                                            shrinkWrap: true,
-                                                            itemCount: jobData
-                                                                .vcuncyjobs
-                                                                .length,
-                                                            itemBuilder: (ctx,
-                                                                    i) =>
-                                                                JobContainer(
-                                                                    jobData.vcuncyjobs[
-                                                                        i]),
-                                                          ),
+                                      return Consumer<job.Jobs_Section>(
+                                          builder: (ctx, jobData, child) =>
+                                              jobData.vcuncyjobs.isNotEmpty
+                                                  ? Expanded(
+                                                      child: Container(
+                                                        //  margin: EdgeInsets.only(bottom: 100),
+                                                        child:
+                                                            ListView.builder(
+                                                          // scrollDirection: Axis.horizontal,
+                                                          shrinkWrap: true,
+                                                          itemCount: jobData
+                                                              .vcuncyjobs
+                                                              .length,
+                                                          itemBuilder: (ctx,
+                                                                  i) =>
+                                                              JobContainer(
+                                                                  jobData.vcuncyjobs[
+                                                                      i]),
                                                         ),
-                                                      )
-                                                    : Center(
-                                                        child: const Text(
-                                                          'No results found',
-                                                          style: TextStyle(
-                                                              fontSize: 24),
-                                                        ),
-                                                      )
-                                                      );
-                                      }
+                                                      ),
+                                                    )
+                                                  : Center(
+                                                      child: const Text(
+                                                        'No results found',
+                                                        style: TextStyle(
+                                                            fontSize: 24),
+                                                      ),
+                                                    )
+                                                    );
                                     }
-                                  }),
-                            ),
+                                  }
+                                }),
                           ],
                         )
                       ]))),

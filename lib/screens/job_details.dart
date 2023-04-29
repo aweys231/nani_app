@@ -188,37 +188,37 @@ class _JobDetailsState extends State<JobDetails> {
                     //   colorBlendMode: BlendMode.darken,
                     // ),
                   ),
-                  // Positioned(
-                  //   top: 0,
-                  //   left: 0,
-                  //   right: 0,
-                  //   child: Row(
-                  //     children: <Widget>[
-                  //       IconButton(
-                  //         icon: Icon(
-                  //           Icons.chevron_left,
-                  //           color: Colors.white,
-                  //         ),
-                  //         onPressed: () => Navigator.pop(context),
-                  //       ),
-                  //       Spacer(),
-                  //       IconButton(
-                  //         icon: Icon(
-                  //           Icons.favorite,
-                  //           color: Colors.white,
-                  //         ),
-                  //         onPressed: () {},
-                  //       ),
-                  //       IconButton(
-                  //         icon: Icon(
-                  //           Icons.file_upload,
-                  //           color: Colors.white,
-                  //         ),
-                  //         onPressed: () {},
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        Spacer(),
+                        // IconButton(
+                        //   icon: Icon(
+                        //     Icons.favorite,
+                        //     color: Colors.white,
+                        //   ),
+                        //   onPressed: () {},
+                        // ),
+                        // IconButton(
+                        //   icon: Icon(
+                        //     Icons.file_upload,
+                        //     color: Colors.white,
+                        //   ),
+                        //   onPressed: () {},
+                        // ),
+                      ],
+                    ),
+                  ),
                   Positioned(
                     left: 0,
                     right: 0,

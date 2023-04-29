@@ -19,12 +19,9 @@ class _LicenseTypeState extends State<LicenseType> {
      return Container(
       margin: const EdgeInsets.only(bottom: 15, top: 5),
       height: 60,
-      child: Expanded(
-        // flex: 5,
-        child:
-        DropdownButtonFormField(
-          // focusNode: regionFocusNode,
-          decoration: InputDecoration(
+      child: DropdownButtonFormField(
+        // focusNode: regionFocusNode,
+        decoration: InputDecoration(
     enabledBorder: OutlineInputBorder( //<-- SEE HERE
       borderSide: BorderSide(color: Color.fromARGB(255, 162, 159, 159), width: 1),
      ),
@@ -33,27 +30,26 @@ class _LicenseTypeState extends State<LicenseType> {
     ),
     filled: true,
      ),
-          // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-          hint: const Text( 'choose License Type', ),
-          onChanged: (v) => widget.onChanged!(v!),
-          // onChanged: (String? value) {
-            
-          //   setState(() {
-          //     dropdownValue = value!;
-          //   });
-          // },
-          // validator: state.farmer.validateRequiredField,
-          // onSaved: state.farmer.saveFarmerCategory,
-           items: <String>['CLASS A Commercial', 'CLASS B Commercial', 'CLASS C Commercial ', 'CLASS D Operator', 'CLASS DJ Junior', 'CLASS E For-hire: Taxi', 'CLASS MJ Junior', 'CLASS M Motorcycle' ,'Other'].map<DropdownMenuItem<String>>((String value) {
+        // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
+        hint: const Text( 'choose License Type', ),
+        onChanged: (v) => widget.onChanged!(v!),
+        // onChanged: (String? value) {
+          
+        //   setState(() {
+        //     dropdownValue = value!;
+        //   });
+        // },
+        // validator: state.farmer.validateRequiredField,
+        // onSaved: state.farmer.saveFarmerCategory,
+         items: <String>['CLASS A Commercial', 'CLASS B Commercial', 'CLASS C Commercial ', 'CLASS D Operator', 'CLASS DJ Junior', 'CLASS E For-hire: Taxi', 'CLASS MJ Junior', 'CLASS M Motorcycle' ,'Other'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
-        value: value,
-        child: Text(
-          value,
-          style: const TextStyle(fontSize: 14),
-        ),
+      value: value,
+      child: Text(
+        value,
+        style: const TextStyle(fontSize: 14),
+      ),
       );
   }).toList(),
-        ),
       ),
     );
   }

@@ -32,26 +32,24 @@ class _JobsDrpodownState extends State<JobsDrpodown> {
     return Container(
         margin: const EdgeInsets.only(bottom: 15, top: 5),
         height: 60,
-        child: Expanded(
-            // flex: 5,
-            child: DropdownButtonFormField2<String>(
+        child: DropdownButtonFormField2<String>(
           decoration: InputDecoration(
-            labelText: 'choose jobs',
-            enabledBorder: OutlineInputBorder(
-              //<-- SEE HERE
-              borderSide: BorderSide(
-                  color: Color.fromARGB(255, 162, 159, 159), width: 1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              //<-- SEE HERE
-              borderSide: BorderSide(
-                  color: Color.fromARGB(255, 162, 159, 159), width: 1),
-            ),
-            filled: true,
+        labelText: 'choose jobs',
+        enabledBorder: OutlineInputBorder(
+          //<-- SEE HERE
+          borderSide: BorderSide(
+              color: Color.fromARGB(255, 162, 159, 159), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          //<-- SEE HERE
+          borderSide: BorderSide(
+              color: Color.fromARGB(255, 162, 159, 159), width: 1),
+        ),
+        filled: true,
           ),
           // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
           hint: const Text(
-            'choose jobs',
+        'choose jobs',
           ),
           // decoration: const InputDecoration(
           //     labelText: 'choose Nationality'),
@@ -59,52 +57,68 @@ class _JobsDrpodownState extends State<JobsDrpodown> {
           value:widget.dropdownValue,
           // icon: const Icon(Icons.arrow_downward),
           items: category.categories.map((data) {
-            return DropdownMenuItem<String>(
-              value: data.id,
-              child: Text(
-                data.name,
-                style: const TextStyle(fontSize: 12),
-              ),
-            );
+        return DropdownMenuItem<String>(
+          value: data.id,
+          child: Text(
+            data.name,
+            style: const TextStyle(fontSize: 12),
+          ),
+        );
           }).toList(),
 
           onChanged: (v) => widget.onChanged(v),
           // Search implementation using dropdown_button2 package
-          searchController: searchContentSetor,
-          searchInnerWidget: Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 4,
-              right: 8,
-              left: 8,
-            ),
-            child: TextFormField(
-              controller: searchContentSetor,
-              decoration: InputDecoration(
-                isDense: false,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 8,
-                ),
-                labelText: 'choose Nationalit',
-                hintText: 'choose Nationalit...',
-                counterText: '',
-                hintStyle: const TextStyle(fontSize: 16),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
+        //   searchController: searchContentSetor,
+        //   searchInnerWidget: Padding(
+        // padding: const EdgeInsets.only(
+        //   top: 8,
+        //   bottom: 4,
+        //   right: 8,
+        //   left: 8,
+        // ),
+          dropdownSearchData: DropdownSearchData(
+            searchController: searchContentSetor,
+            searchInnerWidgetHeight: 50,
+            searchInnerWidget:
+            // Padding(
+             Container(
+              height: 50,
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 4,
+                right: 8,
+                left: 8,
               ),
-            ),
-          ),
-          searchMatchFn: (item, searchValue) {
+                      child: TextFormField(
+                        controller: searchContentSetor,
+                        decoration: InputDecoration(
+                          isDense: false,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
+                          labelText: 'choose Jobs',
+                          hintText: 'choose Jobs...',
+                          counterText: '',
+                          hintStyle: const TextStyle(fontSize: 16),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                     searchMatchFn: (item, searchValue) {        
             return (item.child.toString().toLowerCase().contains(searchValue));
-          },
+          }, ),
+        
+          
+         
           //This to clear the search value when you close the menu
           onMenuStateChange: (isOpen) {
-            if (!isOpen) {
-              searchContentSetor.clear();
-            }
+        if (!isOpen) {
+          searchContentSetor.clear();
+        }
           },
-        )));
+        ));
   }
 }
