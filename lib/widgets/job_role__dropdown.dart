@@ -32,7 +32,11 @@ class _JobsRoleDrpodownState extends State<JobsRoleDrpodown> {
     });
     super.didChangeDependencies();
   }
-
+   @override
+  void dispose() {
+  searchContentSetor.dispose();
+  super.dispose();
+}
   // String dropdownValue = '';
   @override
   Widget build(BuildContext context) {
@@ -41,92 +45,92 @@ class _JobsRoleDrpodownState extends State<JobsRoleDrpodown> {
     return Container(
         margin: const EdgeInsets.only(bottom: 15, top: 5),
         height: 60,
-        child: DropdownButtonFormField2<String>(
+        child: DropdownButtonHideUnderline(
+          child: DropdownButtonFormField2<String>(
+            
           decoration: InputDecoration(
-        labelText: 'choose jobs',
-        enabledBorder: OutlineInputBorder(
-          //<-- SEE HERE
-          borderSide: BorderSide(
-              color: Color.fromARGB(255, 162, 159, 159), width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          //<-- SEE HERE
-          borderSide: BorderSide(
-              color: Color.fromARGB(255, 162, 159, 159), width: 1),
-        ),
-        filled: true,
+          labelText: 'choose Job Role',
+          enabledBorder: OutlineInputBorder(
+            //<-- SEE HERE
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 162, 159, 159), width: 1),
           ),
-          // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-          hint: const Text(
-        'choose jobs',
+          focusedBorder: OutlineInputBorder(
+            //<-- SEE HERE
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 162, 159, 159), width: 1),
           ),
-          // decoration: const InputDecoration(
-          //     labelText: 'choose Nationality'),
-          isExpanded: true,
+          filled: true,
+            ),
+            // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
+            hint: const Text(
+          'choose jobs',
+            ),
+            // decoration: const InputDecoration(
+            //     labelText: 'choose Nationality'),
+            isExpanded: true,
+            // value: widget.dropdownValue,
+            // icon: const Icon(Icons.arrow_downward),
+            items: jobrole.jobs.isNotEmpty 
+            ? jobrole.jobs.map((data) {
+                return DropdownMenuItem<String>(
+                  value: data.id,
+                  child: Text(
+                    data.jobtitile,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                );
+              }).toList()
+            : [],
           // value: widget.dropdownValue,
-          // icon: const Icon(Icons.arrow_downward),
-          items: jobrole.jobs.isNotEmpty 
-          ? jobrole.jobs.map((data) {
-              return DropdownMenuItem<String>(
-                value: data.id,
-                child: Text(
-                  data.jobtitile,
-                  style: const TextStyle(fontSize: 12),
+            onChanged: (v) => widget.onChanged(v),
+           
+          dropdownSearchData: DropdownSearchData(
+              searchController: searchContentSetor,
+              searchInnerWidgetHeight: 50,
+              searchInnerWidget: Container(
+                height: 50,
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 4,
+                  right: 8,
+                  left: 8,
                 ),
-              );
-            }).toList()
-          : [],
-        // value: widget.dropdownValue,
-          onChanged: (v) => widget.onChanged(v),
-          // Search implementation using dropdown_button2 package
-        //   searchController: searchContentSetor,
-        //   searchInnerWidget: Padding(
-        // padding: const EdgeInsets.only(
-        //   top: 8,
-        //   bottom: 4,
-        //   right: 8,
-        //   left: 8,
-        // ),
-        dropdownSearchData: DropdownSearchData(
-            searchController: searchContentSetor,
-            searchInnerWidgetHeight: 50,
-            searchInnerWidget: Container(
-              height: 50,
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 4,
-                right: 8,
-                left: 8,
-              ),
-                      child: TextFormField(
-                        controller: searchContentSetor,
-                        decoration: InputDecoration(
-                          isDense: false,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 8,
-                          ),
-                          labelText: 'choose Job Role',
-                          hintText: 'choose Job Role...',
-                          counterText: '',
-                          hintStyle: const TextStyle(fontSize: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        child: TextFormField(
+                          controller: searchContentSetor,
+                          autocorrect: false,
+                           keyboardType: TextInputType.text,
+                           expands: true,
+                            maxLines: null,
+                          decoration: InputDecoration(
+                            isDense: false,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 8,
+                            ),
+                            labelText: 'choose Job Role',
+                            hintText: 'choose Job Role...',
+                            counterText: '',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                     searchMatchFn: (item, searchValue) {        
-            return (item.child.toString().toLowerCase().contains(searchValue));
-          }, ),
-        
+                       searchMatchFn: (item, searchValue) {        
+              return (item.child.toString().toLowerCase().contains(searchValue));
+              // return (item.child.toString().contains(searchValue));
+            }, ),
           
-          //This to clear the search value when you close the menu
-          onMenuStateChange: (isOpen) {
-        if (!isOpen) {
-          searchContentSetor.clear();
-        }
-          },
+            
+            //This to clear the search value when you close the menu
+            onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            searchContentSetor.clear();
+          }
+            },
+          ),
         ));
   }
 }
