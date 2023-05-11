@@ -8,10 +8,13 @@ import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
+import 'package:nanirecruitment/providers/notification_service.dart';
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
@@ -120,6 +123,7 @@ class _AuthCardState extends State<AuthCard>
     'email': '',
     'password': '',
   };
+  late final NotificationService notificationService;
   var _isInit = true;
   var _isLoading = false;
   bool _isLoadingDrop_data = false;
@@ -127,9 +131,14 @@ class _AuthCardState extends State<AuthCard>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _opacityAnimation;
+  DateTime scheduleTime = DateTime.now();
   @override
   void initState() {
+
     super.initState();
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
@@ -144,6 +153,7 @@ class _AuthCardState extends State<AuthCard>
     );
     // _heightAnimation.addListener(() => setState(() {}));
   }
+
 
   @override
   void dispose() {
@@ -301,7 +311,12 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 child: Text('SIGNUP  INSTEAD'),
                 onPressed: (() async {
-          
+      
+                 debugPrint('Notification Scheduled for $scheduleTime');
+        NotificationService().scheduleNotifications(
+            title: 'Scheduled Notification',
+            body: '$scheduleTime',
+            );
                   Navigator.pushNamed(
                       context, ClientRegistrationScreen.routeName);
                 }),

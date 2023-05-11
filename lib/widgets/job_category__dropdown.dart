@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors, implementation_imports, unnecessary_import, unused_import, import_of_legacy_library_into_null_safe, deprecated_member_use, unused_local_variable, prefer_const_literals_to_create_immutables, avoid_print
+// ignore_for_file: prefer_const_constructors, implementation_imports, unnecessary_import, unused_import, import_of_legacy_library_into_null_safe, deprecated_member_use, unused_local_variable, prefer_const_literals_to_create_immutables, avoid_print, depend_on_referenced_packages
 
 // import 'package:dropdown_search/dropdown_search.dart';
-import 'package:dropdown_search2/dropdown_search2.dart';
+// import 'package:dropdown_search2/dropdown_search2.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';

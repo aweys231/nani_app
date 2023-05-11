@@ -9,6 +9,7 @@ import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/category_section.dart';
 import 'package:nanirecruitment/providers/great_places.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
+import 'package:nanirecruitment/providers/notification_service.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
 import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
@@ -31,10 +32,30 @@ import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/verification_number_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:timezone/data/latest.dart' as tz;
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
+  
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final NotificationService notificationService;
+@override
+ initState()  {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+ 
+  NotificationService().requestIOSPermissions(); // 
+  tz.initializeTimeZones();
+        super.initState();
+}
+
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -62,6 +83,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider.value(
             value: GreatPlaces(),
+          ),
+          ChangeNotifierProvider.value(
+            value: NotificationService(),
           ),
         ],
         child: Consumer<Auth>(
