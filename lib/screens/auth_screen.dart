@@ -118,7 +118,6 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
-
   final Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -135,17 +134,22 @@ class _AuthCardState extends State<AuthCard>
   @override
   void initState() {
 
-    super.initState();
+  super.initState();
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
+    debugPrint('Notification Scheduled for $scheduleTime');
+        NotificationService().scheduleNotifications(
+            title: 'Scheduled Notification',
+            body: '$scheduleTime',
+            );
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
-          milliseconds: 300,
+        milliseconds: 300,
         ));
     _slideAnimation =
-        Tween<Offset>(begin: Offset(0, -1.5), end: Offset(0, 0)).animate(
+      Tween<Offset>(begin: Offset(0, -1.5), end: Offset(0, 0)).animate(
       CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
     );
     _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
@@ -153,7 +157,6 @@ class _AuthCardState extends State<AuthCard>
     );
     // _heightAnimation.addListener(() => setState(() {}));
   }
-
 
   @override
   void dispose() {
@@ -172,7 +175,6 @@ class _AuthCardState extends State<AuthCard>
     await Provider.of<Category_Section>(context, listen: false)
         .fetchAndSetAllCategory()
         .then((_) {});
-   
     setState(() {
       _isLoadingDrop_data = false;
     });
@@ -199,7 +201,7 @@ class _AuthCardState extends State<AuthCard>
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
-      // Invalid!
+      //Invalid!
       return;
     }
     _formKey.currentState!.save();
@@ -210,7 +212,7 @@ class _AuthCardState extends State<AuthCard>
       // Log user in
       await Provider.of<Auth>(context, listen: false)
           .login(_authData['email'], _authData['password']);
-      print('hello welocom');
+      print('hello welcome');
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_NOT_FOUND')) {
@@ -221,12 +223,11 @@ class _AuthCardState extends State<AuthCard>
         errorMessage = 'Your Email Is not Active.';
       }
       print(error.toString());
-      print('hello welocom');
+      print('hello welcome');
       _showErrorDialog(error.toString());
     } catch (error) {
       const erroreMssage =
           'Could not authenticate you. Please try again later.';
-      // _showErrorDialog(error.toString());
       _showErrorDialog(error.toString());
     }
     setState(() {
@@ -241,12 +242,12 @@ class _AuthCardState extends State<AuthCard>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-       elevation: 8.0,
+      elevation: 8.0,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeIn,
         height:  260,
-        // height: _heightAnimation.value.height,
+        //height: _heightAnimation.value.height,
         constraints: BoxConstraints(minHeight:  260),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),

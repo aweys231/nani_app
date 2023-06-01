@@ -1,7 +1,9 @@
 // ignore_for_file: unnecessary_null_comparison, use_rethrow_when_possible, prefer_const_constructors, prefer_const_declarations, non_constant_identifier_names, avoid_print
 
-import 'dart:async';
+i
+mport 'dart:async';
 import 'dart:convert';
+import 'package:nanirecruitment/services/api_urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +43,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> _authenticate(String email, String password) async {
-    final url = 'http://192.168.100.202/nanirecruitment/client_app/loging';
+    final url = '${ApiUrls.BASE_URL}client_app/login';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -65,11 +67,10 @@ class Auth with ChangeNotifier {
       _expiryDate = DateTime.now().add(
         Duration(
           seconds: int.parse(
-            responseData['expiresIn'].toString(),
+          responseData['expiresIn'].toString(),
           ),
         ),
       );
-
       _autoLogout();
       notifyListeners();
 
@@ -95,20 +96,19 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> tryAutoLogin() async {
-     print('expiryDate tryAutoLogin');
-    final prefs = await SharedPreferences.getInstance(); 
-    
+    print('expiryDate tryAutoLogin');
+    final prefs = await SharedPreferences.getInstance();
     print(prefs.containsKey('userData').toString());
     if (!prefs.containsKey('userData')) {
       print('userData');
       return false;
     }
- print(' tryAutoLogin');
+    print(' tryAutoLogin');
     final extractedUserData = json.decode(prefs.getString('userData').toString());
     print(extractedUserData['userId'].toString());
     final expiryDate = DateTime.parse(extractedUserData['expiryDate'].toString());
-     print('extractedUserData');
-     print('expiryDate');
+    print('extractedUserData');
+    print('expiryDate');
     print(expiryDate.toString());
     
     if (expiryDate.isBefore(DateTime.now())) {
@@ -132,7 +132,6 @@ class Auth with ChangeNotifier {
     _role_id = null;
     _candidate_id = null;
     _expiryDate = null;
-    //    
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -149,10 +148,7 @@ class Auth with ChangeNotifier {
     }
     final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
-    
-      print(_expiryDate!.difference(DateTime.now()).inSeconds.toString());
-      
-    
+    print(_expiryDate!.difference(DateTime.now()).inSeconds.toString());
     // _authTimer = Timer(Duration(seconds: 30), logout);
   }
 }

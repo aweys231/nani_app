@@ -46,12 +46,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final NotificationService notificationService;
 @override
- initState()  {
+  initState()  {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
- 
-  NotificationService().requestIOSPermissions(); // 
+  NotificationService().requestIOSPermissions(); //
   tz.initializeTimeZones();
+  
         super.initState();
 }
 
@@ -103,42 +103,42 @@ class _MyAppState extends State<MyApp> {
                 fontFamily: 'Lato',
                 backgroundColor: Colors.purple,
                 pageTransitionsTheme: PageTransitionsTheme(builders: {
-                  TargetPlatform.android: CustomPageTransitionBuilder(),
-                  TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
                 })),
             home: auth.isAuth
                 ?
                 // BottomNavigationBars(auth.role_id, auth.candidate_id)
-                 ClientDhashboard(auth.role_id, auth.candidate_id)
+            ClientDhashboard(auth.role_id, auth.candidate_id)
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
-                        authResultSnapshot.connectionState ==
-                                ConnectionState.waiting
+                    authResultSnapshot.connectionState ==
+                    ConnectionState.waiting
                             ?
-                             splash()
+                            splash()
                             : AuthScreen(),
                   ),
             // initialRoute: splash.id,
             routes: {
               VerificationNumberScreen.routeName: (ctx) =>
-                  VerificationNumberScreen(),
+              VerificationNumberScreen(),
               JobsScreen.routeName: (ctx) => JobsScreen(),
               ClientRegistrationScreen.routeName: (ctx) =>
-                  ClientRegistrationScreen(),
+              ClientRegistrationScreen(),
               Dhashboard.routeName: (ctx) => Dhashboard(),
               CanidateLegalInfor.routeName: (ctx) =>
-                  CanidateLegalInfor(auth.candidate_id),
+              CanidateLegalInfor(auth.candidate_id),
               FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
               Availability.routeName: (ctx) => Availability(auth.candidate_id),
               AddPlaceScreen.routeName: (ctx) =>
-                  AddPlaceScreen(auth.candidate_id),
+              AddPlaceScreen(auth.candidate_id),
               CanidateAttandance.routeName: (ctx) =>
-                  CanidateAttandance(candidate_id: auth.candidate_id),
+              CanidateAttandance(candidate_id: auth.candidate_id),
               ScanAttandance.routeName: (ctx) =>
-                  ScanAttandance(auth.candidate_id),
-                  MyShifts.routeName: (ctx) =>
-                  MyShifts(auth.role_id, auth.candidate_id),
+              ScanAttandance(auth.candidate_id),
+              MyShifts.routeName: (ctx) =>
+              MyShifts(auth.role_id, auth.candidate_id),
               // splash.id: (_) => splash(),
             },
           ),
