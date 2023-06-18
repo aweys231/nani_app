@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison, use_rethrow_when_possible, prefer_const_constructors, prefer_const_declarations, non_constant_identifier_names, avoid_print
 
-i
-mport 'dart:async';
+
+import 'dart:async';
 import 'dart:convert';
 import 'package:nanirecruitment/services/api_urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';

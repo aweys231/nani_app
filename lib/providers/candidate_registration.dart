@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nanirecruitment/models/http_exception.dart';
 
+import '../services/api_urls.dart';
+
 class NationalityModel with ChangeNotifier {
   final String id;
   final String name;
@@ -80,7 +82,7 @@ class Candidate with ChangeNotifier {
   Future<void> addCandidate(Candidate Candidate, File imga, 
       ) async {
     final url =
-        "http://192.168.100.202/nanirecruitment/client_app/addcandidate";
+        "${ApiUrls.BASE_URL}client_app/addcandidate";
     try {
       // preparing the fil
       List<int> imageBytes = imga.readAsBytesSync();
@@ -123,7 +125,7 @@ class Candidate with ChangeNotifier {
   // fill shifts drop down
   Future<List<NationalityModel>> fetchAndSetnatinality() async {
     var url =
-        "http://192.168.100.202/nanirecruitment//client_app/fill_nationality";
+        "${ApiUrls.BASE_URL}client_app/fill_nationality";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',

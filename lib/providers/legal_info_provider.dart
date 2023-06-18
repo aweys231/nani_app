@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nanirecruitment/models/http_exception.dart';
 
+import '../services/api_urls.dart';
+
 class DocumentsListModel with ChangeNotifier {
   final String candidateid;
   final String id;
@@ -118,7 +120,7 @@ class LegalInfo with ChangeNotifier {
 
   Future<void> findByIdLegalInfo(String candidate_id) async {
     final url =
-        "http://192.168.100.202/nanirecruitment/client_app/candidate_by_id";
+        "${ApiUrls.BASE_URL}client_app/candidate_by_id";
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -162,10 +164,10 @@ class LegalInfo with ChangeNotifier {
   Future<String> updateLegalInfo(LegalInfo LegalInfo, String imga,
       String have_license, String member, String candidate_id) async {
     final url =
-        "http://192.168.100.202/nanirecruitment/client_app/editecandidate";
+        "${ApiUrls.BASE_URL}client_app/editecandidate";
     try {
     
-var documents = DocumentsListModel.getListMap(_fils);     
+var documents = DocumentsListModel.getListMap(_fils);
       print(_fils.length);
       final response = await http.post(
         Uri.parse(url),

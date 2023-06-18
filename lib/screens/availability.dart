@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nanirecruitment/providers/availability_process.dart';
+import 'package:nanirecruitment/screens/auth_screen.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:nanirecruitment/widgets/availability_dropdown.dart';
 import 'package:nanirecruitment/widgets/availability_items.dart';
@@ -120,6 +121,11 @@ class _AvailabilityState extends State<Availability> {
   @override
   void didChangeDependencies() {
     BuildContext? context;
+    if(widget.candidate_id==null)
+    {
+      Navigator.pushReplacement(context!, MaterialPageRoute(
+            builder: (ctx) => AuthScreen()));
+    }
     if (_isInitav) {
       setState(() {
         _isLoadingav = true;

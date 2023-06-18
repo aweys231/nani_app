@@ -8,6 +8,8 @@ import 'package:nanirecruitment/models/palce.dart';
 import '../helpers/location_helper.dart';
 import 'dart:io';
 
+import '../services/api_urls.dart';
+
 class GreatPlaces with ChangeNotifier {
   List<Place?> _items = [];
   List<Place?> get items {
@@ -58,7 +60,7 @@ class GreatPlaces with ChangeNotifier {
     );
 
     final url =
-        "http://192.168.100.202/nanirecruitment/client_app/addcandidate_location";
+        "${ApiUrls.BASE_URL}client_app/addcandidate_location";
     try {
       final response = await http.post(
         Uri.parse(url),

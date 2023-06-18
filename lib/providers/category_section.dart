@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../services/api_urls.dart';
+
 // import 'package:nanirecruitment/models/Category_model.dart';
 class CategoryModel with ChangeNotifier {
   final String id;
@@ -35,7 +37,7 @@ class Category_Section with ChangeNotifier {
 
   Future<List<CategoryModel>> fetchAndSetAllCategory() async {
     // var url = 'https://myshop-e5cf5-default-rtdb.firebaseio.com/products.json';
-    var url = "http://192.168.100.202/nanirecruitment/client_app/category";
+    var url = "${ApiUrls.BASE_URL}client_app/category";
     try {
       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 'Access-Control-Allow-Origin': '*'});

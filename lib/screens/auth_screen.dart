@@ -139,10 +139,10 @@ class _AuthCardState extends State<AuthCard>
   NotificationService().initNotification();
   tz.initializeTimeZones();
     debugPrint('Notification Scheduled for $scheduleTime');
-        NotificationService().scheduleNotifications(
-            title: 'Scheduled Notification',
-            body: '$scheduleTime',
-            );
+        // NotificationService().scheduleNotifications(
+        //     title: 'Scheduled Notification',
+        //     body: '$scheduleTime',
+        //     );
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
@@ -313,11 +313,11 @@ class _AuthCardState extends State<AuthCard>
                 child: Text('SIGNUP  INSTEAD'),
                 onPressed: (() async {
       
-                 debugPrint('Notification Scheduled for $scheduleTime');
-        NotificationService().scheduleNotifications(
-            title: 'Scheduled Notification',
-            body: '$scheduleTime',
-            );
+        //          debugPrint('Notification Scheduled for $scheduleTime');
+        // NotificationService().scheduleNotifications(
+        //     title: 'Scheduled Notification',
+        //     body: '$scheduleTime',
+        //     );
                   Navigator.pushNamed(
                       context, ClientRegistrationScreen.routeName);
                 }),

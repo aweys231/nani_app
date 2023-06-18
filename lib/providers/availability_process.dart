@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../services/api_urls.dart';
+
 // import 'package:nanirecruitment/models/Category_model.dart';
 class AvailabilityModel with ChangeNotifier {
   final String id;
@@ -124,7 +126,7 @@ List<MyBookin_Model> _booking = [];
 
 // fill shifts drop down
   Future<List<AvailabilityModel>> fetchAndSetshifts() async {
-    var url = "http://192.168.100.202/nanirecruitment//client_app/availability";
+    var url = "${ApiUrls.BASE_URL}client_app/availability";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
@@ -161,7 +163,7 @@ List<MyBookin_Model> _booking = [];
 
   Future<void> addAvailability(String candidateId) async {
     final url =
-        "http://192.168.100.202/nanirecruitment/client_app/add_availabilit";
+        "${ApiUrls.BASE_URL}client_app/add_availability";
     try {
       var jsonTags = _items.map((e) {
         return {
@@ -200,7 +202,7 @@ List<MyBookin_Model> _booking = [];
   Future<List<MyAvailability_Model>> fetchAndSetMyAvailability(
       String candidate_id) async {
     var url =
-        "http://192.168.100.202/nanirecruitment/client_app/fill_My_Availability";
+        "${ApiUrls.BASE_URL}client_app/fill_My_Availability";
     try {
 //       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 // 'Access-Control-Allow-Origin': '*'});
@@ -250,7 +252,7 @@ List<MyBookin_Model> _booking = [];
   Future<List<MyBookin_Model>> fetchAndSetMyBooking(
       String candidate_id) async {
     var url =
-        "http://192.168.100.202/nanirecruitment/client_app/fill_my_booking";
+        "${ApiUrls.BASE_URL}client_app/fill_my_booking";
     try {
 //       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 // 'Access-Control-Allow-Origin': '*'});

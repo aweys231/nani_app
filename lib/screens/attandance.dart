@@ -36,23 +36,28 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
               widget.jobvacancy_id.toString(),
               DateFormat('yyyy-MM-dd').format(DateTime.now()));
 
-      print(checkdat[0]['timein'].toString());
-      if (checkdat[0]['timein'].toString() != '' &&
-          checkdat[0]['timeout'] != '') {
+      print(checkdat[0]['time_in'].toString());
+      if (checkdat[0]['time_in'].toString() != '' &&
+          checkdat[0]['time_out'] != '') {
         setState(() {
-          checkInt = checkdat[0]['timein'].toString();
-          checkOut = checkdat[0]['timeout'].toString();
+          print('hello1');
+          checkInt = checkdat[0]['time_in'].toString();
+          checkOut = checkdat[0]['time_out'].toString();
         });
-      } else if (checkdat[0]['timein'] != '' && checkdat[0]['timeout'] == '') {
+      } else if (checkdat[0]['time_in'] != '' &&
+          checkdat[0]['time_out'] == '') {
         setState(() {
-          checkInt = checkdat[0]['timein'].toString();
+          print('hello2');
+          checkInt = checkdat[0]['time_in'].toString();
           checkOut = '--/--';
         });
       }
     } catch (e) {
       setState(() {
-        checkInt = '--/--';
-        checkOut = '--/--';
+        // checkInt = '--/--';
+        // checkOut = '--/--';
+        print('error ayaa jiro');
+        print(e.toString());
       });
     }
   }
@@ -91,23 +96,23 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
           .attandance_registration(
               widget.candidate_id!,
               widget.jobvacancy_id!,
-              DateFormat('hh:mm:ss').format(DateTime.now()).toString(),
+              DateFormat('hh:mm:ss a').format(DateTime.now()).toString(),
               DateFormat('yyyy-MM-dd').format(DateTime.now()));
-               await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text('success'),
-              content: Text(message.toString()),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Okey'),
-                  onPressed: () {
-                    // Navigator.pop(context);
-                    Navigator.of(context).pushNamed('/');
-                  },
-                )
-              ],
-            ));
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text('success'),
+                content: Text(message.toString()),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Okey'),
+                    onPressed: () {
+                      // Navigator.pop(context);
+                      Navigator.of(context).pushNamed('/');
+                    },
+                  )
+                ],
+              ));
     } catch (error) {
       print(error);
       await showDialog(
@@ -131,7 +136,6 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
       _isLoading = false;
     });
     // Navigator.of(context).pop();
-   
   }
 
   @override
@@ -228,10 +232,14 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                                   fontFamily: 'Lato',
                                 ),
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 checkInt,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: screenWidth / 18,
+                                    fontSize: screenWidth / 20,
                                     fontFamily: 'Lato',
                                     color: Colors.black54),
                               ),
@@ -250,10 +258,14 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                                   fontFamily: 'Lato',
                                 ),
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 checkOut,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: screenWidth / 18,
+                                    fontSize: screenWidth / 20,
                                     fontFamily: 'Lato',
                                     color: Colors.black54),
                               ),

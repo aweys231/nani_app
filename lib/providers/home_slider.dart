@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 import 'package:nanirecruitment/models/home_slider_model.dart';
 
+import '../services/api_urls.dart';
+
 class HomeSlider with ChangeNotifier {
   // ignore: prefer_final_fields
   List<HomeSliderModel> _images = [
@@ -16,7 +18,7 @@ class HomeSlider with ChangeNotifier {
   }
 
   Future<List<HomeSliderModel>> fetchAndSetHomeSlideImage() async {
-    var url = "http://192.168.100.202/nanirecruitment//client_app/imageslider";
+    var url = "${ApiUrls.BASE_URL}client_app/imageslider";
     try {
       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
 'Access-Control-Allow-Origin': '*'});

@@ -112,13 +112,12 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   // }
   // var errorfname = null;
   Future<void> _saveForm() async {
-    // final isValid = _form.currentState!.validate();
-    // if (!isValid) {
-    //   return;
-    // }
-    // _form.currentState!.save();
+    final isValid = _form.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState!.save();
 
-    valiada();
     if (_pickImage! == null) {
       return;
     }
@@ -252,119 +251,6 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     );
   }
 
-  bool errorfname = false;
-  bool errorlname = false;
-  bool erroruser = false;
-  bool errorpassword = false;
-  bool errorcpassword = false;
-  Future<void> valiada() async {
-    if (_errorfname == null) {
-      setState(() {
-        errorfname = true;
-      });
-
-      return;
-    }
-     else {
-      setState(() {
-        errorfname = false;
-      });
-    }
-
-    if (_errorlname == null) {
-      setState(() {
-        errorlname = true;
-      });
-
-      return;
-    }
-    if (_erroruser == null) {
-      setState(() {
-        erroruser = true;
-      });
-
-      // return;
-    }
-    if (_errorpassword == null) {
-      setState(() {
-        errorpassword = true;
-      });
-
-      return;
-    }
-    if (_errorpasswordconfirm == null) {
-      setState(() {
-        errorcpassword = true;
-      });
-
-      return;
-    }
-    else {
-      setState(() {
-        errorcpassword = false;
-      });
-    }
-  }
-
-  String? get _errorfname {
-    // at any time, we can get the text from _controller.value.text
-    if (errorfname) {
-      final text = _fname.value.text;
-
-      if (text.isEmpty) {
-        return 'First Name Can\'t be empty';
-      }
-      return null;
-    }
-  }
-
-  String? get _errorlname {
-    if (errorlname) {
-      if (_lname.value.text.isEmpty) {
-        return 'Last Name Can\'t be empty';
-      }
-      return null;
-    }
-  }
-
-  String? get _erroruser {
-    if (erroruser) {
-      if (_user_name.value.text.isEmpty) {
-        return 'Password Can\'t be empty';
-      }
-      return null;
-    }
-  }
-
-  String? get _errorpassword {
-    if (errorpassword) {
-      if (_passwd.value.text.isEmpty) {
-        return 'Password Can\'t be empty';
-      }
-      if (_passwd.value.text.length < 5) {
-        return 'Too short';
-      }
-      // return null if the text is valid
-      return null;
-    }
-  }
-
-  String? get _errorpasswordconfirm {
-    if (errorcpassword) {
-      if (_cpasswd.value.text.isEmpty) {
-        return 'Password confirm Can\'t be empty';
-      }
-      if (_cpasswd.value.text.length < 5) {
-        return 'Too short';
-      }
-      if (_passwd.value.text != _cpasswd.value.text) {
-        return "Password does not match";
-      }
-      // return null if the text is valid
-      return null;
-    }
-  }
-
   List<Step> getSteps(void Function(File pickImage) selectImage) {
     // var data ;
     return <Step>[
@@ -375,98 +261,30 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
         content: Container(
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomInput(
-                  hint: "Enter First Name",
-                  label: "First Name",
-                  icon: Icon(Icons.person_outline),
-                  controller: _fname,
-                  validator: _errorfname,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _fnameFocusNode,
-                  onSubmitted: (value) {
-                    print(value);
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: value,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                  onChanged: (value) {
-                    print(value);
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: value,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                CustomInput(
-                  hint: "Enter Last Name",
-                  label: "Last Name",
-                  icon: Icon(Icons.person_outline),
-                  controller: _lname,
-                  validator: _errorlname,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _lnameFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: value,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                Natitinality(
-                  onChanged: (value) {
-                    setState(() {
-                      // selectedValue = value;
-
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  CustomInput(
+                    hint: "Enter First Name",
+                    label: "First Name",
+                    icon: Icon(Icons.person_outline),
+                    controller: _fname,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'First Name is Required';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    focusNode: _fnameFocusNode,
+                    onSubmitted: (value) {
+                      print(value);
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
-                          fname: _addcandidate.fname,
+                          fname: value,
                           lname: _addcandidate.lname,
-                          national: value,
+                          national: _addcandidate.national,
                           gender: _addcandidate.gender,
                           location: _addcandidate.location,
                           mobile: _addcandidate.mobile,
@@ -479,34 +297,15 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           user_name: _addcandidate.user_name,
                           passwd: _addcandidate.passwd,
                           imageUrl: _addcandidate.imageUrl);
-                    });
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Gender',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        )),
-                  ],
-                ),
-                RadioButton(
-                  radio_one: 'Male',
-                  radio_one_value: 'Male',
-                  radio_two: 'Female',
-                  radio_two_value: 'Female',
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value;
-                      print(selectedValue);
+                    },
+                    onChanged: (value) {
+                      print(value);
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
-                          fname: _addcandidate.fname,
+                          fname: value,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
-                          gender: selectedValue,
+                          gender: _addcandidate.gender,
                           location: _addcandidate.location,
                           mobile: _addcandidate.mobile,
                           title: _addcandidate.title,
@@ -518,104 +317,226 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           user_name: _addcandidate.user_name,
                           passwd: _addcandidate.passwd,
                           imageUrl: _addcandidate.imageUrl);
-                    });
-                  },
-                  selectedValue: selectedValue,
-                ),
-                CustomInput(
-                  hint: "Enter Location",
-                  label: "Location",
-                  keyboardtype: TextInputType.streetAddress,
-                  icon: Icon(Icons.location_on_outlined),
-                  controller: _location,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _locationFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: value,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                CustomInput(
-                  keyboardtype: TextInputType.phone,
-                  hint: "Enter Phone Number",
-                  label: "Phone Number",
-                  icon: Icon(Icons.phone),
-                  controller: _mobile,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _mobileFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: value,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                CustomInput(
-                  keyboardtype: TextInputType.emailAddress,
-                  hint: "Enter Email Address",
-                  label: "Email",
-                  icon: Icon(Icons.email_outlined),
-                  controller: _email,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _emailFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: value,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-              ],
+                    },
+                  ),
+                  CustomInput(
+                    hint: "Enter Last Name",
+                    label: "Last Name",
+                    icon: Icon(Icons.person_outline),
+                    controller: _lname,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Last Name is Required';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    focusNode: _lnameFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: value,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  Natitinality(
+                    onChanged: (value) {
+                      setState(() {
+                        // selectedValue = value;
+
+                        _addcandidate = Candidate(
+                            role_id: _addcandidate.role_id,
+                            fname: _addcandidate.fname,
+                            lname: _addcandidate.lname,
+                            national: value,
+                            gender: _addcandidate.gender,
+                            location: _addcandidate.location,
+                            mobile: _addcandidate.mobile,
+                            title: _addcandidate.title,
+                            email: _addcandidate.email,
+                            Languages: _addcandidate.Languages,
+                            nokname: _addcandidate.nokname,
+                            nokaddress: _addcandidate.nokaddress,
+                            nokmobile: _addcandidate.nokmobile,
+                            user_name: _addcandidate.user_name,
+                            passwd: _addcandidate.passwd,
+                            imageUrl: _addcandidate.imageUrl);
+                      });
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Gender',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          )),
+                    ],
+                  ),
+                  RadioButton(
+                    radio_one: 'Male',
+                    radio_one_value: 'Male',
+                    radio_two: 'Female',
+                    radio_two_value: 'Female',
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                        print(selectedValue);
+                        _addcandidate = Candidate(
+                            role_id: _addcandidate.role_id,
+                            fname: _addcandidate.fname,
+                            lname: _addcandidate.lname,
+                            national: _addcandidate.national,
+                            gender: selectedValue,
+                            location: _addcandidate.location,
+                            mobile: _addcandidate.mobile,
+                            title: _addcandidate.title,
+                            email: _addcandidate.email,
+                            Languages: _addcandidate.Languages,
+                            nokname: _addcandidate.nokname,
+                            nokaddress: _addcandidate.nokaddress,
+                            nokmobile: _addcandidate.nokmobile,
+                            user_name: _addcandidate.user_name,
+                            passwd: _addcandidate.passwd,
+                            imageUrl: _addcandidate.imageUrl);
+                      });
+                    },
+                    selectedValue: selectedValue,
+                  ),
+                  CustomInput(
+                    hint: "Enter Location",
+                    label: "Location",
+                    keyboardtype: TextInputType.streetAddress,
+                    icon: Icon(Icons.location_on_outlined),
+                    controller: _location,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _locationFocusNode,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Location is Required';
+                      }
+                      return null;
+                    },
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: value,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  CustomInput(
+                    keyboardtype: TextInputType.phone,
+                    hint: "Enter Phone Number",
+                    label: "Phone Number",
+                    icon: Icon(Icons.phone),
+                    controller: _mobile,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _mobileFocusNode,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone Number is Required';
+                      }
+                      return null;
+                    },
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: value,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  CustomInput(
+                    keyboardtype: TextInputType.emailAddress,
+                    hint: "Enter Email Address",
+                    label: "Email",
+                    icon: Icon(Icons.email_outlined),
+                    controller: _email,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _emailFocusNode,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty ) {
+                        return 'Email is Required';
+                      }
+                      else if (!value.contains('@')) {
+                        return 'Invalid Email';
+                      }
+                      return null;
+                    },
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: value,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -627,64 +548,101 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
         content: Container(
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                JobsDrpodown(
-                  onChanged: (value) async {
-                    print(value);
-                    setState(() {
-                      role_id = value;
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  JobsDrpodown(
+                    onChanged: (value) async {
+                      print(value);
+                      setState(() {
+                        role_id = value;
 
-                      // .then((_) {});
-                      selectedItem1 = value as String;
-                      _isLoadingDrop = true;
-                    });
-                    await Provider.of<Jobs_Section>(context, listen: false)
-                        .fetchAndSetAllJobs(role_id);
-                    setState(() {
-                      _isLoadingDrop = false;
-                    });
-                  },
-                  dropdownValue: selectedItem1,
-                ),
-                Container(
-                  //wrapper for City list
-                  margin: EdgeInsets.only(top: 5),
-                  child: _isLoadingDrop
-                      ? CircularProgressIndicator()
-                      : JobsRoleDrpodown(
-                          onChanged: (value) {
-                            setState(() {
-                              print(value);
-                              job_id = value;
-                              selectedItem2 = value as String;
-                              _addcandidate = Candidate(
-                                  role_id: value,
-                                  fname: _addcandidate.fname,
-                                  lname: _addcandidate.lname,
-                                  national: _addcandidate.national,
-                                  gender: _addcandidate.gender,
-                                  location: _addcandidate.location,
-                                  mobile: _addcandidate.mobile,
-                                  title: _addcandidate.title,
-                                  email: _addcandidate.email,
-                                  Languages: _addcandidate.Languages,
-                                  nokname: _addcandidate.nokname,
-                                  nokaddress: _addcandidate.nokaddress,
-                                  nokmobile: _addcandidate.nokmobile,
-                                  user_name: _addcandidate.user_name,
-                                  passwd: _addcandidate.passwd,
-                                  imageUrl: _addcandidate.imageUrl);
-                            });
-                          },
-                          dropdownValue: selectedItem2,
-                        ),
-                ),
-                TitleDropdownFormField(
-                  onChanged: (value) {
-                    setState(() {
-                      // selectedValue = value;
+                        // .then((_) {});
+                        selectedItem1 = value as String;
+                        _isLoadingDrop = true;
+                      });
+                      await Provider.of<Jobs_Section>(context, listen: false)
+                          .fetchAndSetAllJobs(role_id);
+                      setState(() {
+                        _isLoadingDrop = false;
+                      });
+                    },
+                    dropdownValue: selectedItem1,
+                  ),
+                  Container(
+                    //wrapper for City list
+                    margin: EdgeInsets.only(top: 5),
+                    child: _isLoadingDrop
+                        ? CircularProgressIndicator()
+                        : JobsRoleDrpodown(
+                            onChanged: (value) {
+                              setState(() {
+                                print(value);
+                                job_id = value;
+                                selectedItem2 = value as String;
+                                _addcandidate = Candidate(
+                                    role_id: value,
+                                    fname: _addcandidate.fname,
+                                    lname: _addcandidate.lname,
+                                    national: _addcandidate.national,
+                                    gender: _addcandidate.gender,
+                                    location: _addcandidate.location,
+                                    mobile: _addcandidate.mobile,
+                                    title: _addcandidate.title,
+                                    email: _addcandidate.email,
+                                    Languages: _addcandidate.Languages,
+                                    nokname: _addcandidate.nokname,
+                                    nokaddress: _addcandidate.nokaddress,
+                                    nokmobile: _addcandidate.nokmobile,
+                                    user_name: _addcandidate.user_name,
+                                    passwd: _addcandidate.passwd,
+                                    imageUrl: _addcandidate.imageUrl);
+                              });
+                            },
+                            dropdownValue: selectedItem2,
+                          ),
+                  ),
+                  TitleDropdownFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        // selectedValue = value;
 
+                        _addcandidate = Candidate(
+                            role_id: _addcandidate.role_id,
+                            fname: _addcandidate.fname,
+                            lname: _addcandidate.lname,
+                            national: _addcandidate.national,
+                            gender: _addcandidate.gender,
+                            location: _addcandidate.location,
+                            mobile: _addcandidate.mobile,
+                            title: value,
+                            email: _addcandidate.email,
+                            Languages: _addcandidate.Languages,
+                            nokname: _addcandidate.nokname,
+                            nokaddress: _addcandidate.nokaddress,
+                            nokmobile: _addcandidate.nokmobile,
+                            user_name: _addcandidate.user_name,
+                            passwd: _addcandidate.passwd,
+                            imageUrl: _addcandidate.imageUrl);
+                      });
+                    },
+                  ),
+                  ImageInput(selectImage),
+                  CustomInput(
+                    hint: "Languges your",
+                    maxlines: 3,
+                    maxlength: 100,
+                    icon: Icon(Icons.language_outlined),
+                    keyboardtype: TextInputType.multiline,
+                    label: "Language",
+                    controller: _Languages,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _LanguagesFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
@@ -693,157 +651,123 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           gender: _addcandidate.gender,
                           location: _addcandidate.location,
                           mobile: _addcandidate.mobile,
-                          title: value,
+                          title: _addcandidate.title,
                           email: _addcandidate.email,
-                          Languages: _addcandidate.Languages,
+                          Languages: value,
                           nokname: _addcandidate.nokname,
                           nokaddress: _addcandidate.nokaddress,
                           nokmobile: _addcandidate.nokmobile,
                           user_name: _addcandidate.user_name,
                           passwd: _addcandidate.passwd,
                           imageUrl: _addcandidate.imageUrl);
-                    });
-                  },
-                ),
-                ImageInput(selectImage),
-                CustomInput(
-                  hint: "Languges your",
-                  maxlines: 3,
-                  maxlength: 100,
-                  icon: Icon(Icons.language_outlined),
-                  keyboardtype: TextInputType.multiline,
-                  label: "Language",
-                  controller: _Languages,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _LanguagesFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: value,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                    print(value);
-                    print(_addcandidate.imageUrl);
-                    print(_addcandidate.fname);
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
-                    Text('Next of kin Info below...',
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.left),
-                  ],
-                ),
-                CustomInput(
-                  hint: "Enter Full Name",
-                  label: "Full Name",
-                  controller: _nokname,
-                  icon: Icon(Icons.person_outline),
-                  textInputAction: TextInputAction.next,
-                  focusNode: _noknameFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: value,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                CustomInput(
-                  hint: "Enter Location",
-                  keyboardtype: TextInputType.streetAddress,
-                  label: "Location",
-                  icon: Icon(Icons.location_on_outlined),
-                  controller: _nokaddress,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _nokaddressFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: value,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                CustomInput(
-                  keyboardtype: TextInputType.phone,
-                  hint: "Enter Phone Number",
-                  label: "Phone Number",
-                  icon: Icon(Icons.phone),
-                  controller: _nokmobile,
-                  textInputAction: TextInputAction.next,
-                  focusNode: _nokmobileFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: value,
-                        user_name: _addcandidate.user_name,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-              ],
+                      print(value);
+                      print(_addcandidate.imageUrl);
+                      print(_addcandidate.fname);
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      //  Text('Next of kin Info',  style: TextStyle(  fontSize: 18, color: Colors.black,)),
+                      Text('Next of kin Info below...',
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+                  CustomInput(
+                    hint: "Enter Full Name",
+                    label: "Full Name",
+                    controller: _nokname,
+                    icon: Icon(Icons.person_outline),
+                    textInputAction: TextInputAction.next,
+                    focusNode: _noknameFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: value,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  CustomInput(
+                    hint: "Enter Location",
+                    keyboardtype: TextInputType.streetAddress,
+                    label: "Location",
+                    icon: Icon(Icons.location_on_outlined),
+                    controller: _nokaddress,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _nokaddressFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: value,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  CustomInput(
+                    keyboardtype: TextInputType.phone,
+                    hint: "Enter Phone Number",
+                    label: "Phone Number",
+                    icon: Icon(Icons.phone),
+                    controller: _nokmobile,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _nokmobileFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: value,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -855,102 +779,129 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
         content: Container(
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                CustomInput(
-                  hint: "User Name",
-                  keyboardtype: TextInputType.emailAddress,
-                  label: "Enter User Name",
-                  controller: _user_name,
-                  validator: _erroruser,
-                  icon: Icon(Icons.person_outline),
-                  textInputAction: TextInputAction.next,
-                  focusNode: _user_nameFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: value,
-                        passwd: _addcandidate.passwd,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                PasswordInput(
-                  text: 'Type your password below...',
-                  textInputAction: TextInputAction.next,
-                  controller: _passwd,
-                  validator: _errorpassword,
-                  focusNode: _passwdFocusNode,
-                  onSubmitted: (value) {
-                    _saveForm();
-                  },
-                  onChanged: (value) {
-                    _addcandidate = Candidate(
-                        role_id: _addcandidate.role_id,
-                        fname: _addcandidate.fname,
-                        lname: _addcandidate.lname,
-                        national: _addcandidate.national,
-                        gender: _addcandidate.gender,
-                        location: _addcandidate.location,
-                        mobile: _addcandidate.mobile,
-                        title: _addcandidate.title,
-                        email: _addcandidate.email,
-                        Languages: _addcandidate.Languages,
-                        nokname: _addcandidate.nokname,
-                        nokaddress: _addcandidate.nokaddress,
-                        nokmobile: _addcandidate.nokmobile,
-                        user_name: _addcandidate.user_name,
-                        passwd: value,
-                        imageUrl: _addcandidate.imageUrl);
-                  },
-                ),
-                PasswordInput(
-                  text: 'Confirm password',
-                  controller: _cpasswd,
-                  validator: _errorpasswordconfirm,
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 10, top: 5),
-                  // color: Colors.blue,
-                  child: ButtonTheme(
-                    minWidth: 200.0,
-                    height: 100.0,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor:
-                            Theme.of(context).primaryTextTheme.button!.color,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 8.0),
-                      ),
-                      onPressed: () {
-                        _saveForm();
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  CustomInput(
+                    hint: "User Name",
+                    keyboardtype: TextInputType.emailAddress,
+                    label: "Enter User Name",
+                    controller: _user_name,
+                    onValidate: (value) {
+                        if (value == null || value.isEmpty ) {
+                          return 'User Name is Required';
+                        }
+                        else if (value.length<5) {
+                          return 'Invalid User Name';
+                        }
+                        return null;
                       },
-                      child: const Text('Submit'),
-                    ),
+                    icon: Icon(Icons.person_outline),
+                    textInputAction: TextInputAction.next,
+                    focusNode: _user_nameFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: value,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
                   ),
-                )
-              ],
+                  PasswordInput(
+                    text: 'Type your password below...',
+                    textInputAction: TextInputAction.next,
+                    controller: _passwd,
+                    onValidate: (value) {
+                        if (value == null || value.isEmpty ) {
+                          return 'Password is Required';
+                        }
+                        else if (value.length<5) {
+                          return 'Invalid Password';
+                        }
+                        return null;
+                      },
+                    focusNode: _passwdFocusNode,
+                    onSubmitted: (value) {
+                      _saveForm();
+                    },
+                    onChanged: (value) {
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: value,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+                  PasswordInput(
+                    text: 'Confirm password',
+                    controller: _cpasswd,
+                      onValidate: (value) {
+                        if (value == null || value.isEmpty ) {
+                          return  'Confirm Password is Required';
+                        }
+                        else if (value.length<5) {
+                          return 'Invalid Password';
+                        }
+                        return null;
+                      },
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 50,
+                    margin: const EdgeInsets.only(bottom: 10, top: 5),
+                    // color: Colors.blue,
+                    child: ButtonTheme(
+                      minWidth: 200.0,
+                      height: 100.0,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).primaryTextTheme.button!.color,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 8.0),
+                        ),
+                        onPressed: () {
+                          _saveForm();
+                        },
+                        child: const Text('Submit'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

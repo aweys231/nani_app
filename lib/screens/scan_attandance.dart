@@ -108,28 +108,31 @@ class _ScanAttandanceState extends State<ScanAttandance> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-  
+
     controller.scannedDataStream.listen((scanData) {
       setState(() async {
         result = scanData;
         this.controller!.pauseCamera();
         this.controller!.resumeCamera();
         check_qrcode = await Provider.of<Jobs_Section>(context, listen: false)
-            .get_check_qrcode(widget.candidate_id.toString(), result!.code.toString());
-        
+            .get_check_qrcode(
+                widget.candidate_id.toString(), result!.code.toString());
+
         // result = check_qrcode[0]['result']['qr_no'];
-       
-        check_qrcode['result'].isNotEmpty?
-        // _showErrorDialog(check_qrcode['result'][0]['qr_no'].toString()):
-        // Navigator.of(context).pushReplacementNamed(CanidateAttandance("")):
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => CanidateAttandance(candidate_id:widget.candidate_id.toString(),jobvacancy_id:check_qrcode['result'][0]['jobvacancy_id'].toString())
-          )):
-          _showErrorDialog('you dont have premission this work');
-       
-      
+
+        check_qrcode['result'].isNotEmpty
+            ?
+            // _showErrorDialog(check_qrcode['result'][0]['qr_no'].toString()):
+            // Navigator.of(context).pushReplacementNamed(CanidateAttandance("")):
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (ctx) => CanidateAttandance(
+                        candidate_id: widget.candidate_id.toString(),
+                        jobvacancy_id: check_qrcode['result'][0]
+                                ['jobvacancy_id']
+                            .toString())))
+            : _showErrorDialog('you dont have premission this work');
       });
     });
   }

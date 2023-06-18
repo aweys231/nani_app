@@ -12,7 +12,7 @@ class PasswordInput extends StatefulWidget {
     this.onChanged,
     this.textInputAction,
     this.focusNode,
-    this.onSubmitted, this.validator,
+    this.onSubmitted, this.onValidate,
   } ): super(key: key);
   final String? text;
   final TextEditingController? controller;
@@ -20,7 +20,7 @@ class PasswordInput extends StatefulWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final ValueChanged<String>? onSubmitted;
-  final String? validator;
+  final String? Function(String val)? onValidate;
   @override
   State<PasswordInput> createState() => _PasswordInputState();
 }
@@ -42,19 +42,20 @@ class _PasswordInputState extends State<PasswordInput> {
             SizedBox(
               height: 8,
             ),
-            TextField(
+            TextFormField(
               onChanged: (v) => widget.onChanged!(v),
-
+              validator: (v) => widget.onValidate!(v!),
               obscureText: hidePassword,
               //show/hide password
               controller: widget.controller,
               textInputAction: widget.textInputAction,
               focusNode: widget.focusNode,
-              onSubmitted: (v) => widget.onSubmitted!(v),
+              onSaved: (v) => widget.onSubmitted!(v!),
+
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock),
                 labelText: 'Password',
-                errorText:widget.validator,
+                // errorText:widget.validator,
                 suffixIcon: IconButton(
                   icon: hidePassword
                       ? Icon(Icons.visibility_off)

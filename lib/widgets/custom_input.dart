@@ -17,7 +17,7 @@ class CustomInput extends StatelessWidget {
   final FocusNode? focusNode;
   final ValueChanged<String>? onSubmitted;
   final IconButton? suffixIcon;
-  final String? validator;
+  final String? Function(String val)? onValidate;
 
   const CustomInput({
     Key? key,
@@ -33,14 +33,14 @@ class CustomInput extends StatelessWidget {
     this.focusNode,
     this.onSubmitted,
     this.suffixIcon,
-    this.validator
+    this.onValidate
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 5),
-      child: TextField(
+      child: TextFormField(
         onChanged: (v) => onChanged!(v),
         
         keyboardType: keyboardtype,
@@ -49,11 +49,11 @@ class CustomInput extends StatelessWidget {
         controller: controller,
         textInputAction: textInputAction,
         focusNode: focusNode,
-        onSubmitted: (v) => onSubmitted!(v),
-        
+        onSaved: (v) => onSubmitted!(v!),
+        validator: (v)=> onValidate!(v!),
         decoration: InputDecoration(
         hintText: hint!,
-        errorText:validator,
+        // errorText:validator,
         labelText: label,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

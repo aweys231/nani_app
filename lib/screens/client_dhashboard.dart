@@ -31,6 +31,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
   @override
   void initState() {
     super.initState();
+    
   }
 
   @override
@@ -53,12 +54,10 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
       Provider.of<Jobs_Section>(context, listen: false)
           .requirement_documents()
           .then((_) {});
-          Provider.of<job.Jobs_Section>(context, listen: false)
-        .fetchAndSetVacuncyUpcoming(widget.candidate_id.toString());
+      Provider.of<job.Jobs_Section>(context, listen: false)
+          .fetchAndSetVacuncyUpcoming(widget.candidate_id.toString());
       // Provider.of<job.Jobs_Section>(context, listen: false)
       //   .fetchAndSetVacuncyCompleted(widget.candidate_id.toString()).then((_) {});
-
-       
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -102,7 +101,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                           ),
                         ),
                         Row(
-                           mainAxisAlignment: MainAxisAlignment.center,  
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FutureBuilder(
                                 future: _jobsFuture,
@@ -124,8 +123,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                   ? Expanded(
                                                       child: Container(
                                                         //  margin: EdgeInsets.only(bottom: 100),
-                                                        child:
-                                                            ListView.builder(
+                                                        child: ListView.builder(
                                                           // scrollDirection: Axis.horizontal,
                                                           shrinkWrap: true,
                                                           itemCount: jobData
@@ -133,9 +131,8 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                               .length,
                                                           itemBuilder: (ctx,
                                                                   i) =>
-                                                              JobContainer(
-                                                                  jobData.vcuncyjobs[
-                                                                      i]),
+                                                              JobContainer(jobData
+                                                                  .vcuncyjobs[i]),
                                                         ),
                                                       ),
                                                     )
@@ -145,8 +142,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                         style: TextStyle(
                                                             fontSize: 24),
                                                       ),
-                                                    )
-                                                    );
+                                                    ));
                                     }
                                   }
                                 }),
