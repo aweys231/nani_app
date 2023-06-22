@@ -32,8 +32,9 @@ import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/verification_number_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' ;
 import 'package:timezone/data/latest.dart' as tz;
+
 void main() => runApp(MyApp());
 
 
@@ -99,7 +100,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 primarySwatch: Colors.purple,
-                accentColor: Colors.deepOrange,
+                hintColor: Colors.deepOrange,
                 fontFamily: 'Lato',
                 backgroundColor: Colors.purple,
                 pageTransitionsTheme: PageTransitionsTheme(builders: {

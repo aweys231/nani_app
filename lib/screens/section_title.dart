@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../size_config.dart';
 
@@ -9,11 +10,14 @@ class SectionTitle extends StatelessWidget {
     Key? key,
     required this.title,
     required this.press,
+    this.SectionColor,
+    this.SectionSize,
   }) : super(key: key);
 
   final String title;
+  final Color? SectionColor;
   final GestureTapCallback press;
-
+  final double? SectionSize;
   @override
   Widget build(BuildContext context) {
     return 
@@ -22,16 +26,15 @@ class SectionTitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
+          style: GoogleFonts.montserrat(
+              color: SectionColor, fontSize: SectionSize
           ),
         ),
         GestureDetector(
           onTap: press,
           child: Text(
             "See More",
-            style: TextStyle(color: Color(0xFFBBBBBB)),
+            style: GoogleFonts.montserrat( color: SectionColor, fontSize: SectionSize),
           ),
         ),
       ],

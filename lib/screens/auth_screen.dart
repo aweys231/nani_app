@@ -3,6 +3,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/models/http_exception.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
@@ -13,94 +15,78 @@ import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/splashscreen.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' as dt;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:google_fonts/google_fonts.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   static const routeName = '/auth';
 
   @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    bool hidePassword = true;
+
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
-    return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(13, 30, 113, 1).withOpacity(0.9),
-                  Color.fromRGBO(169, 31, 103, 1).withOpacity(0.9),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0, 1],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              height: deviceSize.height,
-              width: deviceSize.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child:
- 
-                     Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
-                     
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: HexColor('#F6F7F9'),
+        body: SingleChildScrollView(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: deviceSize.height,
+                width: deviceSize.width,
+
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
+                        color: Colors.white
+                      ),
+                      child: Text('Login Form', style: GoogleFonts.abhayaLibre(
+                          fontSize: deviceSize.width * 0.10,
+                          color: txtcolor,
+                          fontWeight: FontWeight.bold)),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                      height: MediaQuery.of(context).size.height * 0.75,
+
+                      width: deviceSize.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20)
                           )
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+
+                          Flexible(
+                            flex: deviceSize.width > 600 ? 2 : 1,
+                            child: AuthCard(),
+                          ),
                         ],
                       ),
-                      child: 
-                      
-                       Image.asset('assets/logoimage/logon.png',
-                  height: 50,
-                  fit: BoxFit.fill,
-                  scale: 3.5,
-                  // color: Color.fromARGB(255, 15, 147, 59),
-                  opacity:
-                      const AlwaysStoppedAnimation<double>(0.5)), 
-                      // Text(
-                      //   'NANI RECRUITMENT',
-                      //   style: TextStyle(
-                      //     color: Theme.of(context)
-                      //         .accentTextTheme
-                      //         .headline6!
-                      //         .color,
-                      //     fontSize: 18,
-                      //     fontFamily: 'Anton',
-                      //     fontWeight: FontWeight.normal,
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: deviceSize.width > 600 ? 2 : 1,
-                    child: AuthCard(),
-                  ),
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -234,98 +220,182 @@ class _AuthCardState extends State<AuthCard>
       _isLoading = false;
     });
   }
+  bool hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 8.0,
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-        height:  260,
-        //height: _heightAnimation.value.height,
-        constraints: BoxConstraints(minHeight:  260),
-        width: deviceSize.width * 0.75,
-        padding: EdgeInsets.all(16.0),
-
+    return Container(
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(10.0),
+      // ),
+      // elevation: 2.0,
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'User Name'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Invalid email!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _authData['email'] = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                controller: _passwordController,
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 5) {
-                    return 'Password is too short!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _authData['password'] = value!;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              if (_isLoading)
-                CircularProgressIndicator()
-              else
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryTextTheme.button!.color,
-                    onPrimary: Theme.of(context).primaryColor,
-                    onSurface: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 30),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+                  child: Image(
+                    image: AssetImage('assets/logoimage/logon.png'),
                   ),
-                  child: Text('LOGIN'),
-                  onPressed: _submit,
+
                 ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  primary: Theme.of(context).primaryColor,
+                SizedBox(height: 15),
+                TextFormField(
+
+                  style: TextStyle(
+                    height: 1.9,
+                  ),
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                      hintText: 'Enter your email',
+                      hintStyle: TextStyle(fontSize: 20 ,color: HexColor('#64717d')),
+                      prefixIcon: Icon(Icons.email, color: HexColor('#64717d')),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20),
+                      )
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Invalid email!';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _authData['email'] = value!;
+                  },
                 ),
-                child: Text('SIGNUP  INSTEAD'),
-                onPressed: (() async {
-      
-        //          debugPrint('Notification Scheduled for $scheduleTime');
-        // NotificationService().scheduleNotifications(
-        //     title: 'Scheduled Notification',
-        //     body: '$scheduleTime',
-        //     );
-                  Navigator.pushNamed(
-                      context, ClientRegistrationScreen.routeName);
-                }),
-              ),
-            ],
+                SizedBox(height: 20),
+                TextFormField(
+                  obscureText: hidePassword,
+                  style: TextStyle(
+                      height: 1.9
+                  ),
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: 'Enter your Password',
+                      hintStyle: TextStyle(fontSize: 20 ,color: HexColor('#64717d')),
+                      prefixIcon: Icon(Icons.vpn_key, color: HexColor('#64717d')),
+                      suffixIcon: IconButton(
+                        icon: hidePassword
+                            ? Icon(Icons.visibility_off)
+                            : Icon(Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            hidePassword = !hidePassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20),
+                      )
+                  ),
+                  // obscureText: true,
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length < 5) {
+                      return 'Password is too short!';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _authData['password'] = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    Row(
+                      children: [
+                        Icon(Icons.check_box_outline_blank, size: 30,),
+                        SizedBox(width: 5,),
+                        Text('Remember Me', style: GoogleFonts.abhayaLibre(
+                            color: txtcolor,
+                            fontSize: MediaQuery.of(context).size.width * 0.06,
+                            fontWeight: FontWeight.bold
+                        )),
+                      ],
+                    ),
+                    TextButton(
+                      child: Text('Forget Password', style: GoogleFonts.abhayaLibre(
+                          color: bggcolor,
+                          fontSize: MediaQuery.of(context).size.width * 0.06,
+                          fontWeight: FontWeight.bold
+                      ),),
+                      onPressed: () {  },)
+                  ],
+                ),
+                SizedBox(height: 12,),
+                if (_isLoading)
+                  CircularProgressIndicator()
+                else
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.055,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: bggcolor,
+                        minimumSize: Size(double.infinity, 50),
+                        maximumSize: Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+                      ),
+                      child: Text('LOGIN ', style: TextStyle(fontSize: 18),),
+                      onPressed: _submit,
+                    ),
+                  ),
+                SizedBox(height: 12,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('I Don\'t Have An Account?', style: GoogleFonts.abhayaLibre(
+                        color: txtcolor,
+                        fontSize: deviceSize.width * 0.07)),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric( vertical: 10, horizontal: 6),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text("Sign Up",
+                          style: GoogleFonts.abhayaLibre(color: bggcolor, fontSize: deviceSize.width * 0.06)),
+                      onPressed: (() async {
+
+                        //          debugPrint('Notification Scheduled for $scheduleTime');
+                        // NotificationService().scheduleNotifications(
+                        //     title: 'Scheduled Notification',
+                        //     body: '$scheduleTime',
+                        //     );
+                        Navigator.pushNamed(
+                            context, ClientRegistrationScreen.routeName);
+                      }),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
       )
     );
   }

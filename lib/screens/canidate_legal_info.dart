@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, implementation_imports, unnecessary_import, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print, sized_box_for_whitespace, prefer_final_fields, unused_local_variable, await_only_futures, unnecessary_null_comparison, unused_import, unused_element, dead_code
+// ignore_for_file: non_constant_identifier_names, implementation_imports, unnecessary_import, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print, sized_box_for_whitespace, prefer_final_fields, unused_local_variable, await_only_futures, unnecessary_null_comparison, unused_import, unused_element, dead_code, use_build_context_synchronously
 
 import 'dart:io';
 
@@ -690,7 +690,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor:
-                            Theme.of(context).primaryTextTheme.button!.color,
+                            Theme.of(context).primaryTextTheme.labelLarge!.color,
                         backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),

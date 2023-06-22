@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:nanirecruitment/constants.dart';
+import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:nanirecruitment/providers/home_slider.dart';
 import 'package:nanirecruitment/screens/section_title.dart';
 import 'package:nanirecruitment/widgets/bottom_navigation_bar.dart';
@@ -16,22 +20,28 @@ import '../providers/legal_info_provider.dart';
 import '../widgets/app_drawer.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 
+import 'ourservices.dart';
+
 class ClientDhashboard extends StatefulWidget {
   const ClientDhashboard(this.role_id, this.candidate_id, {super.key});
   final String? role_id;
   final String? candidate_id;
+  // final AnimationController? animationController;
+
 
   @override
   State<ClientDhashboard> createState() => _ClientDhashboardState();
 }
 
 class _ClientDhashboardState extends State<ClientDhashboard> {
+  // final animationController = AnimatedContainer();
   var _isInit = true;
   var _isLoading = false;
   @override
   void initState() {
+  // final animationController = AnimationController(
+  // duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
-    
   }
 
   @override
@@ -71,85 +81,135 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xfff0f0f6),
-      appBar: AppBar(
-        title: Text('welcome'),
-      ),
-      drawer: AppDrawer(),
-      body: SingleChildScrollView(
-          child: _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Padding(
-                  padding: EdgeInsets.all(5),
-                  // ignore: prefer_const_literals_to_create_immutables
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // DaleelBanner(),
-                        ImageSlider(),
-                        SizedBox(
-                          height: 11,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: SectionTitle(
-                            title: "Available Jobs",
-                            press: () {},
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0xfff0f0f6),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.red),
+          toolbarHeight: 66,
+          backgroundColor: HexColor("#F2E7E5"),
+          elevation: 0,
+          title: Text("Nani Recruitment ", style: GoogleFonts.abhayaLibre(
+              color: Colors.black,
+              fontSize: 25,
+              fontWeight: FontWeight.bold
+              
+          )),
+          centerTitle: true,
+        ),
+        drawer: AppDrawer(),
+        body: ListView(
+          children: [
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Container(
+                height: MediaQuery.of(context).size.height * 0.95,
+                    padding: EdgeInsets.all(5),
+                    // ignore: prefer_const_literals_to_create_immutables
+                    child: ListView(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // DaleelBanner(),
+                          ImageSlider(),
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FutureBuilder(
-                                future: _jobsFuture,
-                                builder: (ctx, dataSnapshot) {
-                                  if (dataSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else {
-                                    if (dataSnapshot.error != null) {
-                                      return Center(
-                                          child: Text('An error Accour'));
-                                      print(dataSnapshot.error);
-                                    } else {
-                                      return Consumer<job.Jobs_Section>(
-                                          builder: (ctx, jobData, child) =>
-                                              jobData.vcuncyjobs.isNotEmpty
-                                                  ? Expanded(
-                                                      child: Container(
-                                                        //  margin: EdgeInsets.only(bottom: 100),
-                                                        child: ListView.builder(
-                                                          // scrollDirection: Axis.horizontal,
-                                                          shrinkWrap: true,
-                                                          itemCount: jobData
-                                                              .vcuncyjobs
-                                                              .length,
-                                                          itemBuilder: (ctx,
-                                                                  i) =>
-                                                              JobContainer(jobData
-                                                                  .vcuncyjobs[i]),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Center(
-                                                      child: const Text(
-                                                        'No results found',
-                                                        style: TextStyle(
-                                                            fontSize: 24),
-                                                      ),
-                                                    ));
-                                    }
-                                  }
-                                }),
-                          ],
-                        )
-                      ]))),
-      // bottomNavigationBar: BottomNavigationBars(),
+
+                          SizedBox(height: 30,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: SectionTitle(
+                              title: "Our Services",
+                              SectionColor: HexColor("#AD4D68"),
+                              SectionSize: 22,
+                              press: () {},
+                            ),
+                          ),
+
+                          ),
+
+
+                          Container(
+                            margin: EdgeInsets.only(top: 12),
+                            height: MediaQuery.of(context).size.height * 0.18,
+                            child: MealsListView(
+                              // mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                              //     CurvedAnimation(
+                              //         parent: animationController,
+                              //         curve: Interval((1 / 2) * 3, 1.0,
+                              //             curve: Curves.fastOutSlowIn))),
+                              // mainScreenAnimationController: widget.animationController,
+                            )
+                          ),
+
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: SectionTitle(
+                              title: "Available Jobs",
+                              SectionColor: txtcolor,
+                              SectionSize: 22,
+                              press: () {},
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            child: ListView(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FutureBuilder(
+                                    future: _jobsFuture,
+                                    builder: (ctx, dataSnapshot) {
+                                      if (dataSnapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else {
+                                        if (dataSnapshot.error != null) {
+                                          return Center(
+                                              child: Text('An error Accour'));
+                                          print(dataSnapshot.error);
+                                        } else {
+                                          return Consumer<job.Jobs_Section>(
+                                              builder: (ctx, jobData, child) =>
+                                                  jobData.vcuncyjobs.isNotEmpty
+                                                      ? Expanded(
+                                                          child: Container(
+                                                            //  margin: EdgeInsets.only(bottom: 100),
+                                                            child: ListView.builder(
+                                                              // scrollDirection: Axis.horizontal,
+                                                              shrinkWrap: true,
+                                                              itemCount: jobData
+                                                                  .vcuncyjobs
+                                                                  .length,
+                                                              itemBuilder: (ctx,
+                                                                      i) =>
+                                                                  JobContainer(jobData
+                                                                      .vcuncyjobs[i]),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: const Text(
+                                                            'No results found',
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                          ),
+                                                        ));
+                                        }
+                                      }
+                                    }),
+                              ],
+                            ),
+                          )
+                        ])),
+          ],
+        ),
+        // bottomNavigationBar: BottomNavigationBars(),
+      ),
     );
   }
 }

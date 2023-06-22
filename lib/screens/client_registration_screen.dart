@@ -22,6 +22,7 @@ import 'package:nanirecruitment/widgets/radio_button.dart';
 import 'package:nanirecruitment/widgets/radio_yes_no.dart';
 import 'package:nanirecruitment/providers/candidate_registration.dart';
 import 'package:provider/provider.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class ClientRegistrationScreen extends StatefulWidget {
   const ClientRegistrationScreen({super.key});
@@ -133,17 +134,17 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: Text('An error accurred!'),
-                content: Text('Something went wrong!'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Okey'),
-                    onPressed: () {
-                      // Navigator.of(ctx).pop();
-                    },
-                  )
-                ],
-              ));
+            title: Text('An error accurred!'),
+            content: Text('Something went wrong!'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Okey'),
+                onPressed: () {
+                  // Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ));
     }
 
     setState(() {
@@ -153,18 +154,18 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-              title: Text('success'),
-              content: Text('successfully Rgistred'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Okey'),
-                  onPressed: () {
-                    // Navigator.pop(context);
-                    Navigator.of(context).pushNamed('/');
-                  },
-                )
-              ],
-            ));
+          title: Text('success'),
+          content: Text('successfully Rgistred'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Okey'),
+              onPressed: () {
+                // Navigator.pop(context);
+                Navigator.of(context).pushNamed('/');
+              },
+            )
+          ],
+        ));
   }
 
   @override
@@ -198,56 +199,58 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(3),
-              child: Stepper(
-                physics: ClampingScrollPhysics(),
-                controlsBuilder:
-                    (BuildContext context, ControlsDetails controls) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 1.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        ElevatedButton(
-                          onPressed: controls.onStepContinue,
-                          child: const Text('NEXT'),
-                        ),
-                        if (currentStep != 0)
-                          TextButton(
-                            onPressed: controls.onStepCancel,
-                            child: const Text(
-                              'BACK',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                      ],
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(3),
+          child: Stepper(
+            physics: ClampingScrollPhysics(),
+            controlsBuilder:
+                (BuildContext context, ControlsDetails controls) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: ()=> { controls.onStepContinue,
+                      _saveForm()
+                      },
+                      child: const Text('NEXT'),
                     ),
-                  );
-                },
-                type: StepperType.horizontal,
-                currentStep: currentStep,
-                onStepCancel: () => currentStep == 0
-                    ? null
-                    : setState(() {
-                        currentStep -= 1;
-                      }),
-                onStepContinue: () {
-                  bool isLastStep =
-                      (currentStep == getSteps(selectImage).length - 1);
-                  if (isLastStep) {
-                    //Do something with this information
-                  } else {
-                    setState(() {
-                      currentStep += 1;
-                    });
-                  }
-                },
-                onStepTapped: (step) => setState(() {
-                  currentStep = step;
-                }),
-                steps: getSteps(selectImage),
-              )),
+                    if (currentStep != 0)
+                      TextButton(
+                        onPressed: controls.onStepCancel,
+                        child: const Text(
+                          'BACK',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+            type: StepperType.horizontal,
+            currentStep: currentStep,
+            onStepCancel: () => currentStep == 0
+                ? null
+                : setState(() {
+              currentStep -= 1;
+            }),
+            onStepContinue: () {
+              bool isLastStep =
+              (currentStep == getSteps(selectImage).length - 1);
+              if (isLastStep) {
+                //Do something with this information
+              } else {
+                setState(() {
+                  currentStep += 1;
+                });
+              }
+            },
+            onStepTapped: (step) => setState(() {
+              currentStep = step;
+            }),
+            steps: getSteps(selectImage),
+          )),
     );
   }
 
@@ -262,7 +265,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
             child: Form(
-              key: _form,
+              // key: _form,
               child: Column(
                 children: [
                   CustomInput(
@@ -549,7 +552,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
             child: Form(
-              key: _form,
+              // key: _form,
               child: Column(
                 children: [
                   JobsDrpodown(
@@ -576,32 +579,32 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     child: _isLoadingDrop
                         ? CircularProgressIndicator()
                         : JobsRoleDrpodown(
-                            onChanged: (value) {
-                              setState(() {
-                                print(value);
-                                job_id = value;
-                                selectedItem2 = value as String;
-                                _addcandidate = Candidate(
-                                    role_id: value,
-                                    fname: _addcandidate.fname,
-                                    lname: _addcandidate.lname,
-                                    national: _addcandidate.national,
-                                    gender: _addcandidate.gender,
-                                    location: _addcandidate.location,
-                                    mobile: _addcandidate.mobile,
-                                    title: _addcandidate.title,
-                                    email: _addcandidate.email,
-                                    Languages: _addcandidate.Languages,
-                                    nokname: _addcandidate.nokname,
-                                    nokaddress: _addcandidate.nokaddress,
-                                    nokmobile: _addcandidate.nokmobile,
-                                    user_name: _addcandidate.user_name,
-                                    passwd: _addcandidate.passwd,
-                                    imageUrl: _addcandidate.imageUrl);
-                              });
-                            },
-                            dropdownValue: selectedItem2,
-                          ),
+                      onChanged: (value) {
+                        setState(() {
+                          print(value);
+                          job_id = value;
+                          selectedItem2 = value as String;
+                          _addcandidate = Candidate(
+                              role_id: value,
+                              fname: _addcandidate.fname,
+                              lname: _addcandidate.lname,
+                              national: _addcandidate.national,
+                              gender: _addcandidate.gender,
+                              location: _addcandidate.location,
+                              mobile: _addcandidate.mobile,
+                              title: _addcandidate.title,
+                              email: _addcandidate.email,
+                              Languages: _addcandidate.Languages,
+                              nokname: _addcandidate.nokname,
+                              nokaddress: _addcandidate.nokaddress,
+                              nokmobile: _addcandidate.nokmobile,
+                              user_name: _addcandidate.user_name,
+                              passwd: _addcandidate.passwd,
+                              imageUrl: _addcandidate.imageUrl);
+                        });
+                      },
+                      dropdownValue: selectedItem2,
+                    ),
                   ),
                   TitleDropdownFormField(
                     onChanged: (value) {
@@ -790,14 +793,14 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     label: "Enter User Name",
                     controller: _user_name,
                     onValidate: (value) {
-                        if (value == null || value.isEmpty ) {
-                          return 'User Name is Required';
-                        }
-                        else if (value.length<5) {
-                          return 'Invalid User Name';
-                        }
-                        return null;
-                      },
+                      if (value == null || value.isEmpty ) {
+                        return 'User Name is Required';
+                      }
+                      else if (value.length<5) {
+                        return 'Invalid User Name';
+                      }
+                      return null;
+                    },
                     icon: Icon(Icons.person_outline),
                     textInputAction: TextInputAction.next,
                     focusNode: _user_nameFocusNode,
@@ -829,14 +832,14 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     controller: _passwd,
                     onValidate: (value) {
-                        if (value == null || value.isEmpty ) {
-                          return 'Password is Required';
-                        }
-                        else if (value.length<5) {
-                          return 'Invalid Password';
-                        }
-                        return null;
-                      },
+                      if (value == null || value.isEmpty ) {
+                        return 'Password is Required';
+                      }
+                      else if (value.length<5) {
+                        return 'Invalid Password';
+                      }
+                      return null;
+                    },
                     focusNode: _passwdFocusNode,
                     onSubmitted: (value) {
                       _saveForm();
@@ -864,15 +867,15 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   PasswordInput(
                     text: 'Confirm password',
                     controller: _cpasswd,
-                      onValidate: (value) {
-                        if (value == null || value.isEmpty ) {
-                          return  'Confirm Password is Required';
-                        }
-                        else if (value.length<5) {
-                          return 'Invalid Password';
-                        }
-                        return null;
-                      },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty ) {
+                        return  'Confirm Password is Required';
+                      }
+                      else if (value.length<5) {
+                        return 'Invalid Password';
+                      }
+                      return null;
+                    },
                   ),
                   Container(
                     width: double.infinity,
@@ -885,7 +888,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor:
-                              Theme.of(context).primaryTextTheme.button!.color,
+                          Theme.of(context).primaryTextTheme.button!.color,
                           backgroundColor: Theme.of(context).primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),

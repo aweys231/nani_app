@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:nanirecruitment/size_config.dart';
 
 const kPrimaryColor = Color(0xFFFF7643);
@@ -12,6 +13,8 @@ const kPrimaryGradientColor = LinearGradient(
 );
 const kSecondaryColor = Color(0xFF979797);
 const kTextColor = Color(0xFF757575);
+final bggcolor = HexColor('#B04C68');
+final txtcolor = HexColor('#0F2757');
 
 const kAnimationDuration = Duration(milliseconds: 200);
 
@@ -35,6 +38,7 @@ const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
 const String kAddressNullError = "Please Enter your address";
+
 
 final otpInputDecoration = InputDecoration(
   contentPadding:

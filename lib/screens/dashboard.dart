@@ -75,8 +75,9 @@ class _DhashboardState extends State<Dhashboard> {
                       height: 11,
                     ),
                      Padding(padding: EdgeInsets.symmetric(
-                    horizontal: 15),child:  SectionTitle(
-                  title: "Available Jobs",
+                    horizontal: 15),
+                       child: SectionTitle(
+                       title: "Available Jobs",
                   press: () {},
                 ),),
             //  CategoryItem(),

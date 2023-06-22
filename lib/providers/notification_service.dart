@@ -45,8 +45,8 @@ class NotificationService with ChangeNotifier {
           AndroidInitializationSettings('@mipmap/ic_launcher');
 
       //Initialization Settings for iOS devices
-      final IOSInitializationSettings initializationSettingsIOS =
-          IOSInitializationSettings(
+      final DarwinInitializationSettings initializationSettingsIOS =
+       DarwinInitializationSettings(
         requestSoundPermission: false,
         requestBadgePermission: false,
         requestAlertPermission: false,
@@ -64,7 +64,7 @@ class NotificationService with ChangeNotifier {
     
    
       await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-          onSelectNotification: selectNotification);
+          );
     } catch (error) {
       print(error);
       throw error;
@@ -86,7 +86,7 @@ class NotificationService with ChangeNotifier {
   NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails('channelId', 'channelName',
           importance: Importance.max, priority: Priority.max),
-      iOS: IOSNotificationDetails(
+      iOS: DarwinNotificationDetails(
           sound: 'default.wav',
           threadIdentifier: "thread1",
           presentAlert: true,
@@ -119,6 +119,7 @@ class NotificationService with ChangeNotifier {
         body,
         tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
         notificationDetails,
+        // ignore: deprecated_member_use
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);

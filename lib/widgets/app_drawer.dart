@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:nanirecruitment/helpers/custom_route.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
 import 'package:nanirecruitment/screens/add_place_screen.dart';
@@ -19,17 +21,28 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontstyle = GoogleFonts.abhayaLibre(
+      fontSize: 25,
+      // fontWeight: FontWeight.bold,
+      color: HexColor('#1e4a68')
+    );
     return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Settings!'),
-            automaticallyImplyLeading: false,
+            // centerTitle: true,
+            backgroundColor: HexColor('#F2E7E5'),
+            elevation: 0,
+            title: Text('Settings!', style: GoogleFonts.aBeeZee(
+              fontSize: 25,
+              color: HexColor('#de5700'),
+            )),
+            leading: Center(child: Icon(Icons.settings, color: HexColor('#de5700'),)),
           ),
-          Divider(),
+          // Divider(),
           ListTile(
             leading: Icon(Icons.dashboard_outlined),
-            title: Text('Dhashboard'),
+            title: Text('Dashboard', style: fontstyle,),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
@@ -37,7 +50,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.description_outlined),
-            title: Text('legal information'),
+            title: Text('legal information', style: fontstyle,),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(CanidateLegalInfor.routeName);
@@ -46,7 +59,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.calendar_month),
-            title: Text('Availability'),
+            title: Text('Availability', style: fontstyle,),
             onTap: () {
               // Navigator.of(context)
               //     .pushReplacementNamed(Availability.routeName);
@@ -57,7 +70,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.location_on_outlined),
-            title: Text('location'),
+            title: Text('location', style: fontstyle,),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(AddPlaceScreen.routeName);
@@ -66,7 +79,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.calendar_view_month),
-            title: Text('My Shifts'),
+            title: Text('My Shifts', style: fontstyle,),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(MyShifts.routeName);
@@ -75,7 +88,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.qr_code_2_outlined),
-            title: Text('Attandance'),
+            title: Text('Attandance', style: fontstyle,),
             onTap: () {
               Navigator.pushNamed(context, ScanAttandance.routeName);
               //  Navigator.of(context)
@@ -85,7 +98,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
+            title: Text('Logout', style: fontstyle,),
             onTap: () {
               // Navigator.of(context).pop();
              

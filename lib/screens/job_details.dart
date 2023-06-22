@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field, prefer_const_literals_to_create_immutables, unnecessary_new
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_string_interpolations, implementation_imports, unnecessary_import, unused_import, avoid_print, unused_element, non_constant_identifier_names, unused_field, prefer_const_literals_to_create_immutables, unnecessary_new, use_build_context_synchronously
 
 
 
@@ -239,7 +239,7 @@ class _JobDetailsState extends State<JobDetails> {
                           children: <Widget>[
                             Text(
                               "${jobList.jobtitile}",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             Card(
                               child: Padding(
@@ -517,13 +517,13 @@ class _JobDetailsState extends State<JobDetails> {
                             ),
                             Text(
                               "Overview",
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Text(
                               "${jobList.description}",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1
+                                  .bodyLarge
                                   ?.apply(color: Colors.grey),
                               maxLines: 3,
                             ),
@@ -565,7 +565,7 @@ class _JobDetailsState extends State<JobDetails> {
                                   "Booking Inquiry",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .button!
+                                      .labelLarge!
                                       .apply(color: Colors.white),
                                 ),
                                 style: ElevatedButton.styleFrom(

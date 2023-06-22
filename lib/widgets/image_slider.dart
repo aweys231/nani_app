@@ -45,9 +45,15 @@ class _ImageSliderState extends State<ImageSlider> {
                     ChangeNotifierProvider.value(
                         value: imageUrls.images[index], child: ImageItem()),
                 options: CarouselOptions(
-                    enlargeCenterPage: true,
+                    height: MediaQuery.of(context).size.height / 4,
                     autoPlay: true,
-                    viewportFraction: 1,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 900),
+                    autoPlayCurve: Curves.easeInOut,
+                    enlargeCenterPage: true,
+                    enlargeFactor: 0.1,
+                    initialPage: 0,
+                    viewportFraction: 0.9,
                     onPageChanged: (index, reason) =>
                         setState(() => activiteIndex = index)),
               ),
@@ -82,7 +88,7 @@ class ImageItem extends StatelessWidget {
         child: FadeInImage(
           width: MediaQuery.of(context).size.width,
         fit: BoxFit.cover,
-              placeholder: AssetImage('assets/sliderimages/00.jpg'), image: NetworkImage(
+              placeholder: AssetImage('assets/sliderimages/placeholder.png'), image: NetworkImage(
         image.imageUrl,
           )
       ),

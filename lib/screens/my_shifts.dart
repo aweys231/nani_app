@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unnecessary_import, prefer_const_constructors, implementation_imports, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_string_interpolations, avoid_print, dead_code, unused_element, unused_field, prefer_final_fields
+// ignore_for_file: non_constant_identifier_names, unnecessary_import, prefer_const_constructors, implementation_imports, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_string_interpolations, avoid_print, dead_code, unused_element, unused_field, prefer_final_fields, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
