@@ -48,7 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                      height: MediaQuery.of(context).size.height * 0.12,
+                      height: MediaQuery.of(context).size.height / 10,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white
@@ -61,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-                      height: MediaQuery.of(context).size.height * 0.75,
+                      height: MediaQuery.of(context).size.height / 1.5 ,
 
                       width: deviceSize.width,
                       decoration: BoxDecoration(
@@ -221,15 +221,15 @@ class _AuthCardState extends State<AuthCard>
     });
   }
   bool hidePassword = true;
+  bool isremmeber = false;
+
+
+
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(10.0),
-      // ),
-      // elevation: 2.0,
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -249,20 +249,18 @@ class _AuthCardState extends State<AuthCard>
                 SizedBox(height: 15),
                 TextFormField(
 
-                  style: TextStyle(
-                    height: 1.9,
-                  ),
+
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                       hintText: 'Enter your email',
-                      hintStyle: TextStyle(fontSize: 20 ,color: HexColor('#64717d')),
+                      hintStyle: TextStyle(color: HexColor('#64717d')),
                       prefixIcon: Icon(Icons.email, color: HexColor('#64717d')),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(5),
                       )
                   ),
                   keyboardType: TextInputType.emailAddress,
@@ -279,16 +277,14 @@ class _AuthCardState extends State<AuthCard>
                 SizedBox(height: 20),
                 TextFormField(
                   obscureText: hidePassword,
-                  style: TextStyle(
-                      height: 1.9
-                  ),
+
                   decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       hintText: 'Enter your Password',
-                      hintStyle: TextStyle(fontSize: 20 ,color: HexColor('#64717d')),
+                      hintStyle: TextStyle(color: HexColor('#64717d')),
                       prefixIcon: Icon(Icons.vpn_key, color: HexColor('#64717d')),
                       suffixIcon: IconButton(
                         icon: hidePassword
@@ -302,7 +298,7 @@ class _AuthCardState extends State<AuthCard>
                       ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(5),
                       )
                   ),
                   // obscureText: true,
@@ -320,36 +316,46 @@ class _AuthCardState extends State<AuthCard>
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-                    Row(
-                      children: [
-                        Icon(Icons.check_box_outline_blank, size: 30,),
-                        SizedBox(width: 5,),
-                        Text('Remember Me', style: GoogleFonts.abhayaLibre(
-                            color: txtcolor,
-                            fontSize: MediaQuery.of(context).size.width * 0.06,
+                Container(
+                  width: deviceSize.width*0.95,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon( !isremmeber ? Icons.check_box_outline_blank : Icons.check_box, size: 30,),
+                          onPressed: ()=> {
+                            setState(() {
+                              isremmeber = !isremmeber;
+                              print(isremmeber);
+                            })
+                          },
+                          ),
+                          SizedBox(width: 5,),
+                          Text('Remember me', style: GoogleFonts.lato(
+                              color: txtcolor,
+                              fontSize: deviceSize.width * 0.035,
+                              fontWeight: FontWeight.bold
+                          )),
+                        ],
+                      ),
+                      TextButton(
+                        child: Text('Forget Password?', style: GoogleFonts.abhayaLibre(
+                            color: bggcolor,
+                            fontSize: deviceSize.width * 0.035,
                             fontWeight: FontWeight.bold
-                        )),
-                      ],
-                    ),
-                    TextButton(
-                      child: Text('Forget Password', style: GoogleFonts.abhayaLibre(
-                          color: bggcolor,
-                          fontSize: MediaQuery.of(context).size.width * 0.06,
-                          fontWeight: FontWeight.bold
-                      ),),
-                      onPressed: () {  },)
-                  ],
+                        ),),
+                        onPressed: () {  },)
+                    ],
+                  ),
                 ),
                 SizedBox(height: 12,),
                 if (_isLoading)
                   CircularProgressIndicator()
                 else
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.055,
+                    height: deviceSize.height * 0.06 ,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: bggcolor,
@@ -371,14 +377,15 @@ class _AuthCardState extends State<AuthCard>
                   children: [
                     Text('I Don\'t Have An Account?', style: GoogleFonts.abhayaLibre(
                         color: txtcolor,
-                        fontSize: deviceSize.width * 0.07)),
+                        letterSpacing: 1.2,
+                        fontSize: deviceSize.width * 0.045)),
                     TextButton(
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.symmetric( vertical: 10, horizontal: 6),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       child: Text("Sign Up",
-                          style: GoogleFonts.abhayaLibre(color: bggcolor, fontSize: deviceSize.width * 0.06)),
+                          style: GoogleFonts.abhayaLibre(color: bggcolor, fontWeight: FontWeight.bold, fontSize: deviceSize.width * 0.045)),
                       onPressed: (() async {
 
                         //          debugPrint('Notification Scheduled for $scheduleTime');

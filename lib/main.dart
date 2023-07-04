@@ -32,6 +32,8 @@ import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/dashboard.dart';
 import 'package:nanirecruitment/screens/verification_number_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:responsive_framework/breakpoint.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' ;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -91,8 +93,8 @@ class _MyAppState extends State<MyApp> {
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
-            title: 'My Nani',
-            localizationsDelegates: [
+             title: 'My Nani',
+             localizationsDelegates: [
               GlobalWidgetsLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               MonthYearPickerLocalizations.delegate,
@@ -142,6 +144,11 @@ class _MyAppState extends State<MyApp> {
               MyShifts(auth.role_id, auth.candidate_id),
               // splash.id: (_) => splash(),
             },
+            builder: (context, child) => MediaQuery(
+              child: child!,
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            ),
+            // },
           ),
         ));
   }

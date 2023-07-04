@@ -33,102 +33,113 @@ class JobContainer extends StatelessWidget {
           MaterialPageRoute(
             builder: (ctx) => JobDetails(id: jobs.id.toString(), candidate_id: candidateid.candidate_id!),
           )),
-      child: Expanded(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(9.0),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey[300]!,
-                  blurRadius: 5.0,
-                  offset: const Offset(0, 3))
-            ],
-          ),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                        child: Container(
-                          height:  MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.height * 0.1,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/sliderimages/placeholder.png'),
-                              fit: BoxFit.cover,
-                            )
-                          )
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Container(
-                      child: Row(
+      child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 6,
+            margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(9.0),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[300]!,
+                    blurRadius: 5.0,
+                    offset: const Offset(0, 3))
+              ],
+            ),
+            child: ListView(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Row(
                         children: [
-                          Flexible(
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    jobs.name,
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold
-                                    ),),
-                                  SizedBox(height: 8,),
-                                  Text(
-                                    jobs.jobtitile.toUpperCase(),
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      color: Colors.black87
-                                    ),
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Text(
-                                     overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
 
-                                    jobs.description,
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 20,
-                                      color: HexColor('#0C2857')
-                                    ),),
-
-                                ],
+                            ),
+                            child: Flexible(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height / 6,
+                                width: MediaQuery.of(context).size.width / 3,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/sliderimages/placeholder.png'),
+                                    fit: BoxFit.fill,
+                                  )
+                                )
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        jobs.name,
+                                        style: GoogleFonts.playfairDisplay(
+                                           fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis
+                                        ,),
+                                      SizedBox(height: 8,),
+                                      FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            jobs.jobtitile.toUpperCase(),
+                                          style: GoogleFonts.roboto(
+                                               fontSize: 22,
+                                            color: Colors.black87
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                         overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
+                                        jobs.description,
+                                        style: GoogleFonts.playfairDisplay(
+                                            fontSize: 18,
+                                          color: HexColor('#0C2857')
+                                        ),),
+
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(right: 5)
+                          ,child: Icon(Icons.arrow_forward_ios, color: HexColor('#1e4a68'), size: 28,))
+                    ],
                   ),
-                  Container(
-                      margin: EdgeInsets.only(right: 5)
-                      ,child: Icon(Icons.arrow_forward_ios, color: HexColor('#1e4a68'), size: 28,))
-                ],
-              ),
-              // Text(
-              //   "Salary 200",
-              //   style: Theme.of(context)
-              //       .textTheme
-              //       .subtitle1!
-              //       .apply(fontWeightDelta: 2),
-              // )
-            ],
+                ),
+                // Text(
+                //   "Salary 200",
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .subtitle1!
+                //       .apply(fontWeightDelta: 2),
+                // )
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

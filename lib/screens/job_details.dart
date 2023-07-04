@@ -6,6 +6,7 @@ import "package:flutter/src/widgets/container.dart";
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -197,7 +198,8 @@ class _JobDetailsState extends State<JobDetails> {
                         IconButton(
                           icon: Icon(
                             Icons.chevron_left,
-                            color: Colors.white,
+                            color: bggcolor,
+                            size: 30,
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
@@ -240,6 +242,7 @@ class _JobDetailsState extends State<JobDetails> {
                             Text(
                               "${jobList.jobtitile}",
                               style: Theme.of(context).textTheme.headlineSmall,
+
                             ),
                             Card(
                               child: Padding(
@@ -263,18 +266,20 @@ class _JobDetailsState extends State<JobDetails> {
                                     leading: Icon(
                                       Icons.location_on,
                                       size: 30,
+                                        color: txtcolor,
                                     ),
                                     title: Text(
                                       "${jobList.jv_address}",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       // textScaleFactor: 2.5,
                                       textAlign: TextAlign.start,
                                     ),
                                     contentPadding: EdgeInsets.all(5),
-                                    iconColor: Colors.blue,
+                                    iconColor: txtcolor,
                                     textColor: Colors.green,
                                   ),
                                 ),
@@ -311,13 +316,14 @@ class _JobDetailsState extends State<JobDetails> {
                                       "${jobList.shift_type}",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       // textScaleFactor: 2.5,
                                       textAlign: TextAlign.start,
                                     ),
                                     contentPadding: EdgeInsets.all(5),
-                                    iconColor: Colors.blue,
+                                    iconColor: txtcolor,
                                     textColor: Colors.green,
                                   ),
                                 ),
@@ -348,12 +354,14 @@ class _JobDetailsState extends State<JobDetails> {
                                      visualDensity: VisualDensity(vertical: -3),
                                     leading: Icon(
                                       Icons.directions_walk,
+                                      color: txtcolor,
                                       size: 30,
                                     ),
                                     title: Text(
                                       "${jobList.km}km",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       // textScaleFactor: 2.5,
@@ -391,12 +399,14 @@ class _JobDetailsState extends State<JobDetails> {
                                      visualDensity: VisualDensity(vertical: -3),
                                     leading: Icon(
                                       Icons.bus_alert_rounded,
+                                      color: txtcolor,
                                       size: 30,
                                     ),
                                     title: Text(
                                       "${jobList.minut} minutes",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       // textScaleFactor: 2.5,
@@ -430,12 +440,14 @@ class _JobDetailsState extends State<JobDetails> {
                                      visualDensity: VisualDensity(vertical: -3),
                                     leading: Icon(
                                       Icons.date_range_outlined,
+                                      color: txtcolor,
                                       size: 30,
                                     ),
                                     title: Text(
                                       " star date ${jobList.start_date}",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.start,
@@ -469,12 +481,14 @@ class _JobDetailsState extends State<JobDetails> {
                                      visualDensity: VisualDensity(vertical: -3),
                                     leading: Icon(
                                       Icons.date_range_outlined,
+                                      color: txtcolor,
                                       size: 30,
                                     ),
                                     title: Text(
                                       "End date ${jobList.end_date}",
                                       style: TextStyle(
                                         fontSize: 14,
+                                        color: txtcolor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.start,
@@ -569,7 +583,7 @@ class _JobDetailsState extends State<JobDetails> {
                                       .apply(color: Colors.white),
                                 ),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: bggcolor,
                                 ),
                                 onPressed: () {
                                   _savePlace();

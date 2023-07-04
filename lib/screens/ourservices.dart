@@ -3,6 +3,7 @@
 // import 'package:best_flutter_ui_templates/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:nanirecruitment/constants.dart';
 
 import '../../main.dart';
 import '../models/service_list.dart';
@@ -132,43 +133,49 @@ class MealsView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            SizedBox(
+                              height: 10,
+                              child: Divider(height: 0.000001, color: Colors.grey,)
+                              ,
+                            ),
                             Text(
                               mealsListData!.titleTxt,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 18,
                                 letterSpacing: 0.2,
-                                color: AppTheme.white,
+                                color: txtcolor,
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.only(top: 8, bottom: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Container(
-                                        child: Text(
-                                          mealsListData!.Desc ,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 10,
-                                            letterSpacing: 0.2,
-                                            color: AppTheme.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+
+                            // Expanded(
+                            //   child: Padding(
+                            //     padding:
+                            //     const EdgeInsets.only(top: 8, bottom: 8),
+                            //     child: Row(
+                            //       mainAxisAlignment: MainAxisAlignment.start,
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: <Widget>[
+                            //         Expanded(
+                            //           child: Container(
+                            //             child: Text(
+                            //               mealsListData!.Desc ,
+                            //               style: TextStyle(
+                            //                 fontFamily: AppTheme.fontName,
+                            //                 fontWeight: FontWeight.w500,
+                            //                 fontSize: 10,
+                            //                 letterSpacing: 0.2,
+                            //                 color: AppTheme.white,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
 
                           ],
                         ),

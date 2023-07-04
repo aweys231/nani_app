@@ -12,6 +12,7 @@ import 'package:nanirecruitment/screens/canidate_legal_info.dart';
 import 'package:nanirecruitment/screens/my_shifts.dart';
 import 'package:nanirecruitment/screens/scan_attandance.dart';
 import 'package:nanirecruitment/widgets/file_upload.dart';
+import '../constants.dart';
 import '../providers/auth.dart';
 
 import 'package:provider/provider.dart';
@@ -21,24 +22,25 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontstyle = GoogleFonts.abhayaLibre(
-      fontSize: 25,
+    final fontstyle = GoogleFonts.aBeeZee(
+      fontSize: 22,
       // fontWeight: FontWeight.bold,
-      color: HexColor('#1e4a68')
+      color: txtcolor
     );
     return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
             // centerTitle: true,
-            backgroundColor: HexColor('#F2E7E5'),
+            backgroundColor: bggcolor,
             elevation: 0,
             title: Text('Settings!', style: GoogleFonts.aBeeZee(
               fontSize: 25,
-              color: HexColor('#de5700'),
+              color: txtcolor
             )),
-            leading: Center(child: Icon(Icons.settings, color: HexColor('#de5700'),)),
+            leading: Center(child: Icon(Icons.settings, color: txtcolor,)),
           ),
+          SizedBox(height: 20,),
           // Divider(),
           ListTile(
             leading: Icon(Icons.dashboard_outlined),

@@ -19,6 +19,8 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 
+import '../constants.dart';
+
 class Availability extends StatefulWidget {
   static const routeName = '/availability';
   const Availability(this.candidate_id, {super.key});
@@ -184,9 +186,14 @@ class _AvailabilityState extends State<Availability> {
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
     return Scaffold(
         backgroundColor: Color(0xfff0f0f6),
-        appBar: AppBar(title: Text('schedule'), actions: <Widget>[
+        appBar: AppBar(
+            iconTheme: IconThemeData(color: txtcolor),
+            backgroundColor: bggcolor,
+            title: Text('schedule', style: TextStyle(color: txtcolor),),
+            centerTitle: true,
+            actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.calendar_month_outlined),
+              icon: Icon(Icons.calendar_month_outlined, color: txtcolor),
               onPressed: () => _onPressed(context: context)),
         ]),
         drawer: AppDrawer(),
@@ -273,8 +280,7 @@ class _AvailabilityState extends State<Availability> {
                                 Icon(
                                   FontAwesomeIcons.calendarDay,
                                   color: currentIndex == 0
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).primaryColorLight,
+                                      ? bggcolor : txtcolor,
                                   size: currentIndex == 0 ? 30 : 26,
                                 ),
                                 currentIndex == 0
@@ -297,8 +303,7 @@ class _AvailabilityState extends State<Availability> {
                                 text: 'My Availability',
                                 style: TextStyle(
                                     color: currentIndex == 0
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).primaryColorLight,
+                                        ? bggcolor : txtcolor,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Lato'),
@@ -345,8 +350,7 @@ class _AvailabilityState extends State<Availability> {
                                 Icon(
                                   FontAwesomeIcons.calendarDay,
                                   color: currentIndex == 1
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).primaryColorLight,
+                                      ? bggcolor : txtcolor,
                                   size: currentIndex == 1 ? 30 : 26,
                                 ),
                                 currentIndex == 1
@@ -369,8 +373,7 @@ class _AvailabilityState extends State<Availability> {
                                 text: 'My Booking',
                                 style: TextStyle(
                                     color: currentIndex == 1
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).primaryColorLight,
+                                        ? bggcolor : txtcolor,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Lato'),
@@ -421,16 +424,11 @@ class _AvailabilityState extends State<Availability> {
                                                 crossAxisAlignment:CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
                                                       Expanded(
                                                         child: MyAvailability(
-                                                            availabilityData
-                                                                    .myAvailability[
-                                                                index],
-                                                            context),
+                                                            availabilityData.myAvailability[index], context),
                                                       ),
                                                     ],
                                                   ),
@@ -538,10 +536,7 @@ class _AvailabilityState extends State<Availability> {
  
     return Card(
       elevation: 8,
-      margin: EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 5,
-      ),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -559,8 +554,7 @@ class _AvailabilityState extends State<Availability> {
                         DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
                         style: TextStyle(
                             color: currentIndex == 1
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context).primaryColorLight,
+                                ? bggcolor : txtcolor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Lato')),
@@ -592,8 +586,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week Day'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week Day' ? 18 : 15,
                             ),
                             av.shift == 'Week Day'
@@ -616,8 +609,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week Day',
                                   style: TextStyle(
                                       color: av.shift == 'Week Day'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -644,8 +636,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week Night'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week Night' ? 18 : 15,
                             ),
                             av.shift == 'Week Night'
@@ -668,8 +659,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week Night',
                                   style: TextStyle(
                                       color: av.shift == 'Week Night'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -697,8 +687,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week-End Day'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week-End Day' ? 18 : 15,
                             ),
                             av.shift == 'Week-End Day'
@@ -721,8 +710,7 @@ class _AvailabilityState extends State<Availability> {
                                   text:'Week-End Day',
                                   style: TextStyle(
                                       color: av.shift == 'Week-End Day'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -750,8 +738,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week-End Night'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: currentIndex == 0 ? 18 : 15,
                             ),
                             av.shift == 'Week-End Night'
@@ -774,8 +761,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week-End Night',
                                   style: TextStyle(
                                       color: av.shift == 'Week-End Night'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -820,8 +806,7 @@ class _AvailabilityState extends State<Availability> {
                         DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
                         style: TextStyle(
                             color: currentIndex == 0
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context).primaryColorLight,
+                                ? bggcolor : txtcolor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Lato')),
@@ -853,8 +838,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week Day'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week Day' ? 18 : 15,
                             ),
                             av.shift == 'Week Day'
@@ -877,8 +861,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week Day',
                                   style: TextStyle(
                                       color: av.shift == 'Week Day'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -905,8 +888,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week Night'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week Night' ? 18 : 15,
                             ),
                             av.shift == 'Week Night'
@@ -929,8 +911,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week Night',
                                   style: TextStyle(
                                       color: av.shift == 'Week Night'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -958,8 +939,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week-End Day'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: av.shift == 'Week-End Day' ? 18 : 15,
                             ),
                             av.shift == 'Week-End Day'
@@ -982,8 +962,7 @@ class _AvailabilityState extends State<Availability> {
                                   text:'Week-End Day',
                                   style: TextStyle(
                                       color: av.shift == 'Week-End Day'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),
@@ -1011,8 +990,7 @@ class _AvailabilityState extends State<Availability> {
                             Icon(
                               FontAwesomeIcons.checkCircle,
                               color: av.shift == 'Week-End Night'
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).primaryColorLight,
+                                  ? bggcolor : txtcolor,
                               size: currentIndex == 0 ? 18 : 15,
                             ),
                             av.shift == 'Week-End Night'
@@ -1035,8 +1013,7 @@ class _AvailabilityState extends State<Availability> {
                                   text: 'Week-End Night',
                                   style: TextStyle(
                                       color: av.shift == 'Week-End Night'
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
+                                          ? bggcolor : txtcolor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: 'Lato'),

@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
@@ -65,6 +66,8 @@ class _MyShiftsState extends State<MyShifts> {
         backgroundColor: Color(0xfff0f0f6),
         appBar: AppBar(
           title: Text('MY Shifts'),
+          backgroundColor: bggcolor,
+          centerTitle: true,
         ),
         drawer: AppDrawer(),
         body: Column(
@@ -139,9 +142,7 @@ class _MyShiftsState extends State<MyShifts> {
                                       Icon(
                                         FontAwesomeIcons.calendarDay,
                                         color: currentIndex == 0
-                                            ? Theme.of(context).primaryColor
-                                            : Theme.of(context)
-                                                .primaryColorLight,
+                                            ? bggcolor : txtcolor,
                                         size: currentIndex == 0 ? 30 : 26,
                                       ),
                                       currentIndex == 0
@@ -166,10 +167,9 @@ class _MyShiftsState extends State<MyShifts> {
                                       text: 'UPCOMIN',
                                       style: TextStyle(
                                           color: currentIndex == 0
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context)
-                                                  .primaryColorLight,
+                                              ? bggcolor : txtcolor,
                                           fontSize: 18,
+
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Lato'),
                                       // children: <TextSpan>[
@@ -221,9 +221,7 @@ class _MyShiftsState extends State<MyShifts> {
                                       Icon(
                                         FontAwesomeIcons.calendarDay,
                                         color: currentIndex == 1
-                                            ? Theme.of(context).primaryColor
-                                            : Theme.of(context)
-                                                .primaryColorLight,
+                                            ? bggcolor : txtcolor,
                                         size: currentIndex == 1 ? 30 : 26,
                                       ),
                                       currentIndex == 1
@@ -248,9 +246,7 @@ class _MyShiftsState extends State<MyShifts> {
                                       text: 'COMPLETED',
                                       style: TextStyle(
                                           color: currentIndex == 1
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context)
-                                                  .primaryColorLight,
+                                              ? bggcolor : txtcolor,
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Lato'),
@@ -472,47 +468,41 @@ class _MyShiftsState extends State<MyShifts> {
                   ),
                 ),
                 SizedBox(width: 8),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 10,
-                            offset: Offset(2, 2))
-                      ]),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        child: Text("Cancel"),
-                        onPressed: () async {
-                          // widget.candidate_id.toString();
-                          var message = await Provider.of<job.Jobs_Section>(
-                                  context,
-                                  listen: false)
-                              .shift_cancelation(jobs.availabilityid);
-                          print(message.toString());
-                          await showDialog(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                    title: Text('success'),
-                                    content: Text(message.toString()),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text('Okey'),
-                                        onPressed: () {
-                                          // Navigator.of(ctx).pop();
-                                          Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
-                                        },
-                                      )
-                                    ],
-                                  ));
-                        },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: bggcolor,
+                        padding: EdgeInsets.symmetric(vertical: 6,  horizontal: 6),
+
                       ),
-                    ],
-                  ),
+                      child: Text("Cancel"),
+                      onPressed: () async {
+                        // widget.candidate_id.toString();
+                        var message = await Provider.of<job.Jobs_Section>(
+                                context,
+                                listen: false)
+                            .shift_cancelation(jobs.availabilityid);
+                        print(message.toString());
+                        await showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                                  title: Text('success'),
+                                  content: Text(message.toString()),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Okey'),
+                                      onPressed: () {
+                                        // Navigator.of(ctx).pop();
+                                        Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
+                                      },
+                                    )
+                                  ],
+                                ));
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

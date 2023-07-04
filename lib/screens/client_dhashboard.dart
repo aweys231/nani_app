@@ -81,135 +81,134 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xfff0f0f6),
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.red),
-          toolbarHeight: 66,
-          backgroundColor: HexColor("#F2E7E5"),
-          elevation: 0,
-          title: Text("Nani Recruitment ", style: GoogleFonts.abhayaLibre(
-              color: Colors.black,
-              fontSize: 25,
-              fontWeight: FontWeight.bold
-              
-          )),
-          centerTitle: true,
-        ),
-        drawer: AppDrawer(),
-        body: ListView(
-          children: [
-            _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Container(
-                height: MediaQuery.of(context).size.height * 0.95,
-                    padding: EdgeInsets.all(5),
-                    // ignore: prefer_const_literals_to_create_immutables
-                    child: ListView(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // DaleelBanner(),
-                          ImageSlider(),
-                          SizedBox(
-                            height: 15,
-                          ),
+    return
+        Scaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: txtcolor),
+            toolbarHeight: 66,
+            backgroundColor: bggcolor,
+            elevation: 0,
+            title: Text("Nani Recruitment ", style: GoogleFonts.abhayaLibre(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
 
-                          SizedBox(height: 30,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: SectionTitle(
-                              title: "Our Services",
-                              SectionColor: HexColor("#AD4D68"),
-                              SectionSize: 22,
-                              press: () {},
-                            ),
-                          ),
+            )),
+            centerTitle: true,
+          ),
+          drawer: AppDrawer(),
+          body: ListView(
+              children: [
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Container(
+                    height: MediaQuery.of(context).size.height ,
+                        padding: EdgeInsets.all(5),
+                        // ignore: prefer_const_literals_to_create_immutables
+                        child: ListView(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // DaleelBanner(),
+                              ImageSlider(),
+                              SizedBox(
+                                height: 15,
+                              ),
 
-                          ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: SectionTitle(
+                                  title: "Our Services",
+                                  SectionColor: txtcolor,
+                                  SectionSize: MediaQuery.of(context).size.width*0.035,
+                                  press: () {},
+                                ),
+                              ),
 
 
-                          Container(
-                            margin: EdgeInsets.only(top: 12),
-                            height: MediaQuery.of(context).size.height * 0.18,
-                            child: MealsListView(
-                              // mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                              //     CurvedAnimation(
-                              //         parent: animationController,
-                              //         curve: Interval((1 / 2) * 3, 1.0,
-                              //             curve: Curves.fastOutSlowIn))),
-                              // mainScreenAnimationController: widget.animationController,
-                            )
-                          ),
+                              Container(
+                                // margin: EdgeInsets.only(top: 6),
+                                height: MediaQuery.of(context).size.height / 6,
+                                child: MealsListView(
+                                  // mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                                  //     CurvedAnimation(
+                                  //         parent: animationController,
+                                  //         curve: Interval((1 / 2) * 3, 1.0,
+                                  //             curve: Curves.fastOutSlowIn))),
+                                  // mainScreenAnimationController: widget.animationController,
+                                )
+                              ),
 
-                          SizedBox(height: 10,),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: SectionTitle(
-                              title: "Available Jobs",
-                              SectionColor: txtcolor,
-                              SectionSize: 22,
-                              press: () {},
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            child: ListView(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FutureBuilder(
-                                    future: _jobsFuture,
-                                    builder: (ctx, dataSnapshot) {
-                                      if (dataSnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else {
-                                        if (dataSnapshot.error != null) {
-                                          return Center(
-                                              child: Text('An error Accour'));
-                                          print(dataSnapshot.error);
-                                        } else {
-                                          return Consumer<job.Jobs_Section>(
-                                              builder: (ctx, jobData, child) =>
-                                                  jobData.vcuncyjobs.isNotEmpty
-                                                      ? Expanded(
-                                                          child: Container(
-                                                            //  margin: EdgeInsets.only(bottom: 100),
-                                                            child: ListView.builder(
-                                                              // scrollDirection: Axis.horizontal,
-                                                              shrinkWrap: true,
-                                                              itemCount: jobData
-                                                                  .vcuncyjobs
-                                                                  .length,
-                                                              itemBuilder: (ctx,
-                                                                      i) =>
-                                                                  JobContainer(jobData
-                                                                      .vcuncyjobs[i]),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      : Center(
-                                                          child: const Text(
-                                                            'No results found',
-                                                            style: TextStyle(
-                                                                fontSize: 24),
-                                                          ),
-                                                        ));
-                                        }
-                                      }
-                                    }),
-                              ],
-                            ),
-                          )
-                        ])),
-          ],
-        ),
+                              SizedBox(height: 10,),
+                              // availibe jobs
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: SectionTitle(
+                                  title: "Available Jobs",
+                                  SectionColor: txtcolor,
+                                  SectionSize: MediaQuery.of(context).size.width*0.035,
+                                  press: () {},
+                                ),
+                              ),
+
+                              Container(
+                                height: MediaQuery.of(context).size.height / 2,
+                                child: ListView(
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FutureBuilder(
+                                        future: _jobsFuture,
+                                        builder: (ctx, dataSnapshot) {
+                                          if (dataSnapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          } else {
+                                            if (dataSnapshot.error != null) {
+                                              return Center(
+                                                  child: Text('An error Accour'));
+                                              print(dataSnapshot.error);                                        } else {
+                                              return Consumer<job.Jobs_Section>(
+                                                  builder: (ctx, jobData, child) =>
+                                                      jobData.vcuncyjobs.isNotEmpty
+                                                          ? Expanded(
+                                                              child: Container(
+                                                                //  margin: EdgeInsets.only(bottom: 100),
+                                                                child: ListView.builder(
+                                                                  scrollDirection: Axis.vertical,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: jobData
+                                                                      .vcuncyjobs
+                                                                      .length,
+                                                                  itemBuilder: (ctx,
+                                                                          i) =>
+                                                                      JobContainer(jobData
+                                                                          .vcuncyjobs[i]),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Center(
+                                                              child: const Text(
+                                                                'No results found',
+                                                                style: TextStyle(
+                                                                    fontSize: 24),
+                                                              ),
+                                                            ));
+                                            }
+                                          }
+                                        }),
+                                  ],
+                                ),
+                              )
+                            ])),
+              ],
+            ),
+        );
+
         // bottomNavigationBar: BottomNavigationBars(),
-      ),
-    );
+
+
   }
 }
