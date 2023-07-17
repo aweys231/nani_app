@@ -40,7 +40,7 @@ class Category_Section with ChangeNotifier {
     var url = "${ApiUrls.BASE_URL}client_app/category";
     try {
       final response = await http.get(Uri.parse(url), headers: {'Content-Type': 'application/json',
-'Access-Control-Allow-Origin': '*'});
+        'Access-Control-Allow-Origin': '*'});
       // final response = await http.get(Uri.parse(url));
       print(json.decode(response.body));
       if (response.statusCode == 200) {

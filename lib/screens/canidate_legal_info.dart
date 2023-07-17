@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/widgets/upload_canidate_document.dart';
@@ -64,6 +65,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
       expiry_date: '',
       dbs_certificate_number: '',
       imageUrl: null);
+
   var _initValues = {
     'postcode': '',
     'have_license': '',
@@ -76,6 +78,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
     'dbs_certificate_number': '',
     'imageUrl': ''
   };
+
   var _isInit = true;
   var _isLoading = false;
   final _titleControler = TextEditingController();
@@ -203,6 +206,8 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
       backgroundColor: Color(0xfff0f0f6),
       appBar: AppBar(
         title: Text('welcome'),
+        backgroundColor: bggcolor,
+        centerTitle: true,
       ),
       drawer: AppDrawer(),
       body: _isLoading
@@ -221,6 +226,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                       children: <Widget>[
                         ElevatedButton(
                           onPressed: controls.onStepContinue,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: bggcolor
+                          ),
                           child: const Text('NEXT'),
                         ),
                         if (currentStep != 0)
@@ -561,6 +569,12 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                       decoration: InputDecoration(
                         hintText: 'Enter Date',
                         labelText: 'Expire date',
+                        hintStyle: TextStyle(
+                          color: txtcolor
+                        ),
+                        labelStyle: TextStyle(
+                          color: txtcolor
+                        ),
                         prefixIcon: Icon(Icons.date_range_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -611,7 +625,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
       Step(
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 1,
-        title: const Text("Document"),
+        title: Text("Document", style: TextStyle(
+          color: txtcolor
+        )),
         content: Container(
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
@@ -691,7 +707,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                       style: ElevatedButton.styleFrom(
                         foregroundColor:
                             Theme.of(context).primaryTextTheme.labelLarge!.color,
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: bggcolor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),

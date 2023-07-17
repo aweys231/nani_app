@@ -8,138 +8,118 @@ import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:nanirecruitment/screens/client_registration_screen.dart';
 import 'package:nanirecruitment/screens/job_details.dart';
 import 'package:provider/provider.dart';
+import 'package:nanirecruitment/providers/category_section.dart';
 
-class JobContainer extends StatelessWidget {
+class JobContainer extends StatefulWidget {
   final job.VacuncyModel jobs;
-  const JobContainer(this.jobs);
+  JobContainer(this.jobs);
+
+  @override
+  State<JobContainer> createState() => _JobContainerState();
+}
+
+class _JobContainerState extends State<JobContainer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+
+  @override
+  void initState() {
+  super.initState();
+  _animationController = AnimationController(
+  vsync: this,
+  duration: Duration(milliseconds: 500),
+  );
+  _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+  CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+  );
+  }
+
+  @override
+  void dispose() {
+  _animationController.dispose();
+  super.dispose();
+  }
+
+
   // const JobContainer({
-  //   required this.id,
-  //   required this.iconUrl,
-  //   required this.title,
-  //   required this.location,
-  //   required this.description,
-  //   required this.salary,
-  //   required this.onTap,
-  // });
-  // final String iconUrl, title, location, description, salary;
-  // final int id;
-  // final Function onTap;
   @override
   Widget build(BuildContext context) {
-   var candidateid=  Provider.of<Auth>(context, listen: false);
+    _animationController.forward();
+
+    var candidateid=  Provider.of<Auth>(context, listen: false);
     return InkWell(
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => JobDetails(id: jobs.id.toString(), candidate_id: candidateid.candidate_id!),
+            builder: (ctx) => JobDetails(id: widget.jobs.id.toString(), candidate_id: candidateid.candidate_id!),
           )),
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 6,
-            margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(9.0),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey[300]!,
-                    blurRadius: 5.0,
-                    offset: const Offset(0, 3))
-              ],
-            ),
-            child: ListView(
-              children: <Widget>[
-                Expanded(
-                  child: Row(
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-
-                            ),
-                            child: Flexible(
-                              child: Container(
-                                height: MediaQuery.of(context).size.height / 6,
-                                width: MediaQuery.of(context).size.width / 3,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/sliderimages/placeholder.png'),
-                                    fit: BoxFit.fill,
-                                  )
-                                )
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        jobs.name,
-                                        style: GoogleFonts.playfairDisplay(
-                                           fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        overflow: TextOverflow.ellipsis
-                                        ,),
-                                      SizedBox(height: 8,),
-                                      FittedBox(
-                                        fit: BoxFit.fitWidth,
-                                        child: Text(
-                                            overflow: TextOverflow.ellipsis,
-                                            jobs.jobtitile.toUpperCase(),
-                                          style: GoogleFonts.roboto(
-                                               fontSize: 22,
-                                            color: Colors.black87
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Text(
-                                         overflow: TextOverflow.ellipsis,
-                                          maxLines: 3,
-                                        jobs.description,
-                                        style: GoogleFonts.playfairDisplay(
-                                            fontSize: 18,
-                                          color: HexColor('#0C2857')
-                                        ),),
-
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(right: 5)
-                          ,child: Icon(Icons.arrow_forward_ios, color: HexColor('#1e4a68'), size: 28,))
-                    ],
+      child: AnimatedContainer(
+        duration: Duration(seconds: 500),
+        curve: Curves.easeInOut,
+        child: Container(
+          padding: EdgeInsets.all(2.0),
+          margin: EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Row(
+            children: [
+              FadeTransition(
+                opacity: _animation,
+                child: Container(
+                  width: MediaQuery.of(context).size.width*0.3,
+                  height: MediaQuery.of(context).size.width*0.2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/sliderimages/placeholder.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                // Text(
-                //   "Salary 200",
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .subtitle1!
-                //       .apply(fontWeightDelta: 2),
-                // )
-              ],
-            ),
+              ),
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Text(
+                        widget.jobs.name,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width*0.030,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Text(
+                        widget.jobs.jobtitile,
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.033,),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Text(
+                        widget.jobs.description,
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.025,),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

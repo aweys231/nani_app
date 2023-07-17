@@ -129,7 +129,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
 
                               Container(
                                 // margin: EdgeInsets.only(top: 6),
-                                height: MediaQuery.of(context).size.height / 6,
+                                height: MediaQuery.of(context).size.height / 4,
                                 child: MealsListView(
                                   // mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
                                   //     CurvedAnimation(
@@ -154,6 +154,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
 
                               Container(
                                 height: MediaQuery.of(context).size.height / 2,
+                                margin: EdgeInsets.all(15),
                                 child: ListView(
                                   // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -175,6 +176,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
                                                       jobData.vcuncyjobs.isNotEmpty
                                                           ? Expanded(
                                                               child: Container(
+                                                                // color: Colors.blue,
                                                                 //  margin: EdgeInsets.only(bottom: 100),
                                                                 child: ListView.builder(
                                                                   scrollDirection: Axis.vertical,

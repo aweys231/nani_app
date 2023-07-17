@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:nanirecruitment/widgets/image_input.dart';
 import 'package:nanirecruitment/widgets/location_input.dart';
@@ -49,6 +50,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: bggcolor,
+        centerTitle: true,
         title: Text('Add a New Place'),
       ),
        drawer: AppDrawer(),
@@ -86,7 +89,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
             // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             // color: Theme.of(context).accentColor,
             style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.blue),
+                foregroundColor: Colors.white, backgroundColor: bggcolor),
           ),
         ],
       ),

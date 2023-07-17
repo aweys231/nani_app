@@ -10,6 +10,8 @@ import '../models/service_list.dart';
 import 'app_themes.dart';
 
 class MealsListView extends StatefulWidget {
+
+
   // const MealsListView(
       // {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       // : super(key: key);
@@ -47,8 +49,7 @@ class _MealsListViewState extends State<MealsListView>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
-      width: double.infinity,
+      // width: double.infinity,
       child: ListView.builder(
         padding: const EdgeInsets.only(
             top: 0, bottom: 0, right: 16, left: 16),
@@ -129,55 +130,58 @@ class MealsView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 54, left: 16, right: 16, bottom: 8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 10,
-                              child: Divider(height: 0.000001, color: Colors.grey,)
-                              ,
-                            ),
-                            Text(
-                              mealsListData!.titleTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                letterSpacing: 0.2,
-                                color: txtcolor,
+                        child: Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 10,
+                                child: Divider(height: 0.000001, color: Colors.grey,)
+                                ,
                               ),
-                            ),
+                              Text(
+                                mealsListData!.titleTxt,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MediaQuery.of(context).size.width*0.025,
+                                  letterSpacing: 0.2,
+                                  color: txtcolor,
+                                ),
+                              ),
 
-                            // Expanded(
-                            //   child: Padding(
-                            //     padding:
-                            //     const EdgeInsets.only(top: 8, bottom: 8),
-                            //     child: Row(
-                            //       mainAxisAlignment: MainAxisAlignment.start,
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: <Widget>[
-                            //         Expanded(
-                            //           child: Container(
-                            //             child: Text(
-                            //               mealsListData!.Desc ,
-                            //               style: TextStyle(
-                            //                 fontFamily: AppTheme.fontName,
-                            //                 fontWeight: FontWeight.w500,
-                            //                 fontSize: 10,
-                            //                 letterSpacing: 0.2,
-                            //                 color: AppTheme.white,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
+                              // Expanded(
+                              //   child: Padding(
+                              //     padding:
+                              //     const EdgeInsets.only(top: 8, bottom: 8),
+                              //     child: Row(
+                              //       mainAxisAlignment: MainAxisAlignment.start,
+                              //       crossAxisAlignment: CrossAxisAlignment.start,
+                              //       children: <Widget>[
+                              //         Expanded(
+                              //           child: Container(
+                              //             child: Text(
+                              //               mealsListData!.Desc ,
+                              //               style: TextStyle(
+                              //                 fontFamily: AppTheme.fontName,
+                              //                 fontWeight: FontWeight.w500,
+                              //                 fontSize: 10,
+                              //                 letterSpacing: 0.2,
+                              //                 color: AppTheme.white,
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

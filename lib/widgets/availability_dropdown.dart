@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/availability_process.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +63,11 @@ class _AvaliabiltityDropDownState extends State<AvaliabiltityDropDown>
           // filled: true,
         ),
         // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-        hint: const Text(
+        hint: Text(
           'choose Shift',
+          style: TextStyle(
+            color: txtcolor
+          ),
         ),
         onChanged: (value) {
           print( widget.fulldate);

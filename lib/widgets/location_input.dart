@@ -13,6 +13,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:nanirecruitment/helpers/location_helper.dart';
 import 'package:nanirecruitment/screens/map_screen.dart';
 
+import '../constants.dart';
+
 class LocationInput extends StatefulWidget {
   final Function onSelectPlace;
 
@@ -24,15 +26,21 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
+  String? _selectedLocation;
   void _showPreview(double lat, double lng) {
-    final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
-      latitude: lat,
-      longitude: lng,
-    );
+    // final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
+    //   latitude: lat,
+    //   longitude: lng,
+    // );
+    final text = 'you have selected location' ;
     setState(() {
-      _previewImageUrl = staticMapImageUrl;
+      // _previewImageUrl = staticMapImageUrl;
+      _selectedLocation = text;
     });
+
   }
+
+
   // Future<void> _getCurreinLoaction() async {
   //   final locData = await Location().getLocation();
   //   final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
@@ -60,6 +68,8 @@ class _LocationInputState extends State<LocationInput> {
       return;
     }
   }
+
+
 
   Future<void> _selectOnMap() async {
     final selectedLocation = await Navigator.of(context).push<LatLng>(
@@ -94,32 +104,40 @@ class _LocationInputState extends State<LocationInput> {
           alignment: Alignment.center,
           decoration:
               BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-          child: _previewImageUrl == null
+          child: _selectedLocation == null
               ? Text(
                   'No location choosen',
                   textAlign: TextAlign.center,
                 )
-              : Image.network(
-                  _previewImageUrl!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+              : Text(
+                  _selectedLocation! ,
+          )
+
+              // : Image.network(
+              //     _selectedLocation!,
+              //     fit: BoxFit.cover,
+              //     width: double.infinity,
+              //   ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // TextButton.icon(
+            //   style: TextButton.styleFrom(primary: Colors.blue),
+            //   icon: Icon(Icons.location_on),
+            //   label: Text('Current Laction'),
+            //   // textColor: Theme.of(context).primaryColor,
+            //   // onPressed: _getCurreinLoaction,
+            //   onPressed: _getCurrentUserLocation,
+            // ),
             TextButton.icon(
-              style: TextButton.styleFrom(primary: Colors.blue),
-              icon: Icon(Icons.location_on),
-              label: Text('Current Laction'),
-              // textColor: Theme.of(context).primaryColor,
-              // onPressed: _getCurreinLoaction,
-              onPressed: _getCurrentUserLocation,
-            ),
-            TextButton.icon(
-              style: TextButton.styleFrom(primary: Colors.blue),
+              style: TextButton.styleFrom(primary: txtcolor),
               icon: Icon(Icons.map),
-              label: Text('Select on Map'),
+              label: Text('Select location on Map',
+              style: TextStyle(
+                color: txtcolor,
+              ),
+              ),
               // textColor: Theme.of(context).primaryColor,
               onPressed: _selectOnMap,
             )

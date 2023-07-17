@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nanirecruitment/constants.dart';
 
 class LicenseType extends StatefulWidget {
   const LicenseType({super.key, this.onChanged});
@@ -31,7 +32,9 @@ class _LicenseTypeState extends State<LicenseType> {
     filled: true,
      ),
         // decoration: FormStyles.textFieldDecoration(labelText: 'Region'),
-        hint: const Text( 'choose License Type', ),
+        hint: Text( 'choose License Type', style: TextStyle(
+          color: txtcolor
+        ), ),
         onChanged: (v) => widget.onChanged!(v!),
         // onChanged: (String? value) {
           

@@ -37,53 +37,47 @@ class _AuthScreenState extends State<AuthScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: HexColor('#F6F7F9'),
-        body: SingleChildScrollView(
-          child: Stack(
+        body: Container(
+          height: deviceSize.height,
+          width: deviceSize.width,
+          child: ListView(
             children: <Widget>[
               Container(
-                height: deviceSize.height,
-                width: deviceSize.width,
-
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                      height: MediaQuery.of(context).size.height / 10,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white
-                      ),
-                      child: Text('Login Form', style: GoogleFonts.abhayaLibre(
-                          fontSize: deviceSize.width * 0.10,
-                          color: txtcolor,
-                          fontWeight: FontWeight.bold)),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-                      height: MediaQuery.of(context).size.height / 1.5 ,
-
-                      width: deviceSize.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20)
-                          )
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-
-                          Flexible(
-                            flex: deviceSize.width > 600 ? 2 : 1,
-                            child: AuthCard(),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                height: MediaQuery.of(context).size.height * 0.10,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white
                 ),
+                child: Text('Login Form', style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.05
+                ),)
               ),
+
+              Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                  height: MediaQuery.of(context).size.height * 0.75 ,
+
+                  width: deviceSize.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20)
+                      )
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20,),
+
+                      Flexible(
+                        flex: deviceSize.width > 600 ? 2 : 1,
+                        child: AuthCard(),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -119,6 +113,7 @@ class _AuthCardState extends State<AuthCard>
   DateTime scheduleTime = DateTime.now();
   @override
   void initState() {
+
 
   super.initState();
   WidgetsFlutterBinding.ensureInitialized();
@@ -229,181 +224,185 @@ class _AuthCardState extends State<AuthCard>
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Container(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final screenWidth = constraints.maxWidth;
+          return Container(
+         child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 30),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-                  child: Image(
-                    image: AssetImage('assets/logoimage/logon.png'),
-                  ),
-
-                ),
-                SizedBox(height: 15),
-                TextFormField(
-
-
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+                    child: Image(
+                      image: AssetImage('assets/logoimage/logon.png'),
                     ),
-                      hintText: 'Enter your email',
-                      hintStyle: TextStyle(color: HexColor('#64717d')),
-                      prefixIcon: Icon(Icons.email, color: HexColor('#64717d')),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      )
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Invalid email!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData['email'] = value!;
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  obscureText: hidePassword,
 
-                  decoration: InputDecoration(
+                  ),
+                  SizedBox(height: 15),
+                  TextFormField(
+                    decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      hintText: 'Enter your Password',
-                      hintStyle: TextStyle(color: HexColor('#64717d')),
-                      prefixIcon: Icon(Icons.vpn_key, color: HexColor('#64717d')),
-                      suffixIcon: IconButton(
-                        icon: hidePassword
-                            ? Icon(Icons.visibility_off)
-                            : Icon(Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            hidePassword = !hidePassword;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      )
-                  ),
-                  // obscureText: true,
-                  controller: _passwordController,
-                  validator: (value) {
-                    if (value!.isEmpty || value.length < 5) {
-                      return 'Password is too short!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData['password'] = value!;
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: deviceSize.width*0.95,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon( !isremmeber ? Icons.check_box_outline_blank : Icons.check_box, size: 30,),
-                          onPressed: ()=> {
-                            setState(() {
-                              isremmeber = !isremmeber;
-                              print(isremmeber);
-                            })
-                          },
-                          ),
-                          SizedBox(width: 5,),
-                          Text('Remember me', style: GoogleFonts.lato(
-                              color: txtcolor,
-                              fontSize: deviceSize.width * 0.035,
-                              fontWeight: FontWeight.bold
-                          )),
-                        ],
-                      ),
-                      TextButton(
-                        child: Text('Forget Password?', style: GoogleFonts.abhayaLibre(
-                            color: bggcolor,
-                            fontSize: deviceSize.width * 0.035,
-                            fontWeight: FontWeight.bold
-                        ),),
-                        onPressed: () {  },)
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12,),
-                if (_isLoading)
-                  CircularProgressIndicator()
-                else
-                  Container(
-                    height: deviceSize.height * 0.06 ,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: bggcolor,
-                        minimumSize: Size(double.infinity, 50),
-                        maximumSize: Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                      ),
-                      child: Text('LOGIN ', style: TextStyle(fontSize: 18),),
-                      onPressed: _submit,
+                        hintText: 'Enter your email',
+                        hintStyle: TextStyle(color: HexColor('#64717d')),
+                        prefixIcon: Icon(Icons.email, color: HexColor('#64717d')),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(20),
+                        )
                     ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Invalid email!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData['email'] = value!;
+                    },
                   ),
-                SizedBox(height: 12,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('I Don\'t Have An Account?', style: GoogleFonts.abhayaLibre(
-                        color: txtcolor,
-                        letterSpacing: 1.2,
-                        fontSize: deviceSize.width * 0.045)),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric( vertical: 10, horizontal: 6),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text("Sign Up",
-                          style: GoogleFonts.abhayaLibre(color: bggcolor, fontWeight: FontWeight.bold, fontSize: deviceSize.width * 0.045)),
-                      onPressed: (() async {
+                  SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: hidePassword,
 
-                        //          debugPrint('Notification Scheduled for $scheduleTime');
-                        // NotificationService().scheduleNotifications(
-                        //     title: 'Scheduled Notification',
-                        //     body: '$scheduleTime',
-                        //     );
-                        Navigator.pushNamed(
-                            context, ClientRegistrationScreen.routeName);
-                      }),
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: 'Enter your Password',
+                        hintStyle: TextStyle(color: HexColor('#64717d')),
+                        prefixIcon: Icon(Icons.vpn_key, color: HexColor('#64717d')),
+                        suffixIcon: IconButton(
+                          icon: hidePassword
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              hidePassword = !hidePassword;
+                            });
+                          },
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(20),
+                        )
                     ),
-                  ],
-                )
-              ],
+                    // obscureText: true,
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty || value.length < 5) {
+                        return 'Password is too short!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData['password'] = value!;
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: deviceSize.width*0.95,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon( !isremmeber ? Icons.check_box_outline_blank : Icons.check_box, size: 30,),
+                            onPressed: ()=> {
+                              setState(() {
+                                isremmeber = !isremmeber;
+                                print(isremmeber);
+                              })
+                            },
+                            ),
+                            SizedBox(width: 5,),
+                            Text('Remember me', style: GoogleFonts.lato(
+                                color: txtcolor,
+                                fontSize: MediaQuery.of(context).size.width*0.025,
+                                fontWeight: FontWeight.bold
+                            )),
+                          ],
+                        ),
+                        TextButton(
+                          child: Text('Forget Password?', style: GoogleFonts.abhayaLibre(
+                              color: bggcolor,
+                              fontSize: MediaQuery.of(context).size.width*0.025,
+                              fontWeight: FontWeight.bold
+                          ),),
+                          onPressed: () {  },)
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 12,),
+                  if (_isLoading)
+                    CircularProgressIndicator()
+                  else
+                    Container(
+                      height: deviceSize.height * 0.06 ,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: bggcolor,
+                          minimumSize: Size(double.infinity, 50),
+                          maximumSize: Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+                        ),
+                        child: Text('LOGIN ', style: TextStyle(fontSize: 18),),
+                        onPressed: _submit,
+                      ),
+                    ),
+                  SizedBox(height: 12,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('I Don\'t Have An Account?', style: GoogleFonts.abhayaLibre(
+                          color: txtcolor,
+                          letterSpacing: 1.2,
+                        fontSize: MediaQuery.of(context).size.width*0.025,
+                      )),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric( vertical: 10, horizontal: 6),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text("Sign Up",
+                            style: GoogleFonts.abhayaLibre(color: bggcolor, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width*0.025,
+                            )),
+                        onPressed: (() async {
+
+                          //          debugPrint('Notification Scheduled for $scheduleTime');
+                          // NotificationService().scheduleNotifications(
+                          //     title: 'Scheduled Notification',
+                          //     body: '$scheduleTime',
+                          //     );
+                          Navigator.pushNamed(
+                              context, ClientRegistrationScreen.routeName);
+                        }),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      )
+        )
+      ); },
     );
   }
 }

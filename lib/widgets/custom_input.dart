@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/constants.dart';
 
 class CustomInput extends StatelessWidget {
   final ValueChanged<String>? onChanged;
@@ -55,6 +56,16 @@ class CustomInput extends StatelessWidget {
         hintText: hint!,
         // errorText:validator,
         labelText: label,
+          labelStyle: TextStyle(
+            color: txtcolor
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          hintStyle: TextStyle(
+            color: txtcolor
+          ),
+
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),

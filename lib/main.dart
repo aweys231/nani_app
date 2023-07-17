@@ -144,10 +144,10 @@ class _MyAppState extends State<MyApp> {
               MyShifts(auth.role_id, auth.candidate_id),
               // splash.id: (_) => splash(),
             },
-            builder: (context, child) => MediaQuery(
-              child: child!,
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            ),
+            // builder: (context, child) => MediaQuery(
+            //   child: child!,
+            //   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            // ),
             // },
           ),
         ));

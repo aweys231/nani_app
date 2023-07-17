@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
@@ -56,7 +57,12 @@ class _ScanAttandanceState extends State<ScanAttandance> {
         : 300.0;
     return Scaffold(
       appBar: AppBar(
-        title: Text('welcome'),
+        centerTitle: true,
+        backgroundColor: bggcolor,
+        title: Text('welcome', style: TextStyle(
+          color: txtcolor,
+
+        ),),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -98,7 +104,10 @@ class _ScanAttandanceState extends State<ScanAttandance> {
               child: (result != null)
                   ? Text(
                       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  : Text('Scan a code'),
+                  : Text('Scan a code', style: TextStyle(
+                    color: txtcolor,
+                    fontSize: MediaQuery.of(context).size.width /18
+              ),),
             ),
           )
         ],

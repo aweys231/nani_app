@@ -1071,7 +1071,7 @@ class _AvailabilityState extends State<Availability> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             foregroundColor: Theme.of(context).primaryTextTheme.button!.color,
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: bggcolor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
