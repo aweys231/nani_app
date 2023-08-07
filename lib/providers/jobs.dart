@@ -49,7 +49,7 @@ class VacuncyModel with ChangeNotifier {
   final String? shift_type;
   final String? company_name;
   final String? businesunit;
-  final String? minut;
+  final int? minut;
   final String? km;
   double? fieldLatitude;
   double? fieldLogitude;
@@ -219,8 +219,7 @@ class Jobs_Section with ChangeNotifier {
     return _vcuncyjobs.firstWhere((vcuncy) => vcuncy.id == id);
   }
 
-  Future timeSheetChecking(
-      String candidate_id, String jobvacancy_id, String creation_date) async {
+  Future timeSheetChecking( String candidate_id, String jobvacancy_id, String creation_date) async {
     var url = "${ApiUrls.BASE_URL}client_app/timeSheetChecking";
     final response = await http.post(Uri.parse(url),
         body: json.encode(
@@ -352,7 +351,7 @@ class Jobs_Section with ChangeNotifier {
               shift_type: extractedData[i]['vacuncy_data']['shift_name'],
               company_name: extractedData[i]['vacuncy_data']['company_name'],
               //   businesunit: extractedData[i]['vacuncy_data']['businesunit'],
-              minut: extractedData[i]['minut'].toString(),
+              minut: extractedData[i]['minut'],
               km: extractedData[i]['km'].toString(),
               fieldLatitude:
                   double.parse(extractedData[i]['vacuncy_data']['latitude']),

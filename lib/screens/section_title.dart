@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import
+// ignore_for_file: prefer_const_constructors, unused_import, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

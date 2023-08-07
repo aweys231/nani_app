@@ -224,6 +224,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        if(currentStep !=1)
                         ElevatedButton(
                           onPressed: controls.onStepContinue,
                           style: ElevatedButton.styleFrom(
@@ -232,11 +233,14 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                           child: const Text('NEXT'),
                         ),
                         if (currentStep != 0)
-                          TextButton(
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: bggcolor
+                            ),
                             onPressed: controls.onStepCancel,
-                            child: const Text(
+                            child:  Text(
                               'BACK',
-                              style: TextStyle(color: Colors.grey),
+                              
                             ),
                           ),
                       ],
@@ -271,6 +275,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
 
   List<Step> getSteps(void Function(String pickImage) selectImage) {
     return <Step>[
+      //first screen profile stepper content....
       Step(
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 0,
@@ -622,6 +627,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           ),
         ),
       ),
+      // second screen document stepper content....
       Step(
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 1,

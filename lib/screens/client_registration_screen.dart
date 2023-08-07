@@ -210,10 +210,11 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    if (currentStep != 2)
                     ElevatedButton(
-                      onPressed: ()=> { controls.onStepContinue,
-                      _saveForm()
-                      },
+                      onPressed: ()=>  controls.onStepContinue!(),
+                      // _saveForm()
+
                       child: const Text('NEXT'),
                     ),
                     if (currentStep != 0)
@@ -228,6 +229,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                 ),
               );
             },
+
             type: StepperType.horizontal,
             currentStep: currentStep,
             onStepCancel: () => currentStep == 0
@@ -238,6 +240,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
             onStepContinue: () {
               bool isLastStep =
               (currentStep == getSteps(selectImage).length - 1);
+
               if (isLastStep) {
                 //Do something with this information
               } else {
@@ -336,7 +339,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _lnameFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -438,7 +441,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       return null;
                     },
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -475,7 +478,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       return null;
                     },
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -515,7 +518,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       return null;
                     },
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
 
                     onChanged: (value) {
@@ -643,7 +646,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _LanguagesFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -685,7 +688,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _noknameFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -716,7 +719,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _nokaddressFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -747,7 +750,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _nokmobileFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -805,7 +808,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     textInputAction: TextInputAction.next,
                     focusNode: _user_nameFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
                       _addcandidate = Candidate(
@@ -842,9 +845,10 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     },
                     focusNode: _passwdFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                      // _saveForm();
                     },
                     onChanged: (value) {
+                      print('here');
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
@@ -865,8 +869,11 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     },
                   ),
                   PasswordInput(
-                    text: 'Confirm password',
                     controller: _cpasswd,
+                    text: 'Confirm password',
+                    onSubmitted: (value) {
+                      // _saveForm();
+                    },
                     onValidate: (value) {
                       if (value == null || value.isEmpty ) {
                         return  'Confirm Password is Required';
@@ -877,6 +884,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       return null;
                     },
                   ),
+                  // the submit button
                   Container(
                     width: double.infinity,
                     height: 50,
@@ -909,6 +917,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
           ),
         ),
       ),
+
       //   Step(
       //   state: currentStep > 3 ? StepState.complete : StepState.indexed,
       //   isActive: currentStep >= 3,

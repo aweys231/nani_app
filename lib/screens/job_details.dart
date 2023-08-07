@@ -86,6 +86,7 @@ class _JobDetailsState extends State<JobDetails> {
       print(fieldLogitude);
     });
   }
+
   Future<void> _savePlace() async {
     if (widget.candidate_id == '' || widget.id == '') {
       print('data maleh');
@@ -141,6 +142,19 @@ class _JobDetailsState extends State<JobDetails> {
   Widget build(BuildContext context) {
     var jobList = Provider.of<Jobs_Section>(context, listen: false)
         .findVacuncyById(widget.id.toString());
+    var tohour = jobList.minut;
+
+    String formatMinutes(int minutes) {
+      if (minutes > 60) {
+        int hours = minutes ~/ 60;
+        int remainingMinutes = minutes % 60;
+        return '$hours hour and ${remainingMinutes} minutes';
+      } else {
+        return '$minutes minutes';
+      }
+    }
+
+
     return SafeArea(
       child: Scaffold(
         body: _isLoading
@@ -403,7 +417,7 @@ class _JobDetailsState extends State<JobDetails> {
                                       size: 30,
                                     ),
                                     title: Text(
-                                      "${jobList.minut} minutes",
+                                      "${formatMinutes(tohour as int)}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: txtcolor,

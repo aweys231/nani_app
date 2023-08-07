@@ -1,7 +1,10 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import, depend_on_referenced_packages
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:nanirecruitment/NetworkCheck.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/helpers/custom_route.dart';
 import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/providers/availability_process.dart';
@@ -37,16 +40,32 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' ;
 import 'package:timezone/data/latest.dart' as tz;
 
-void main() => runApp(MyApp());
-
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool hasNetwork = await checkNetworkStatus();
+  runApp(MyApp(hasNetwork: hasNetwork));
+}
 
 class MyApp extends StatefulWidget {
-  
+  final bool hasNetwork;
+
+  MyApp({required this.hasNetwork});
+
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
+Future<bool> checkNetworkStatus() async {
+  print('connection works fine ');
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  return connectivityResult != ConnectivityResult.none;
+}
+
 class _MyAppState extends State<MyApp> {
+
+
+
   late final NotificationService notificationService;
 @override
   initState()  {
@@ -91,66 +110,73 @@ class _MyAppState extends State<MyApp> {
             value: NotificationService(),
           ),
         ],
-        child: Consumer<Auth>(
-          builder: (ctx, auth, _) => MaterialApp(
-             title: 'My Nani',
-             localizationsDelegates: [
-              GlobalWidgetsLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              MonthYearPickerLocalizations.delegate,
-            ],
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                primarySwatch: Colors.purple,
-                hintColor: Colors.deepOrange,
-                fontFamily: 'Lato',
-                backgroundColor: Colors.purple,
-                pageTransitionsTheme: PageTransitionsTheme(builders: {
-                TargetPlatform.android: CustomPageTransitionBuilder(),
-                TargetPlatform.iOS: CustomPageTransitionBuilder(),
-                })),
-            home: auth.isAuth
-                ?
-                // BottomNavigationBars(auth.role_id, auth.candidate_id)
-            ClientDhashboard(auth.role_id, auth.candidate_id)
-                : FutureBuilder(
-                    future: auth.tryAutoLogin(),
-                    builder: (ctx, authResultSnapshot) =>
-                    authResultSnapshot.connectionState ==
-                    ConnectionState.waiting
-                            ?
-                            splash()
-                            : AuthScreen(),
-                  ),
-            // initialRoute: splash.id,
-            routes: {
-              VerificationNumberScreen.routeName: (ctx) =>
-              VerificationNumberScreen(),
-              JobsScreen.routeName: (ctx) => JobsScreen(),
-              ClientRegistrationScreen.routeName: (ctx) =>
-              ClientRegistrationScreen(),
-              Dhashboard.routeName: (ctx) => Dhashboard(),
-              CanidateLegalInfor.routeName: (ctx) =>
-              CanidateLegalInfor(auth.candidate_id),
-              FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
-              Availability.routeName: (ctx) => Availability(auth.candidate_id),
-              AddPlaceScreen.routeName: (ctx) =>
-              AddPlaceScreen(auth.candidate_id),
-              CanidateAttandance.routeName: (ctx) =>
-              CanidateAttandance(candidate_id: auth.candidate_id),
-              ScanAttandance.routeName: (ctx) =>
-              ScanAttandance(auth.candidate_id),
-              MyShifts.routeName: (ctx) =>
-              MyShifts(auth.role_id, auth.candidate_id),
-              // splash.id: (_) => splash(),
-            },
-            // builder: (context, child) => MediaQuery(
-            //   child: child!,
-            //   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            // ),
-            // },
+        child: ChangeNotifierProvider(
+          create: (_) => Auth(),
+          child: Consumer<Auth>(
+            builder: (ctx, auth, _) => MaterialApp(
+               title: 'My Nani',
+               localizationsDelegates: [
+                GlobalWidgetsLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                MonthYearPickerLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                  primarySwatch: buildMaterialColor(Color(0xFFB04C68)),
+                  hintColor: Colors.deepOrange,
+                  fontFamily: 'Lato',
+                  backgroundColor: bggcolor,
+                  pageTransitionsTheme: PageTransitionsTheme(builders: {
+                  TargetPlatform.android: CustomPageTransitionBuilder(),
+                  TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                  })),
+              home:
+              widget.hasNetwork ? auth.isAuth
+                  ?
+                  // BottomNavigationBars(auth.role_id, auth.candidate_id)
+              ClientDhashboard(auth.role_id, auth.candidate_id)
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                      ConnectionState.waiting
+                              ?
+                              splash()
+                              : AuthScreen(),
+                    )
+                  : NetworkCheckPage() ,
+              // initialRoute: splash.id,
+              routes: {
+                VerificationNumberScreen.routeName: (ctx) =>
+                VerificationNumberScreen(),
+                JobsScreen.routeName: (ctx) => JobsScreen(),
+                ClientRegistrationScreen.routeName: (ctx) =>
+                ClientRegistrationScreen(),
+                Dhashboard.routeName: (ctx) => Dhashboard(),
+                CanidateLegalInfor.routeName: (ctx) =>
+                CanidateLegalInfor(auth.candidate_id),
+                FilePickerDemo.routeName: (ctx) => FilePickerDemo(),
+                Availability.routeName: (ctx) => Availability(auth.candidate_id),
+                AddPlaceScreen.routeName: (ctx) =>
+                AddPlaceScreen(auth.candidate_id),
+                CanidateAttandance.routeName: (ctx) =>
+                CanidateAttandance(candidate_id: auth.candidate_id),
+                ScanAttandance.routeName: (ctx) =>
+                ScanAttandance(auth.candidate_id),
+                MyShifts.routeName: (ctx) =>
+                MyShifts(auth.role_id, auth.candidate_id),
+                // splash.id: (_) => splash(),
+              },
+              // builder: (context, child) => MediaQuery(
+              //   child: child!,
+              //   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              // ),
+              // },
+            ),
           ),
-        ));
+        )
+
+    );
   }
 }
 

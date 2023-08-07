@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, implementation_imports, unnecessary_import, unused_field, prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, unused_element, unused_import, avoid_print, avoid_web_libraries_in_flutter, depend_on_referenced_packages, unnecessary_new, import_of_legacy_library_into_null_safe
+// ignore_for_file: sized_box_for_whitespace, implementation_imports, unnecessary_import, unused_field, prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, unused_element, unused_import, avoid_print, avoid_web_libraries_in_flutter, depend_on_referenced_packages, unnecessary_new, import_of_legacy_library_into_null_safe, prefer_const_declarations
 
 // import 'dart:html';
 

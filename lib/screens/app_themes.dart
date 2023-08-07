@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 class AppTheme {

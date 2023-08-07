@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter, unnecessary_import, unused_import
+// ignore_for_file: avoid_web_libraries_in_flutter, unnecessary_import, unused_import, prefer_const_constructors
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

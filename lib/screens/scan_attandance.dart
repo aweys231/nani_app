@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables, unrelated_type_equality_checks, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, implementation_imports, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables, unrelated_type_equality_checks, use_build_context_synchronously, unused_label
 
 import 'dart:developer';
 import 'dart:io';
@@ -12,6 +12,7 @@ import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -40,14 +41,38 @@ class _ScanAttandanceState extends State<ScanAttandance> {
     }
   }
 
-  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
+  // void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+  //   log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+  //   if (!p) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('no Permission')),
+  //     );
+  //   }
+  // }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) async {
+  log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+  
+  if (!p) {
+    // Request camera permission
+    PermissionStatus status = await Permission.camera.request();
+    
+    if (status.isGranted) {
+      // Permission is granted. Continue with QR code scanning logic.
+      // Example: ctrl.resumeCamera();
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        const SnackBar(content: Text('No camera permission granted.')),
       );
     }
   }
+}
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +103,7 @@ class _ScanAttandanceState extends State<ScanAttandance> {
                   borderWidth: 10,
                   cutOutSize: scanArea),
               onQRViewCreated: _onQRViewCreated,
-              onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+              // onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
             ),
           ),
           Expanded(
@@ -91,6 +116,7 @@ class _ScanAttandanceState extends State<ScanAttandance> {
                 ),
                 onPressed: () {
                   setState(() async {
+                   onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p);
                     await controller!.resumeCamera();
                     print('object');
                   });

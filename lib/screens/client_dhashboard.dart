@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports, avoid_unnecessary_containers, unnecessary_import, prefer_const_constructors, non_constant_identifier_names, unused_import, use_build_context_synchronously, unused_field, dead_code, avoid_print
+// ignore_for_file: implementation_imports, avoid_unnecessary_containers, unnecessary_import, prefer_const_constructors, non_constant_identifier_names, unused_import, use_build_context_synchronously, unused_field, dead_code, avoid_print, sized_box_for_whitespace
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +129,7 @@ class _ClientDhashboardState extends State<ClientDhashboard> {
 
                               Container(
                                 // margin: EdgeInsets.only(top: 6),
-                                height: MediaQuery.of(context).size.height / 4,
+                                height: MediaQuery.of(context).size.height / 6,
                                 child: MealsListView(
                                   // mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
                                   //     CurvedAnimation(

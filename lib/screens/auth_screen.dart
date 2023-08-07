@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print, unused_import, prefer_final_fields, use_build_context_synchronously, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, deprecated_member_use, use_key_in_widget_constructors, constant_identifier_names, unused_local_variable, unused_field, sort_child_properties_last, library_private_types_in_public_api, avoid_print, unused_import, prefer_final_fields, use_build_context_synchronously, non_constant_identifier_names, avoid_unnecessary_containers
 
 import 'dart:math';
 
@@ -273,7 +273,6 @@ class _AuthCardState extends State<AuthCard>
                   SizedBox(height: 20),
                   TextFormField(
                     obscureText: hidePassword,
-
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),

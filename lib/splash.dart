@@ -4,7 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nanirecruitment/providers/auth.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
+import 'package:nanirecruitment/screens/client_dhashboard.dart';
+import 'package:provider/provider.dart';
 
 class splash extends StatefulWidget {
   static const String id = "splash.id";
@@ -59,3 +62,6 @@ class _splashState extends State<splash> {
     );
   }
 }
+
+
+

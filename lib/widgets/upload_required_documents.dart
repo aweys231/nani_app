@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +108,8 @@ class _UploadRequiredDocumentsState extends State<UploadRequiredDocuments> {
       // padding: const EdgeInsets.all(5.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
+          backgroundColor: bggcolor,
+          // primary: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

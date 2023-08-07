@@ -24,10 +24,16 @@ class CanidateAttandance extends StatefulWidget {
 class _CanidateAttandanceState extends State<CanidateAttandance> {
   double screenHeight = 0;
   double screenWidth = 0;
+
+  
   String checkInt = '--/--';
   String checkOut = '--/--';
-  var checkdat;
-  var candidateid;
+  var 
+  
+  
+  checkdat;
+  var candidateid; 
+   
   void getRecode() async {
     try {
       checkdat = await Provider.of<Jobs_Section>(context, listen: false)
@@ -191,6 +197,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                       ),
                     ),
                   ),
+                  // the today's status text
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(top: 32),
@@ -202,6 +209,7 @@ class _CanidateAttandanceState extends State<CanidateAttandance> {
                       ),
                     ),
                   ),
+                 // the check in and check out container
                   Container(
                     margin: EdgeInsets.only(top: 12, bottom: 32),
                     height: 150,
