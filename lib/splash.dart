@@ -31,10 +31,14 @@ class _splashState extends State<splash> {
   }
 
   Widget build(BuildContext context) {
+    Auth auth = Provider.of<Auth>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
+      body: auth.isAuth
+          ? ClientDhashboard(auth.role_id, auth.candidate_id)
+          : Center(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(

@@ -142,15 +142,44 @@ class _JobDetailsState extends State<JobDetails> {
   Widget build(BuildContext context) {
     var jobList = Provider.of<Jobs_Section>(context, listen: false)
         .findVacuncyById(widget.id.toString());
+
     var tohour = jobList.minut;
+    var todouble = jobList.km;
 
     String formatMinutes(int minutes) {
-      if (minutes > 60) {
+      if (minutes >= 60) {
         int hours = minutes ~/ 60;
         int remainingMinutes = minutes % 60;
-        return '$hours hour and ${remainingMinutes} minutes';
+        if (hours >= 24) {
+          int days = hours ~/ 24;
+          int remainingHours = hours % 24;
+          if (days >= 7) {
+            int weeks = days ~/ 7;
+            int remainingDays = days % 7;
+            if (weeks >= 4) {
+              int months = weeks ~/ 4;
+              int remainingWeeks = weeks % 4;
+              return '$months ${months > 1 ? "months" : "month"}, $remainingWeeks ${remainingWeeks > 1 ? "weeks" : "week"}, $remainingDays ${remainingDays > 1 ? "days" : "day"}, $remainingHours ${remainingHours > 1 ? "hours" : "hour"}, and $remainingMinutes ${remainingMinutes > 1 ? "minutes" : "minute"}';
+            } else {
+              return '$weeks ${weeks > 1 ? "weeks" : "week"}, $remainingDays ${remainingDays > 1 ? "days" : "day"}, $remainingHours ${remainingHours > 1 ? "hours" : "hour"}, and $remainingMinutes ${remainingMinutes > 1 ? "minutes" : "minute"}';
+            }
+          } else {
+            return '$days ${days > 1 ? "days" : "day"}, $remainingHours ${remainingHours > 1 ? "hours" : "hour"}, and $remainingMinutes ${remainingMinutes > 1 ? "minutes" : "minute"}';
+          }
+        } else {
+          return '$hours ${hours > 1 ? "hours" : "hour"} and $remainingMinutes ${remainingMinutes > 1 ? "minutes" : "minute"}';
+        }
       } else {
-        return '$minutes minutes';
+        return '$minutes ${minutes > 1 ? "minutes" : "minute"}';
+      }
+    }
+
+    String convertToFixedDecimal(String value) {
+      double? number = double.tryParse(value);
+      if (number != null) {
+        return number.toStringAsFixed(2);
+      } else {
+        return '';
       }
     }
 
@@ -372,7 +401,7 @@ class _JobDetailsState extends State<JobDetails> {
                                       size: 30,
                                     ),
                                     title: Text(
-                                      "${jobList.km}km",
+                                      "${convertToFixedDecimal(todouble!)}km",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: txtcolor,

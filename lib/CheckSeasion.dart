@@ -18,9 +18,9 @@ class checkseasion extends StatelessWidget {
         future: auth.tryAutoLogin(),
         builder: (ctx, authResultSnapshot) {
           if (authResultSnapshot.connectionState == ConnectionState.waiting) {
-            return AuthScreen();
+            return splash();
           } else {
-            return ClientDhashboard(auth.role_id, auth.candidate_id);
+            return AuthScreen();
           }
         },
       ),

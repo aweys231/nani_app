@@ -71,7 +71,14 @@ class Auth with ChangeNotifier {
           ),
         ),
       );
-      _autoLogout();
+      autoLogout(DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseData['expiresIn'].toString(),
+          ),
+        ),
+      ));
+
       notifyListeners();
 
       final prefs = await SharedPreferences.getInstance();
@@ -122,7 +129,7 @@ class Auth with ChangeNotifier {
     _expiryDate = expiryDate;
     print(_token);
     notifyListeners();
-    _autoLogout();
+    autoLogout(expiryDate);
     return true;
   }
 
@@ -142,7 +149,9 @@ class Auth with ChangeNotifier {
     prefs.clear();
   }
 
-  void _autoLogout() {
+  void  autoLogout(DateTime expiryDate) {
+    print("startTimer");
+    _expiryDate = expiryDate;
     if (_authTimer != null) {
       _authTimer!.cancel();
     }

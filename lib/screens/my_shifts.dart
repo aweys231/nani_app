@@ -10,6 +10,8 @@ import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 
+import '../providers/auth.dart';
+
 class MyShifts extends StatefulWidget {
   static const routeName = '/my-shifts';
   const MyShifts(this.role_id, this.candidate_id, {super.key});
@@ -41,8 +43,11 @@ class _MyShiftsState extends State<MyShifts> {
   @override
   void initState() {
     super.initState();
+    final auth = Provider.of<Auth>(context, listen: false);
+    if (auth.isAuth) {
+      auth.autoLogout(DateTime.now().add(Duration(minutes: 5)));
+    }
   }
-
   @override
   didChangeDependencies() {
     if (_isInit) {
@@ -62,6 +67,7 @@ class _MyShiftsState extends State<MyShifts> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Color(0xfff0f0f6),
         appBar: AppBar(

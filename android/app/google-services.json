@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "577787445598",
+    "project_id": "nani-514ec",
+    "storage_bucket": "nani-514ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577787445598:android:159ae0e83ed582e3140fcf",
+        "android_client_info": {
+          "package_name": "com.example.nanirecruitment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577787445598-r7kvuqnilv71d92qqsmrqi0846qao4t4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR20qiYvqz_EmYZmNhTsEoFmcKeR9fnNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577787445598-r7kvuqnilv71d92qqsmrqi0846qao4t4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
