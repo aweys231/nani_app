@@ -520,7 +520,7 @@ class Jobs_Section with ChangeNotifier {
     }
   }
 
-  Future shift_cancelation(String availability_id) async {
+  Future shift_cancelation(String availability_id, String reason, String cand_id) async {
     final url =
         "${ApiUrls.BASE_URL}client_app/shift_cancelation";
     try {
@@ -528,6 +528,8 @@ class Jobs_Section with ChangeNotifier {
         Uri.parse(url),
         body: json.encode({
           'availability_id': availability_id,
+          'reason': reason,
+          'cand_id': cand_id,
         }),
       );
       var message = jsonDecode(response.body);

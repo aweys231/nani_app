@@ -7,25 +7,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:intl/intl.dart';
 import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/widgets/upload_canidate_document.dart';
 import 'package:nanirecruitment/widgets/upload_required_documents.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import '../Showmodel.dart';
+import '../downloadFile.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/image_input.dart';
 import '../widgets/license_type.dart';
 import '../widgets/radio_button.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
+import 'package:http/http.dart' as http;
 
 import 'auth_screen.dart';
 
 class CanidateLegalInfor extends StatefulWidget {
   static const routeName = '/canidate-legal-infor';
-  const CanidateLegalInfor(this.candidate_id, {super.key});
+   CanidateLegalInfor(this.candidate_id, {super.key});
   final String? candidate_id;
 
   @override
@@ -199,6 +205,33 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
         .requirement_documents();
   }
 
+  // final pdfUrl = 'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
+  final pdfUrl = 'https://vocab.today/reader/Beginner/Oscar.pdf';
+
+  Future<void> _showPdfPreview(BuildContext context)  async {
+    final pdfData = await http.get(Uri.parse(pdfUrl));
+    final tempDir = await getTemporaryDirectory();
+    final pdfFile = File('${tempDir.path}/sample.pdf');
+    await pdfFile.writeAsBytes(pdfData.bodyBytes);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Text('PDF Preview'),
+          ),
+          body:  PDFView(
+            filePath: pdfUrl,
+            enableSwipe: true, // Enable horizontal swipe navigation
+            swipeHorizontal: true, // Set to false for vertical swipe navigation
+            autoSpacing: false, // Set to true for automatic spacing between pages
+            pageSnap: true, // Set to true to snap pages while swiping
+          )
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DismissKeyboard(
@@ -208,6 +241,42 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
         title: Text('welcome'),
         backgroundColor: bggcolor,
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: (){
+              FileDownloader.downloadFile(
+                url: pdfUrl,
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20)
+                )
+              ),
+              child: Row(
+                children: [
+                  Text('Application Form', style: TextStyle(
+                    color: txtcolor,
+                  fontWeight: FontWeight.bold
+                  ),),
+                  IconButton(
+                      onPressed: (){
+                        FileDownloader.downloadFile(
+                            url: pdfUrl,
+                        );
+                        // _showPdfPreview(context);
+
+                        // Navigator.push(context, MaterialPageRoute(builder: (_)=> SingleDownloadScreen()));
+                        },
+                      icon: Icon(Icons.download, color: txtcolor ,size: 33,)
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
       drawer: AppDrawer(),
       body: _isLoading
@@ -334,7 +403,12 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                               _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                     },
-                  ),
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
+                    },                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -443,7 +517,13 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     textInputAction: TextInputAction.next,
                     focusNode: _bodynameFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field is Required';
+                      }
+                      return null;
                     },
                     onChanged: (value) {
                       _editeLegalInfot = LegalInfo(
@@ -469,7 +549,13 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     textInputAction: TextInputAction.next,
                     focusNode: _amountofcoverFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
                     },
                     onChanged: (value) {
                       _editeLegalInfot = LegalInfo(
@@ -495,7 +581,13 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     textInputAction: TextInputAction.next,
                     focusNode: _policynumberFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
                     },
                     onChanged: (value) {
                       _editeLegalInfot = LegalInfo(
@@ -569,7 +661,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                             imageUrl: null);
                       },
                       onSubmitted: (value) {
-                        _saveForm();
+
                       },
                       decoration: InputDecoration(
                         hintText: 'Enter Date',
@@ -604,7 +696,12 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     textInputAction: TextInputAction.next,
                     focusNode: _dbs_certificate_numberFocusNode,
                     onSubmitted: (value) {
-                      _saveForm();
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
                     },
                     onChanged: (value) {
                       _editeLegalInfot = LegalInfo(

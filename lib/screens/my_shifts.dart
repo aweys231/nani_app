@@ -10,6 +10,7 @@ import 'package:nanirecruitment/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 
+import '../Showmodel.dart';
 import '../providers/auth.dart';
 
 class MyShifts extends StatefulWidget {
@@ -481,31 +482,40 @@ class _MyShiftsState extends State<MyShifts> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: bggcolor,
                         padding: EdgeInsets.symmetric(vertical: 6,  horizontal: 6),
-
                       ),
                       child: Text("Cancel"),
                       onPressed: () async {
-                        // widget.candidate_id.toString();
-                        var message = await Provider.of<job.Jobs_Section>(
-                                context,
-                                listen: false)
-                            .shift_cancelation(jobs.availabilityid);
-                        print(message.toString());
-                        await showDialog(
+                        // showModalBottomSheet(
+                        //
+                        //   isScrollControlled: true,
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return BottomPopupModal(
+                        //         jobs.availabilityid,
+                        //         widget.candidate_id
+                        //     );
+                        //   },
+                        // );
+                        showModalBottomSheet(
                             context: context,
-                            builder: (ctx) => AlertDialog(
-                                  title: Text('success'),
-                                  content: Text(message.toString()),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Okey'),
-                                      onPressed: () {
-                                        // Navigator.of(ctx).pop();
-                                        Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
-                                      },
-                                    )
-                                  ],
-                                ));
+                            // barrierColor: popupBackground,
+                            isScrollControlled: true, // only work on showModalBottomSheet function
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10))),
+                            builder: (context) =>  Padding(
+                              // padding: MediaQuery.of(context).viewInsets,
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              child: Container(
+                                  height: 400, //height or you can use Get.width-100 to set height
+                                  child:  BottomPopupModal(
+                                            jobs.availabilityid,
+                                            widget.candidate_id
+                                        )
+                              ),));
+                              print('not cancaled');
+
                       },
                     ),
                   ],
