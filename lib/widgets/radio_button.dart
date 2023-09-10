@@ -16,7 +16,7 @@ class RadioButton extends StatefulWidget {
   final String radio_one_value;
   final String radio_two_value;
   final ValueChanged<String>? onChanged;
-  final String? selectedValue ;
+  final String? selectedValue;
 
   @override
   State<RadioButton> createState() => _RadioButtonState();
@@ -25,9 +25,9 @@ class RadioButton extends StatefulWidget {
 class _RadioButtonState extends State<RadioButton> {
   TextEditingController dateInputController = TextEditingController();
   // String selectedValue = 'Male';
+
   @override
   Widget build(BuildContext context) {
-    // selectedValue = widget.radio_one;
     return Container(
       height: 65,
       // margin: const EdgeInsets.only(bottom: 10,top: 5),
@@ -37,21 +37,26 @@ class _RadioButtonState extends State<RadioButton> {
 
         children: [
           Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                    child: RadioListTile<String>(
-                        title: Text(widget.radio_one),
-                        value: widget.radio_one_value,
-                        groupValue: widget.selectedValue,
-                        onChanged: (v) =>widget.onChanged!(v!),)),
-                Expanded(
-                    child: RadioListTile<String>(
-                        title: Text(widget.radio_two),
-                        value: widget.radio_two_value,
-                        groupValue: widget.selectedValue,
-                        onChanged:  (v) =>widget.onChanged!(v!),)),
-              ])
+            children: <Widget>[
+              Expanded(
+                child: RadioListTile<String>(
+                  title: Text(widget.radio_one),
+                  value: widget.radio_one_value,
+                  groupValue: widget.selectedValue,
+                  onChanged: (v) => widget.onChanged!(v!),
+                ),
+              ),
+              Expanded(
+                child: RadioListTile<String>(
+                  title: Text(widget.radio_two),
+                  value: widget.radio_two_value,
+                  groupValue: widget.selectedValue, // Set this to widget.radio_two_value initially.
+                  onChanged: (v) => widget.onChanged!(v!),
+                ),
+              ),
+            ],
+          )
+
           // Center(child: Text(selectedValue == 'Male' ? 'Your gender is Male ' : 'Your gender is Female'))
         ],
       ),

@@ -54,6 +54,9 @@ class LegalInfo with ChangeNotifier {
   final String? expiry_date;
   final String? dbs_certificate_number;
   final File? imageUrl;
+  final String? Bank_Name;
+  final int? Account_Number;
+  final int? Sort_Code;
 
   LegalInfo({
     this.candidateid,
@@ -67,6 +70,9 @@ class LegalInfo with ChangeNotifier {
     this.expiry_date,
     this.dbs_certificate_number,
     this.imageUrl,
+    this.Bank_Name,
+    this.Account_Number,
+    this.Sort_Code
   });
   List<LegalInfo> _infodata = [];
   List<LegalInfo> get infodata {
@@ -172,6 +178,8 @@ var documents = DocumentsListModel.getListMap(_fils);
       final response = await http.post(
         Uri.parse(url),
         body: json.encode({
+
+
           'candidate_id': candidate_id,
           'postcode': LegalInfo.postcode,
           'have_license': have_license,

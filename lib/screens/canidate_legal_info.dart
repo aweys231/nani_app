@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, implementation_imports, unnecessary_import, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print, sized_box_for_whitespace, prefer_final_fields, unused_local_variable, await_only_futures, unnecessary_null_comparison, unused_import, unused_element, dead_code, use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -26,6 +27,10 @@ import '../widgets/license_type.dart';
 import '../widgets/radio_button.dart';
 import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:http/http.dart' as http;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
+
+
 
 import 'auth_screen.dart';
 
@@ -206,31 +211,56 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   }
 
   // final pdfUrl = 'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
-  final pdfUrl = 'https://vocab.today/reader/Beginner/Oscar.pdf';
+  final pdfUrl = 'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
 
-  Future<void> _showPdfPreview(BuildContext context)  async {
-    final pdfData = await http.get(Uri.parse(pdfUrl));
-    final tempDir = await getTemporaryDirectory();
-    final pdfFile = File('${tempDir.path}/sample.pdf');
-    await pdfFile.writeAsBytes(pdfData.bodyBytes);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: Text('PDF Preview'),
+  //preview after download ...
+  Future<void> _showPdfPreview(BuildContext context) async {
+      final pdfData = await http.get(Uri.parse(pdfUrl));
+      final tempDir = await getTemporaryDirectory();
+      final pdfFile = File('${tempDir.path}/sample.pdf');
+      await pdfFile.writeAsBytes(pdfData.bodyBytes);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+            appBar: AppBar(
+              title: Text('PDF Preview'),
+            ),
+            body:  PDFView(
+              filePath: pdfFile.path,
+              enableSwipe: true, // Enable horizontal swipe navigation
+              swipeHorizontal: true, // Set to false for vertical swipe navigation
+              autoSpacing: false, // Set to true for automatic spacing between pages
+              pageSnap: true, // Set to true to snap pages while swiping
+            )
           ),
-          body:  PDFView(
-            filePath: pdfUrl,
-            enableSwipe: true, // Enable horizontal swipe navigation
-            swipeHorizontal: true, // Set to false for vertical swipe navigation
-            autoSpacing: false, // Set to true for automatic spacing between pages
-            pageSnap: true, // Set to true to snap pages while swiping
-          )
         ),
-      ),
-    );
-  }
+      );
+    }
+
+
+
+  // Future<void> _showPdfPreview(BuildContext context) async {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => Scaffold(
+  //         appBar: AppBar(
+  //           title: Text('PDF Preview'),
+  //         ),
+  //         body: PDFView(
+  //           filePath: pdfUrl, // Provide the URL of the PDF file
+  //           enableSwipe: true,
+  //           swipeHorizontal: true,
+  //           autoSpacing: false,
+  //           pageSnap: true,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -263,12 +293,10 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                   ),),
                   IconButton(
                       onPressed: (){
-                        FileDownloader.downloadFile(
-                            url: pdfUrl,
-                        );
-                        // _showPdfPreview(context);
+                        _showPdfPreview(context);
 
                         // Navigator.push(context, MaterialPageRoute(builder: (_)=> SingleDownloadScreen()));
+                        FileDownloader.downloadFile(url: pdfUrl,);
                         },
                       icon: Icon(Icons.download, color: txtcolor ,size: 33,)
                   ),
@@ -293,7 +321,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        if(currentStep !=1)
+                        if(currentStep < 2)
                         ElevatedButton(
                           onPressed: controls.onStepContinue,
                           style: ElevatedButton.styleFrom(
@@ -301,7 +329,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                           ),
                           child: const Text('NEXT'),
                         ),
-                        if (currentStep != 0)
+                        if (currentStep > 0)
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: bggcolor
@@ -309,7 +337,6 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                             onPressed: controls.onStepCancel,
                             child:  Text(
                               'BACK',
-                              
                             ),
                           ),
                       ],
@@ -353,7 +380,6 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
             child: Form(
-              key: _form,
               child: Column(
                 children: [
                   CustomInput(
@@ -427,7 +453,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     onChanged: (value) {
                       setState(() {
                         have_license = value;
-                        print(have_license);
+                        print('this is $have_license');
                         _editeLegalInfot = LegalInfo(
                             postcode: _editeLegalInfot.postcode,
                             have_license: have_license,
@@ -445,33 +471,39 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     },
                     selectedValue: have_license,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text('license type',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                          )),
-                    ],
-                  ),
-                  LicenseType(
-                    onChanged: (value) {
-                      print(value);
-                      _editeLegalInfot = LegalInfo(
-                          postcode: _editeLegalInfot.postcode,
-                          have_license: _editeLegalInfot.have_license,
-                          driver_licensetype: value,
-                          member: _editeLegalInfot.member,
-                          bodyname: _editeLegalInfot.bodyname,
-                          amountofcover: _editeLegalInfot.amountofcover,
-                          policynumber: _editeLegalInfot.policynumber,
-                          expiry_date: _editeLegalInfot.expiry_date,
-                          dbs_certificate_number:
+                  have_license == 'yes' || have_license == 'Yes'
+                      ? Column(
+                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('license type',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                      LicenseType(
+                        onChanged: (value) {
+                          print(value);
+                          _editeLegalInfot = LegalInfo(
+                              postcode: _editeLegalInfot.postcode,
+                              have_license: _editeLegalInfot.have_license,
+                              driver_licensetype: value,
+                              member: _editeLegalInfot.member,
+                              bodyname: _editeLegalInfot.bodyname,
+                              amountofcover: _editeLegalInfot.amountofcover,
+                              policynumber: _editeLegalInfot.policynumber,
+                              expiry_date: _editeLegalInfot.expiry_date,
+                              dbs_certificate_number:
                               _editeLegalInfot.dbs_certificate_number,
-                          imageUrl: null);
-                    },
-                  ),
+                              imageUrl: null);
+                        },
+                      ),
+                    ],
+                  )
+                      : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -508,7 +540,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     },
                     selectedValue: member,
                   ),
-                  CustomInput(
+
+                  member == 'yes' || member == 'Yes'
+                  ? CustomInput(
                     hint: "Enter Member Name",
                     label: "Member name",
                     keyboardtype: TextInputType.text,
@@ -536,10 +570,11 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                           policynumber: _editeLegalInfot.policynumber,
                           expiry_date: _editeLegalInfot.expiry_date,
                           dbs_certificate_number:
-                              _editeLegalInfot.dbs_certificate_number,
+                          _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                     },
-                  ),
+                  )
+                  : Container(),
                   CustomInput(
                     keyboardtype: TextInputType.number,
                     hint: "Enter Amount to cover",
@@ -724,10 +759,152 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
           ),
         ),
       ),
-      // second screen document stepper content....
+      // second screen account info stepper content....
       Step(
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 1,
+        title: const Text("Account Info "),
+        content: Container(
+          height: MediaQuery.of(context).size.height - 250,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  CustomInput(
+                    hint: "Enter Bank Name",
+                    label: "Bank Name",
+                    icon: Icon(Icons.person_outline),
+                    controller: _postcode,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _postcodeFocusNode,
+                    suffixIcon: _postcode.text.isEmpty
+                        ? null // Show nothing if the text field is empty
+                        : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _clearTextField(_postcode);
+                      },
+                    ),
+                    onSubmitted: (value) {
+                      print(value);
+                      _editeLegalInfot = LegalInfo(
+                          postcode: value,
+                          have_license: have_license,
+                          driver_licensetype: '',
+                          member: '',
+                          bodyname: _editeLegalInfot.bodyname,
+                          amountofcover: _editeLegalInfot.amountofcover,
+                          policynumber: _editeLegalInfot.policynumber,
+                          expiry_date: _editeLegalInfot.expiry_date,
+                          dbs_certificate_number:
+                          _editeLegalInfot.dbs_certificate_number,
+                          imageUrl: null);
+                      setState(() {});
+                    },
+                    onChanged: (value) {
+                      print(value);
+                      print(value);
+                      _editeLegalInfot = LegalInfo(
+                          postcode: value,
+                          have_license: have_license,
+                          driver_licensetype: '',
+                          member: '',
+                          bodyname: _editeLegalInfot.bodyname,
+                          amountofcover: _editeLegalInfot.amountofcover,
+                          policynumber: _editeLegalInfot.policynumber,
+                          expiry_date: _editeLegalInfot.expiry_date,
+                          dbs_certificate_number:
+                          _editeLegalInfot.dbs_certificate_number,
+                          imageUrl: null);
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
+                    },                  ),
+                  CustomInput(
+                    keyboardtype: TextInputType.number,
+                    hint: "Enter Account Number",
+                    label: "Account Number",
+                    icon: Icon(Icons.money),
+                    controller: _amountofcover,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _amountofcoverFocusNode,
+                    onSubmitted: (value) {
+
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      _editeLegalInfot = LegalInfo(
+                          postcode: _editeLegalInfot.postcode,
+                          have_license: have_license,
+                          driver_licensetype: _editeLegalInfot.driver_licensetype,
+                          member: _editeLegalInfot.member,
+                          bodyname: _editeLegalInfot.bodyname,
+                          amountofcover: value,
+                          policynumber: _editeLegalInfot.policynumber,
+                          expiry_date: _editeLegalInfot.expiry_date,
+                          dbs_certificate_number:
+                          _editeLegalInfot.dbs_certificate_number,
+                          imageUrl: null);
+                    },
+                  ),
+                  CustomInput(
+                    keyboardtype: TextInputType.emailAddress,
+                    hint: "Enter Sort Code",
+                    label: "Sort  Code",
+                    icon: Icon(Icons.numbers_rounded),
+                    suffixIcon: _dbs_certificate_number.text.isEmpty
+                        ? null // Show nothing if the text field is empty
+                        : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: (() {
+                        _clearTextField(_dbs_certificate_number);
+                      }),
+                    ), // Show the clear button if the text field has something
+                    controller: _dbs_certificate_number,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _dbs_certificate_numberFocusNode,
+                    onSubmitted: (value) {
+                    },
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Filed is Required';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      _editeLegalInfot = LegalInfo(
+                          postcode: _editeLegalInfot.postcode,
+                          have_license: have_license,
+                          driver_licensetype: _editeLegalInfot.driver_licensetype,
+                          member: _editeLegalInfot.member,
+                          bodyname: _editeLegalInfot.bodyname,
+                          amountofcover: _editeLegalInfot.amountofcover,
+                          policynumber: _editeLegalInfot.policynumber,
+                          expiry_date: _editeLegalInfot.expiry_date,
+                          dbs_certificate_number: value,
+                          imageUrl: null);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      // thrid screeen document stepper content ...
+      Step(
+        state: currentStep > 2 ? StepState.complete : StepState.indexed,
+        isActive: currentStep >= 2,
         title: Text("Document", style: TextStyle(
           color: txtcolor
         )),

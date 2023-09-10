@@ -37,7 +37,9 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   final _form = GlobalKey<FormState>();
   final _fnameFocusNode = FocusNode();
   final _fname = TextEditingController();
+  final _mname = TextEditingController();
   final _lnameFocusNode = FocusNode();
+  final _mnameFocusNode = FocusNode();
   final _lname = TextEditingController();
   final _nationalFocusNode = FocusNode();
   final _national = TextEditingController();
@@ -70,6 +72,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   var _addcandidate = Candidate(
       role_id: '',
       fname: '',
+      mname: '',
       lname: '',
       gender: '',
       location: '',
@@ -289,6 +292,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: value,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -326,6 +330,62 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     },
                   ),
                   CustomInput(
+                    hint: "Enter Middle Name",
+                    label: "Middle Name",
+                    icon: Icon(Icons.person_outline),
+                    controller: _fname,
+                    onValidate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Middle Name is Required';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    focusNode: _mnameFocusNode,
+                    onSubmitted: (value) {
+                      print(value);
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: _addcandidate.fname,
+                          mname: value,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                    onChanged: (value) {
+                      print(value);
+                      _addcandidate = Candidate(
+                          role_id: _addcandidate.role_id,
+                          fname: value,
+                          lname: _addcandidate.lname,
+                          national: _addcandidate.national,
+                          gender: _addcandidate.gender,
+                          location: _addcandidate.location,
+                          mobile: _addcandidate.mobile,
+                          title: _addcandidate.title,
+                          email: _addcandidate.email,
+                          Languages: _addcandidate.Languages,
+                          nokname: _addcandidate.nokname,
+                          nokaddress: _addcandidate.nokaddress,
+                          nokmobile: _addcandidate.nokmobile,
+                          user_name: _addcandidate.user_name,
+                          passwd: _addcandidate.passwd,
+                          imageUrl: _addcandidate.imageUrl);
+                    },
+                  ),
+
+                  CustomInput(
                     hint: "Enter Last Name",
                     label: "Last Name",
                     icon: Icon(Icons.person_outline),
@@ -345,6 +405,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: value,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -369,6 +430,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         _addcandidate = Candidate(
                             role_id: _addcandidate.role_id,
                             fname: _addcandidate.fname,
+                            mname: _addcandidate.mname,
                             lname: _addcandidate.lname,
                             national: value,
                             gender: _addcandidate.gender,
@@ -408,6 +470,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         _addcandidate = Candidate(
                             role_id: _addcandidate.role_id,
                             fname: _addcandidate.fname,
+                            mname: _addcandidate.mname,
                             lname: _addcandidate.lname,
                             national: _addcandidate.national,
                             gender: selectedValue,
@@ -447,6 +510,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -484,6 +548,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -525,6 +590,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -590,6 +656,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           _addcandidate = Candidate(
                               role_id: value,
                               fname: _addcandidate.fname,
+                              mname: _addcandidate.mname,
                               lname: _addcandidate.lname,
                               national: _addcandidate.national,
                               gender: _addcandidate.gender,
@@ -617,6 +684,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                         _addcandidate = Candidate(
                             role_id: _addcandidate.role_id,
                             fname: _addcandidate.fname,
+                            mname: _addcandidate.mname,
                             lname: _addcandidate.lname,
                             national: _addcandidate.national,
                             gender: _addcandidate.gender,
@@ -652,6 +720,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -694,6 +763,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -725,6 +795,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -756,6 +827,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -814,6 +886,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -852,6 +925,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
                           fname: _addcandidate.fname,
+                          mname: _addcandidate.mname,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,

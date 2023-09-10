@@ -41,6 +41,7 @@ class NationalityModel with ChangeNotifier {
 class Candidate with ChangeNotifier {
   final String? role_id;
   final String? fname;
+  final String? mname;
   final String? lname;
   final String? national;
   final String? gender;
@@ -60,6 +61,7 @@ class Candidate with ChangeNotifier {
     this.role_id,
     this.fname,
     this.lname,
+    this.mname,
     this.national,
     this.gender,
     this.location,
@@ -93,6 +95,7 @@ class Candidate with ChangeNotifier {
         body: json.encode({
           'role_id': Candidate.role_id,
           'fname': Candidate.fname,
+          'mname': Candidate.mname,
           'lname': Candidate.lname,
           'national': Candidate.national,
           'gender': Candidate.gender,
