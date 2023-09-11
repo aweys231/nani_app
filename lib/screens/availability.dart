@@ -118,6 +118,7 @@ class _AvailabilityState extends State<Availability> {
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -184,6 +185,7 @@ class _AvailabilityState extends State<Availability> {
   Widget build(BuildContext context) {
     Provider.of<Availability_Section>(context).fetchAndSetshifts();
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
+    String selectedShift;
     return Scaffold(
         backgroundColor: Color(0xfff0f0f6),
         appBar: AppBar(
@@ -533,7 +535,36 @@ class _AvailabilityState extends State<Availability> {
   }
 
   Card MyAvailability(MyAvailability_Model av, BuildContext context) {
- 
+    String? selectedShift;
+
+    String determineSelectedShift(String shift) {
+      String result;
+      if (shift == 'Week Day') {
+        result = 'Week Day';
+      } else if (shift == 'Week Night') {
+        result = 'Week Night';
+      } else if (shift == 'Week-End Day') {
+        result = 'Week-End Day';
+      }
+      else if (shift == 'Week-End Night') {
+        result = 'Week-End Night';
+      }
+      else if (shift == 'Sleep im') {
+        result = 'Sleep im';
+      }
+      else if (shift == 'Bank Holiday Week Day') {
+        result = 'Bank Holiday Week Day';
+      }
+      else {
+        result = 'invalid shift';
+      }
+      return result;
+    }
+
+// Call determineSelectedShift when needed, for example:
+    selectedShift = determineSelectedShift(av.shift);
+
+
     return Card(
       elevation: 8,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5,),
@@ -551,10 +582,10 @@ class _AvailabilityState extends State<Availability> {
                     text: TextSpan(
                         text:
                         // formattedDate,
-                        DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
+                        DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),
                         style: TextStyle(
                             color: currentIndex == 1
-                                ? bggcolor : txtcolor,
+                                ? Colors.black : txtcolor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Lato')),
@@ -573,203 +604,41 @@ class _AvailabilityState extends State<Availability> {
             children: [
               Expanded(
                 child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 1.0),
-                      child: Column(
-                          // mainAxisSize:
-                          //     MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week Day'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week Day' ? 18 : 15,
-                            ),
-                            av.shift == 'Week Day'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week Day',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week Day'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 1.0),
-                      // child: Expanded(
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week Night'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week Night' ? 18 : 15,
-                            ),
-                            av.shift == 'Week Night'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week Night',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week Night'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      // )
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 1.0),
 
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week-End Day'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week-End Day' ? 18 : 15,
-                            ),
-                            av.shift == 'Week-End Day'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text:'Week-End Day',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week-End Day'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      // )
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
                   leading: Container(
                     height: 80,
                     color: Color.fromARGB(255, 255, 255, 255),
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 2.0),
-
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week-End Night'
-                                  ? bggcolor : txtcolor,
-                              size: currentIndex == 0 ? 18 : 15,
-                            ),
-                            av.shift == 'Week-End Night'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week-End Night',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week-End Night'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
+                      padding: const EdgeInsets.only(right: 1.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.calendar,
+                            color: av.shift == selectedShift
+                                ? Colors.black
+                                : txtcolor,
+                            size: av.shift == selectedShift ? 18 : 15,
+                          ),
+                          SizedBox(width: 8),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                text:  selectedShift ,
+                                    style: TextStyle(
+                                    color: av.shift == selectedShift
+                                        ? Colors.black
+                                        : txtcolor,
+                                    fontSize:18,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Lato'),
                               ),
                             ),
-                          ]),
-                      // )
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -782,7 +651,26 @@ class _AvailabilityState extends State<Availability> {
   }
 
  Card MyBooking(MyBookin_Model av, BuildContext context) {
- 
+   String? selectedShift;
+
+   String determineSelectedShift(String shift) {
+     String result;
+     if (shift == 'Week Day') {
+       result = 'Week Day';
+     } else if (shift == 'Week Night') {
+       result = 'Week Night';
+     } else if (shift == 'Week-End Day') {
+       result = 'Week-End Day';
+     } else if (shift == 'Week-End Night') {
+       result = 'Week-End Night';
+     } else {
+       result = 'invalid shift';
+     }
+     return result;
+   }
+
+// Call determineSelectedShift when needed, for example:
+   selectedShift = determineSelectedShift(av.shift);
     return Card(
       elevation: 8,
       margin: EdgeInsets.symmetric(
@@ -803,7 +691,7 @@ class _AvailabilityState extends State<Availability> {
                     text: TextSpan(
                         text:
                         // formattedDate,
-                        DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),                
+                        DateFormat(' MMMM d,yyyy').format(DateTime.parse(av.fulldate)),
                         style: TextStyle(
                             color: currentIndex == 0
                                 ? bggcolor : txtcolor,
@@ -830,198 +718,35 @@ class _AvailabilityState extends State<Availability> {
                     color: Color.fromARGB(255, 255, 255, 255),
                     child: Padding(
                       padding: const EdgeInsets.only(right: 1.0),
-                      child: Column(
-                          // mainAxisSize:
-                          //     MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week Day'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week Day' ? 18 : 15,
-                            ),
-                            av.shift == 'Week Day'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week Day',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week Day'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.calendar,
+                            color: av.shift == selectedShift
+                                ? Colors.black
+                                : txtcolor,
+                            size: av.shift == selectedShift ? 18 : 15,
+                          ),
+                          SizedBox(width: 8),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                text:  selectedShift ,
+                                style: TextStyle(
+                                    color: av.shift == selectedShift
+                                        ? Colors.black
+                                        : txtcolor,
+                                    fontSize:18,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'Lato'),
                               ),
                             ),
-                          ]),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 1.0),
-                      // child: Expanded(
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week Night'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week Night' ? 18 : 15,
-                            ),
-                            av.shift == 'Week Night'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week Night',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week Night'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      // )
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 1.0),
-
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week-End Day'
-                                  ? bggcolor : txtcolor,
-                              size: av.shift == 'Week-End Day' ? 18 : 15,
-                            ),
-                            av.shift == 'Week-End Day'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text:'Week-End Day',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week-End Day'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      // )
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  leading: Container(
-                    height: 80,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 2.0),
-
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: av.shift == 'Week-End Night'
-                                  ? bggcolor : txtcolor,
-                              size: currentIndex == 0 ? 18 : 15,
-                            ),
-                            av.shift == 'Week-End Night'
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 1),
-                                    height: 3,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                            SizedBox(height: 2),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Week-End Night',
-                                  style: TextStyle(
-                                      color: av.shift == 'Week-End Night'
-                                          ? bggcolor : txtcolor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'Lato'),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      // )
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1100,14 +825,20 @@ class _AvailabilityState extends State<Availability> {
         });
   }
 
-  Card schedule(int index) {
-    return Card(
+  Widget schedule(int index) {
+    DateTime currentDate = DateTime.now();
+    DateTime day = days![index];
+
+    bool isSelectable = day.isAfter(currentDate) || day.isAtSameMomentAs(currentDate);
+
+    return isSelectable ? Card(
       elevation: 8,
       margin: EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 5,
       ),
-      child: ListTile(
+      child: isSelectable
+          ? ListTile(
         leading: Container(
           color: Color.fromARGB(255, 255, 255, 255),
           child: Padding(
@@ -1116,31 +847,32 @@ class _AvailabilityState extends State<Availability> {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Icon(Icons.calendar_month_outlined),
               Text(
-                "${formatter.format(days![index])}",
+                "${formatter.format(day)}",
                 style: TextStyle(color: Colors.green, fontSize: 10),
               ),
-              Text("${days![index].day}"),
+              Text("${day.day}"),
             ]),
             // )
           ),
         ),
-        title: AvaliabiltityDropDown(
-            candidateid: widget.candidate_id.toString(),
-            year: days![index].year.toString(),
-            month: getMonth(days![index].month),
-            // months[days![index].month-1],
-            day: days![index].day.toString(),
-            dayname: formatter.format(days![index]).toString(),
-            fulldate: DateFormat("dd/MM/yyyy")
-                .parse(
-                    "${days![index].day.toString()}/${days![index].month.toString()}/${days![index].year.toString()}")
-                .toString()),
+        title: isSelectable
+            ? AvaliabiltityDropDown(
+          candidateid: widget.candidate_id.toString(),
+          year: day.year.toString(),
+          month: getMonth(day.month),
+          day: day.day.toString(),
+          dayname: formatter.format(day).toString(),
+          fulldate: DateFormat("dd/MM/yyyy").parse(
+            "${day.day.toString()}/${day.month.toString()}/${day.year.toString()}",
+          ).toString(),
+        )
+            : null,
 
         // subtitle: AvaliabiltityDropDown(),
         // trailing:  Text("${formatter.format(days[index])}",
         //   style: TextStyle(color: Colors.green, fontSize: 15),),
-      ),
-    );
+      ) : null
+    ) : SizedBox();
   }
 
   void _onPressed({
