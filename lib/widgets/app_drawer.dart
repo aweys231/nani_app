@@ -17,6 +17,8 @@ import '../providers/auth.dart';
 
 import 'package:provider/provider.dart';
 
+import '../screens/Candidate_profile_screen.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
@@ -93,6 +95,16 @@ class AppDrawer extends StatelessWidget {
             title: Text('Attandance', style: fontstyle,),
             onTap: () {
               Navigator.pushNamed(context, ScanAttandance.routeName);
+              //  Navigator.of(context)
+              //     .pushReplacementNamed(ScanAttandance.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.account_box),
+            title: Text('Profile', style: fontstyle,),
+            onTap: () {
+              Navigator.pushNamed(context, CandidateProfileScreen.routeName);
               //  Navigator.of(context)
               //     .pushReplacementNamed(ScanAttandance.routeName);
             },

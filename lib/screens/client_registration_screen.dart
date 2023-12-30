@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, implementation_imports, unnecessary_import, avoid_print, sized_box_for_whitespace, unused_field, unused_import, prefer_final_fields, use_build_context_synchronously, unused_element, avoid_web_libraries_in_flutter, unnecessary_null_comparison, body_might_complete_normally_nullable
 
+import 'dart:convert';
 import 'dart:io';
 
 // import 'dart:html';
@@ -115,6 +116,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
   //       .fetchAndSetAllJobs(id);
   // }
   // var errorfname = null;
+
   Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
     if (!isValid) {
@@ -122,7 +124,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     }
     _form.currentState!.save();
 
-    if (_pickImage! == null) {
+    if (_pickImage == null) {
       return;
     }
     setState(() {
@@ -130,45 +132,48 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
     });
 
     try {
-      await Provider.of<Candidate>(context, listen: false)
+      var response = await Provider.of<Candidate>(context, listen: false)
           .addCandidate(_addcandidate, _pickImage!);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        var candidateId = responseData['candidate_id']; // Adjust this key as per your API response
+
+        // Navigate to the profile screen with the candidateId
+        Navigator.of(context).pushNamed(
+          '/candidate-profile-screen',
+          arguments: candidateId,
+        );
+      } else {
+        // Handle error
+        await _showErrorDialog('Something went wrong!');
+      }
     } catch (error) {
       print(error);
-      await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error accurred!'),
-            content: Text('Something went wrong!'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Okey'),
-                onPressed: () {
-                  // Navigator.of(ctx).pop();
-                },
-              )
-            ],
-          ));
+      await _showErrorDialog('An error occurred!');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
+  }
 
-    setState(() {
-      _isLoading = false;
-    });
-    // Navigator.of(context).pop();
-    await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('success'),
-          content: Text('successfully Rgistred'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Okey'),
-              onPressed: () {
-                // Navigator.pop(context);
-                Navigator.of(context).pushNamed('/');
-              },
-            )
-          ],
-        ));
+  Future<void> _showErrorDialog(String message) async {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -333,7 +338,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                     hint: "Enter Middle Name",
                     label: "Middle Name",
                     icon: Icon(Icons.person_outline),
-                    controller: _fname,
+                    controller: _mname,
                     onValidate: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Middle Name is Required';
@@ -367,7 +372,8 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       print(value);
                       _addcandidate = Candidate(
                           role_id: _addcandidate.role_id,
-                          fname: value,
+                          fname: _addcandidate.fname,
+                          mname: value,
                           lname: _addcandidate.lname,
                           national: _addcandidate.national,
                           gender: _addcandidate.gender,
@@ -384,7 +390,6 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           imageUrl: _addcandidate.imageUrl);
                     },
                   ),
-
                   CustomInput(
                     hint: "Enter Last Name",
                     label: "Last Name",

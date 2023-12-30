@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, use_rethrow_when_possible, avoid_returning_null_for_void, avoid_web_libraries_in_flutter, unused_import, unnecessary_null_comparison, dead_code, unused_local_variable, camel_case_types, non_constant_identifier_names, prefer_const_declarations, prefer_final_fields
 import 'dart:convert';
+import 'dart:io';
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class VacuncyModel with ChangeNotifier {
   final String? km;
   double? fieldLatitude;
   double? fieldLogitude;
+  final String? method_name;
 
   VacuncyModel(
       {required this.id,
@@ -72,6 +74,7 @@ class VacuncyModel with ChangeNotifier {
       this.businesunit,
       this.minut,
       this.km,
+        this.method_name,
       this.fieldLatitude,
       this.fieldLogitude});
 
@@ -342,6 +345,7 @@ class Jobs_Section with ChangeNotifier {
               imageUrl: extractedData[i]['vacuncy_data']['c_image'],
               jobrole_id: extractedData[i]['vacuncy_data']['jobrole_id'],
               jv_address: extractedData[i]['vacuncy_data']['address'],
+              method_name: extractedData[i]['vacuncy_data']['method_name'],
 
               //   contactname: extractedData[i]['contactname'],
               contactnumber: extractedData[i]['vacuncy_data']['contactname'],
@@ -399,7 +403,11 @@ class Jobs_Section with ChangeNotifier {
   }
 
   Future attandance_registration(
-      String candidate_id, String vacuncy_id, String time, String day) async {
+      String candidate_id, String vacuncy_id, String time, String day, File imga) async {
+    // Preparing the file
+    List<int> imageBytes = imga.readAsBytesSync();
+    String baseimage = base64Encode(imageBytes);
+
     final url = "${ApiUrls.BASE_URL}client_app/attandance_registration";
     try {
       final response = await http.post(
@@ -409,6 +417,7 @@ class Jobs_Section with ChangeNotifier {
           'vacuncy_id': vacuncy_id,
           'timeinout': time,
           'day': day,
+          'timesheetUrl': baseimage,
         }),
       );
       var message = jsonDecode(response.body);

@@ -18,6 +18,7 @@ import 'package:nanirecruitment/providers/great_places.dart';
 import 'package:nanirecruitment/providers/legal_info_provider.dart';
 import 'package:nanirecruitment/providers/notification_service.dart';
 import 'package:nanirecruitment/screens/Availabilities.dart';
+import 'package:nanirecruitment/screens/Candidate_profile_screen.dart';
 import 'package:nanirecruitment/screens/add_place_screen.dart';
 import 'package:nanirecruitment/screens/attandance.dart';
 import 'package:nanirecruitment/screens/auth_screen.dart';
@@ -243,6 +244,8 @@ class _MyAppState extends State<MyApp> {
                   ScanAttandance(auth.candidate_id),
               MyShifts.routeName: (ctx) =>
                   MyShifts(auth.role_id, auth.candidate_id),
+              CandidateProfileScreen.routeName: (ctx) =>
+                  CandidateProfileScreen( auth.candidate_id),
               // splash.id: (_) => splash(),
             },
             // builder: (context, child) => MediaQuery(

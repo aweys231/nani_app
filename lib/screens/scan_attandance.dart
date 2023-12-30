@@ -92,6 +92,17 @@ class _ScanAttandanceState extends State<ScanAttandance> {
       drawer: AppDrawer(),
       body: Column(
         children: <Widget>[
+
+          // Skip button
+          TextButton(
+            child: Text("Skip"),
+            onPressed: _handleSkip,
+            style: TextButton.styleFrom(
+              primary: Colors.white, // Text Color
+              backgroundColor: Colors.blue, // Button Background Color
+            ),
+          ),
+
           Expanded(
             flex: 5,
             child: QRView(
@@ -140,6 +151,23 @@ class _ScanAttandanceState extends State<ScanAttandance> {
       ),
     );
   }
+
+  void _handleSkip() {
+    // Define a default or null value for jobvacancy_id if necessary
+    String defaultJobVacancyId = "default_value"; // Replace with an appropriate value or logic
+
+    // Navigate to the CanidateAttandance page
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (ctx) => CanidateAttandance(
+              candidate_id: widget.candidate_id.toString(),
+              jobvacancy_id: defaultJobVacancyId,
+            )
+        )
+    );
+  }
+
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;

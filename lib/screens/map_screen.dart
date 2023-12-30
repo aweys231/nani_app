@@ -93,7 +93,7 @@ var _isLoading = false;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Map'),
+        title: Text('Your Map here'),
           actions: <Widget>[
           if (widget.isSelecting)
             IconButton(

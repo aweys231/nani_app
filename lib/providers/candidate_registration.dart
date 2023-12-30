@@ -1,13 +1,8 @@
-// ignore_for_file: non_constant_identifier_names, unused_import, avoid_web_libraries_in_flutter, use_rethrow_when_possible, avoid_print, unused_local_variable, prefer_const_declarations, dead_code, unnecessary_this, duplicate_ignore
-
 import 'dart:convert';
 import 'dart:io';
-// import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nanirecruitment/models/http_exception.dart';
-
 import '../services/api_urls.dart';
 
 class NationalityModel with ChangeNotifier {
@@ -18,27 +13,12 @@ class NationalityModel with ChangeNotifier {
     required this.id,
     required this.name,
   });
-   ///this method will prevent the override of toString
-  String userAsString() {
-    // ignore: unnecessary_this
-    return '#${this.id} ${this.name}';
-  }
 
-  ///this method will prevent the override of toString
-  bool userFilterByCreationDate(String filter) {
-    return this.name.toString().contains(filter);
-  }
-
-  ///custom comparing function to check if two users are equal
-  bool isEqual(NationalityModel model) {
-    return id == model.id;
-  }
-
-  @override
-  String toString() => name;
+// Other methods and toString...
 }
 
 class Candidate with ChangeNotifier {
+  // Candidate model fields
   final String? role_id;
   final String? fname;
   final String? mname;
@@ -57,6 +37,7 @@ class Candidate with ChangeNotifier {
   final String? passwd;
   final File? imageUrl;
 
+  // Constructor
   Candidate({
     this.role_id,
     this.fname,
@@ -76,92 +57,81 @@ class Candidate with ChangeNotifier {
     this.passwd,
     this.imageUrl,
   });
+
   List<NationalityModel> _nationality = [];
   List<NationalityModel> get nationality {
     return [..._nationality];
   }
 
-  Future<void> addCandidate(Candidate Candidate, File imga, 
-      ) async {
-    final url =
-        "${ApiUrls.BASE_URL}client_app/addcandidate";
+  Future<http.Response> addCandidate(Candidate candidate, File imga) async {
+    final url = "${ApiUrls.BASE_URL}client_app/addcandidate";
     try {
-      // preparing the fil
+      // Preparing the file
       List<int> imageBytes = imga.readAsBytesSync();
       String baseimage = base64Encode(imageBytes);
-      //convert file image to Base64 encoding
+
       final response = await http.post(
         Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
         body: json.encode({
-          'role_id': Candidate.role_id,
-          'fname': Candidate.fname,
-          'mname': Candidate.mname,
-          'lname': Candidate.lname,
-          'national': Candidate.national,
-          'gender': Candidate.gender,
-          'location': Candidate.location,
-          'mobile': Candidate.mobile,
-          'title': Candidate.title,
-          'email': Candidate.email,
-          'Languages': Candidate.Languages,
-          'nokname': Candidate.nokname,
-          'nokaddress': Candidate.nokaddress,
-          'nokmobile': Candidate.nokmobile,
-          'user_name': Candidate.user_name,
-          'passwd': Candidate.passwd,
-          'imageUrl': baseimage
+          'role_id': candidate.role_id,
+          'fname': candidate.fname,
+          'mname': candidate.mname,
+          'lname': candidate.lname,
+          'national': candidate.national,
+          'gender': candidate.gender,
+          'location': candidate.location,
+          'mobile': candidate.mobile,
+          'title': candidate.title,
+          'email': candidate.email,
+          'Languages': candidate.Languages,
+          'nokname': candidate.nokname,
+          'nokaddress': candidate.nokaddress,
+          'nokmobile': candidate.nokmobile,
+          'user_name': candidate.user_name,
+          'passwd': candidate.passwd,
+          'imageUrl': baseimage,
         }),
       );
-      var message = jsonDecode(response.body);
-      print(message);
-      print(role_id);
-      // print(selectedValue);
-      return message;
 
-      notifyListeners();
+      return response;
     } catch (error) {
       print(error);
-      throw error;
+      throw HttpException('Failed to add candidate');
     }
   }
 
-  // fill shifts drop down
-  Future<List<NationalityModel>> fetchAndSetnatinality() async {
-    var url =
-        "${ApiUrls.BASE_URL}client_app/fill_nationality";
+  Future<List<NationalityModel>> fetchAndSetNationality() async {
+    var url = "${ApiUrls.BASE_URL}client_app/fill_nationality";
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       });
-      // final response = await http.get(Uri.parse(url));
-      // print("hello");
-      // print(json.decode(response.body));
 
       if (response.statusCode == 200) {
-        final List<NationalityModel> loadednationality = [];
+        final List<NationalityModel> loadedNationality = [];
         final extractedData = json.decode(response.body);
 
         for (int i = 0; i < extractedData.length; i++) {
-          loadednationality.add(
+          loadedNationality.add(
             NationalityModel(
               id: extractedData[i]['num_code'],
               name: extractedData[i]['nationality'],
             ),
           );
         }
-        _nationality = loadednationality.toList();
+        _nationality = loadedNationality.toList();
         return _nationality;
       } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
         print('Request failed with status: ${response.statusCode}.');
-        throw Exception('Failed to load album');
+        throw HttpException('Failed to load nationality');
       }
-      notifyListeners();
     } catch (error) {
       print(error);
-      throw error;
+      throw HttpException('Failed to fetch nationality');
     }
   }
+
+  void fetchAndSetnatinality() {}
 }

@@ -55,8 +55,8 @@ class LegalInfo with ChangeNotifier {
   final String? dbs_certificate_number;
   final File? imageUrl;
   final String? Bank_Name;
-  final int? Account_Number;
-  final int? Sort_Code;
+  final String? Account_Number;
+  final String? Sort_Code;
 
   LegalInfo({
     this.candidateid,
@@ -143,6 +143,9 @@ class LegalInfo with ChangeNotifier {
           have_license: 'have_license',
           driver_licensetype: 'driver_licensetype',
           member: 'member',
+          Bank_Name: 'Bank_Name',
+          Account_Number: 'Account_Number',
+          Sort_Code: 'Sort_Code',
           bodyname: 'bodyname',
           amountofcover: 'amountofcover',
           policynumber: 'policynumber',

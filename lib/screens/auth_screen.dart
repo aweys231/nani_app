@@ -151,7 +151,7 @@ class _AuthCardState extends State<AuthCard>
       _isLoadingDrop_data = true;
     });
     await Provider.of<Candidate>(context, listen: false)
-        .fetchAndSetnatinality()
+        .fetchAndSetNationality()
         .then((_) {});
     await Provider.of<Category_Section>(context, listen: false)
         .fetchAndSetAllCategory()

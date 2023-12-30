@@ -626,7 +626,7 @@ class _AvailabilityState extends State<Availability> {
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: RichText(
                               text: TextSpan(
-                                text:  selectedShift ,
+                                text:  av.shift ,
                                     style: TextStyle(
                                     color: av.shift == selectedShift
                                         ? Colors.black
@@ -734,7 +734,7 @@ class _AvailabilityState extends State<Availability> {
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: RichText(
                               text: TextSpan(
-                                text:  selectedShift ,
+                                text:  av.shift ,
                                 style: TextStyle(
                                     color: av.shift == selectedShift
                                         ? Colors.black
@@ -855,8 +855,8 @@ class _AvailabilityState extends State<Availability> {
             // )
           ),
         ),
-        title: isSelectable
-            ? AvaliabiltityDropDown(
+        title:
+             AvaliabiltityDropDown(
           candidateid: widget.candidate_id.toString(),
           year: day.year.toString(),
           month: getMonth(day.month),
@@ -866,7 +866,7 @@ class _AvailabilityState extends State<Availability> {
             "${day.day.toString()}/${day.month.toString()}/${day.year.toString()}",
           ).toString(),
         )
-            : null,
+
 
         // subtitle: AvaliabiltityDropDown(),
         // trailing:  Text("${formatter.format(days[index])}",

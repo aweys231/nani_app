@@ -43,7 +43,7 @@ class _DhashboardState extends State<Dhashboard> {
           _isLoading = false;
         });
       });
-     Provider.of<Candidate>(context).fetchAndSetnatinality();
+     Provider.of<Candidate>(context).fetchAndSetNationality();
      Provider.of<Category_Section>(context).fetchAndSetAllCategory();
     }
     _isInit = false;

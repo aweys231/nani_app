@@ -328,6 +328,51 @@ class _JobDetailsState extends State<JobDetails> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 8,
+                                        offset: Offset.infinite,
+                                        color: Colors.white10,
+                                      ),
+                                    ],
+                                    border: Border.all(color: Colors.white24),
+                                  ),
+                                  child: ListTile(
+                                    dense:true,
+                                    visualDensity: VisualDensity(vertical: -3),
+                                    leading: Icon(
+                                      Icons.payment,
+                                      size: 30,
+                                      color: txtcolor,
+                                    ),
+                                    title: Text(
+                                      "${jobList.method_name}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: txtcolor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // textScaleFactor: 2.5,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    iconColor: txtcolor,
+                                    textColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+
 
                             SizedBox(
                               height: 5,

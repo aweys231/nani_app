@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:nanirecruitment/constants.dart';
 import 'package:nanirecruitment/providers/jobs.dart';
 import 'package:nanirecruitment/screens/my_shifts.dart';
 import 'package:nanirecruitment/services/api_urls.dart';
@@ -61,31 +62,35 @@ class _BottomPopupModalState extends State<BottomPopupModal> {
           //   style: TextStyle(fontSize: 16.0),
           // ),
           SizedBox(height: 10.0),
-          ElevatedButton(
-            child: Text('Cancel'),
-            onPressed: () async {
-              var message = await Provider.of<Jobs_Section>(
-                  context,
-                  listen: false)
-                  .shift_cancelation(widget.availabilityid!,reasons ,widget.cand_id! );
-              print(message.toString());
+          Container(
+            width: double.infinity,
+            color: bggcolor,
+            child: ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: () async {
+                var message = await Provider.of<Jobs_Section>(
+                    context,
+                    listen: false)
+                    .shift_cancelation(widget.availabilityid!,reasons ,widget.cand_id! );
+                print(message.toString());
 
-              await showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: Text('success'),
-                content: Text(message.toString()),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Okey'),
-                    onPressed: () {
-                      // Navigator.of(ctx).pop();
-                      Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
-                    },
-                  )
-                ],
-              ));            // Send the JSON data to the server.
-            },
+                await showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text('success'),
+                  content: Text(message.toString()),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('Okey'),
+                      onPressed: () {
+                        // Navigator.of(ctx).pop();
+                        Navigator.of(context).pushReplacementNamed(MyShifts.routeName);
+                      },
+                    )
+                  ],
+                ));            // Send the JSON data to the server.
+              },
+            ),
           ),
         ],
       ),

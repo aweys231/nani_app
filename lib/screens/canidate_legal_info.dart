@@ -20,6 +20,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../Showmodel.dart';
 import '../downloadFile.dart';
+import '../services/api_urls.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/image_input.dart';
@@ -29,14 +30,13 @@ import 'package:nanirecruitment/providers/jobs.dart' as job;
 import 'package:http/http.dart' as http;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
-
-
+import '../widgets/my_input.dart';
 
 import 'auth_screen.dart';
 
 class CanidateLegalInfor extends StatefulWidget {
   static const routeName = '/canidate-legal-infor';
-   CanidateLegalInfor(this.candidate_id, {super.key});
+  CanidateLegalInfor(this.candidate_id, {super.key});
   final String? candidate_id;
 
   @override
@@ -46,6 +46,9 @@ class CanidateLegalInfor extends StatefulWidget {
 class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   final _form = GlobalKey<FormState>();
   final _postcodeFocusNode = FocusNode();
+  final _bank_nameFocusNode = FocusNode();
+  final _account_numberFocusNode = FocusNode();
+  final _sort_codeFocusNode = FocusNode();
   final _postcode = TextEditingController();
   final _have_license = TextEditingController();
   final _driver_licensetypeFocusNode = FocusNode();
@@ -59,6 +62,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   final _policynumber = TextEditingController();
   final _expiry_dateFocusNode = FocusNode();
   final _expiry_date = TextEditingController();
+  final _bank_name = TextEditingController();
+  final _account_number = TextEditingController();
+  final _sort_code = TextEditingController();
 
   final _dbs_certificate_numberFocusNode = FocusNode();
   final _dbs_certificate_number = TextEditingController();
@@ -75,6 +81,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
       policynumber: '',
       expiry_date: '',
       dbs_certificate_number: '',
+      Bank_Name: '',
+      Account_Number: '',
+      Sort_Code: '',
       imageUrl: null);
 
   var _initValues = {
@@ -87,6 +96,9 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
     'policynumber': '',
     'expiry_date': '',
     'dbs_certificate_number': '',
+    'Bank_Name': '',
+    'Account_Number': '',
+    'Sort_Code': '',
     'imageUrl': ''
   };
 
@@ -111,10 +123,8 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
 
   @override
   Future<void> didChangeDependencies() async {
-    if(widget.candidate_id==null)
-    {
-      Navigator.of(context)
-                  .pushReplacementNamed(AuthScreen.routeName);
+    if (widget.candidate_id == null) {
+      Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }
     if (_isInit) {
       if (widget.candidate_id.toString() != null) {
@@ -150,13 +160,10 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
     });
 
     try {
-    var message=  await Provider.of<LegalInfo>(context, listen: false).updateLegalInfo(
-          _editeLegalInfot,
-          selectedfile!,
-          have_license,
-          member,
-          widget.candidate_id.toString());
-          await showDialog(
+      var message = await Provider.of<LegalInfo>(context, listen: false)
+          .updateLegalInfo(_editeLegalInfot, selectedfile!, have_license,
+              member, widget.candidate_id.toString());
+      await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
                 title: Text('success'),
@@ -166,8 +173,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     child: Text('Okay'),
                     onPressed: () {
                       // Navigator.of(ctx).pop();
-                        Navigator.of(context)
-                        .pushNamed('/');
+                      Navigator.of(context).pushNamed('/');
                     },
                   )
                 ],
@@ -210,37 +216,70 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
         .requirement_documents();
   }
 
+  Future<String> fetchDocumentUrl(String candidateId) async {
+    int candidateIdInt = int.tryParse(candidateId) ?? 0; // Convert to int
+
+    var response = await http.post(
+      Uri.parse('${ApiUrls.BASE_URL}client_app/getApplication'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({'candidate_id': candidateIdInt}),
+    );
+
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data is List && data.isNotEmpty && data[0]['application_file'] is String) {
+        return data[0]['application_file']; // Access the first element of the array
+      } else {
+        throw Exception('Unexpected data format or empty list');
+      }
+    } else {
+      throw Exception('Failed to load document with status code ${response.statusCode}');
+    }
+  }
+
   // final pdfUrl = 'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
-  final pdfUrl = 'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
+  // final pdfUrl =
+  //     'https://manage.nanirecruitment.com/img/candoc/20230822123141119.pdf';
 
   //preview after download ...
-  Future<void> _showPdfPreview(BuildContext context) async {
+  Future<void> _showPdfPreview(BuildContext context, String pdfUrl) async {
+    try {
+      // Download the PDF from the provided URL
       final pdfData = await http.get(Uri.parse(pdfUrl));
+
+      // Get a temporary directory to store the downloaded PDF
       final tempDir = await getTemporaryDirectory();
-      final pdfFile = File('${tempDir.path}/sample.pdf');
+
+      // Create a File instance for the downloaded PDF
+      final pdfFile = File('${tempDir.path}/downloaded_document.pdf');
+
+      // Write the PDF bytes (from the response) to the file
       await pdfFile.writeAsBytes(pdfData.bodyBytes);
 
+      // Use Navigator to push a new route that displays the PDF
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Scaffold(
-            appBar: AppBar(
-              title: Text('PDF Preview'),
-            ),
-            body:  PDFView(
+            appBar: AppBar(title: Text('PDF Preview')),
+            body: PDFView(
               filePath: pdfFile.path,
-              enableSwipe: true, // Enable horizontal swipe navigation
-              swipeHorizontal: true, // Set to false for vertical swipe navigation
-              autoSpacing: false, // Set to true for automatic spacing between pages
-              pageSnap: true, // Set to true to snap pages while swiping
-            )
+              enableSwipe: true,
+              swipeHorizontal: true,
+              autoSpacing: false,
+              pageSnap: true,
+            ),
           ),
         ),
       );
+    } catch (e) {
+      // Handle any errors that occur during download or display
+      print('Error displaying PDF: $e');
     }
-
-
-
+  }
   // Future<void> _showPdfPreview(BuildContext context) async {
   //   Navigator.push(
   //     context,
@@ -261,7 +300,6 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
   //   );
   // }
 
-
   @override
   Widget build(BuildContext context) {
     return DismissKeyboard(
@@ -273,32 +311,45 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: (){
-              FileDownloader.downloadFile(
-                url: pdfUrl,
-              );
+            onTap: () async {
+              try {
+                String candidateId = widget.candidate_id!; // Ensure this is non-null
+                print('Candidate ID: $candidateId');
+                String docUrl = await fetchDocumentUrl(candidateId);
+                print('Document URL: $docUrl');
+                _showPdfPreview(context, docUrl);
+              } catch (e) {
+                print('Error fetching document: $e');
+              }
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20)
-                )
+                color: Colors.white,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(20)),
               ),
               child: Row(
                 children: [
-                  Text('Application Form', style: TextStyle(
-                    color: txtcolor,
-                  fontWeight: FontWeight.bold
-                  ),),
+                  Text(
+                    'Application Form',
+                    style: TextStyle(color: txtcolor, fontWeight: FontWeight.bold),
+                  ),
                   IconButton(
-                      onPressed: (){
-                        _showPdfPreview(context);
-
-                        // Navigator.push(context, MaterialPageRoute(builder: (_)=> SingleDownloadScreen()));
-                        FileDownloader.downloadFile(url: pdfUrl,);
-                        },
-                      icon: Icon(Icons.download, color: txtcolor ,size: 33,)
+                    onPressed: () async {
+                      try {
+                        String candidateId = widget.candidate_id!; // Retrieve signed-in candidate's ID again
+                        String docUrl = await fetchDocumentUrl(candidateId);
+                        _showPdfPreview(context, docUrl);
+                        FileDownloader.downloadFile(url: docUrl); // Use the fetched URL here
+                      } catch (e) {
+                        // Handle errors
+                        print('Error: $e');
+                      }
+                    },
+                    icon: Icon(
+                      Icons.download,
+                      color: txtcolor,
+                      size: 33,
+                    ),
                   ),
                 ],
               ),
@@ -321,21 +372,19 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        if(currentStep < 2)
-                        ElevatedButton(
-                          onPressed: controls.onStepContinue,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: bggcolor
+                        if (currentStep < 2)
+                          ElevatedButton(
+                            onPressed: controls.onStepContinue,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: bggcolor),
+                            child: const Text('NEXT'),
                           ),
-                          child: const Text('NEXT'),
-                        ),
                         if (currentStep > 0)
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: bggcolor
-                            ),
+                                backgroundColor: bggcolor),
                             onPressed: controls.onStepCancel,
-                            child:  Text(
+                            child: Text(
                               'BACK',
                             ),
                           ),
@@ -382,7 +431,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
             child: Form(
               child: Column(
                 children: [
-                  CustomInput(
+                  mCustomInput(
                     hint: "Enter Post code",
                     label: "Post code",
                     icon: Icon(Icons.person_outline),
@@ -429,12 +478,13 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                               _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                     },
-                    onValidate: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Filed is Required';
-                      }
-                      return null;
-                    },                  ),
+                    // onValidate: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return 'Filed is Required';
+                    //   }
+                    //   return null;
+                    // },
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -473,36 +523,37 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                   ),
                   have_license == 'yes' || have_license == 'Yes'
                       ? Column(
-                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('license type',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              )),
-                        ],
-                      ),
-                      LicenseType(
-                        onChanged: (value) {
-                          print(value);
-                          _editeLegalInfot = LegalInfo(
-                              postcode: _editeLegalInfot.postcode,
-                              have_license: _editeLegalInfot.have_license,
-                              driver_licensetype: value,
-                              member: _editeLegalInfot.member,
-                              bodyname: _editeLegalInfot.bodyname,
-                              amountofcover: _editeLegalInfot.amountofcover,
-                              policynumber: _editeLegalInfot.policynumber,
-                              expiry_date: _editeLegalInfot.expiry_date,
-                              dbs_certificate_number:
-                              _editeLegalInfot.dbs_certificate_number,
-                              imageUrl: null);
-                        },
-                      ),
-                    ],
-                  )
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text('license type',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    )),
+                              ],
+                            ),
+                            LicenseType(
+                              onChanged: (value) {
+                                print(value);
+                                _editeLegalInfot = LegalInfo(
+                                    postcode: _editeLegalInfot.postcode,
+                                    have_license: _editeLegalInfot.have_license,
+                                    driver_licensetype: value,
+                                    member: _editeLegalInfot.member,
+                                    bodyname: _editeLegalInfot.bodyname,
+                                    amountofcover:
+                                        _editeLegalInfot.amountofcover,
+                                    policynumber: _editeLegalInfot.policynumber,
+                                    expiry_date: _editeLegalInfot.expiry_date,
+                                    dbs_certificate_number:
+                                        _editeLegalInfot.dbs_certificate_number,
+                                    imageUrl: null);
+                              },
+                            ),
+                          ],
+                        )
                       : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -540,219 +591,224 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     },
                     selectedValue: member,
                   ),
-
                   member == 'yes' || member == 'Yes'
-                  ? CustomInput(
-                    hint: "Enter Member Name",
-                    label: "Member name",
-                    keyboardtype: TextInputType.text,
-                    icon: Icon(Icons.business_outlined),
-                    controller: _bodyname,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _bodynameFocusNode,
-                    onSubmitted: (value) {
+                      ? Column(
+                          children: [
+                            mCustomInput(
+                              hint: "Enter Member Name",
+                              label: "Member name",
+                              keyboardtype: TextInputType.text,
+                              icon: Icon(Icons.business_outlined),
+                              controller: _bodyname,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _bodynameFocusNode,
+                              onSubmitted: (value) {},
+                              // onValidate: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return 'Field is Required';
+                              //   }
+                              //   return null;
+                              // },
+                              onChanged: (value) {
+                                _editeLegalInfot = LegalInfo(
+                                    postcode: _editeLegalInfot.postcode,
+                                    have_license: have_license,
+                                    driver_licensetype:
+                                        _editeLegalInfot.driver_licensetype,
+                                    member: _editeLegalInfot.member,
+                                    bodyname: value,
+                                    amountofcover:
+                                        _editeLegalInfot.amountofcover,
+                                    policynumber: _editeLegalInfot.policynumber,
+                                    expiry_date: _editeLegalInfot.expiry_date,
+                                    dbs_certificate_number:
+                                        _editeLegalInfot.dbs_certificate_number,
+                                    imageUrl: null);
+                              },
+                            ),
+                            mCustomInput(
+                              keyboardtype: TextInputType.number,
+                              hint: "Enter Amount to cover",
+                              label: "over amount",
+                              icon: Icon(Icons.money),
+                              controller: _amountofcover,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _amountofcoverFocusNode,
+                              onSubmitted: (value) {},
+                              // onValidate: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return 'Filed is Required';
+                              //   }
+                              //   return null;
+                              // },
+                              onChanged: (value) {
+                                _editeLegalInfot = LegalInfo(
+                                    postcode: _editeLegalInfot.postcode,
+                                    have_license: have_license,
+                                    driver_licensetype:
+                                        _editeLegalInfot.driver_licensetype,
+                                    member: _editeLegalInfot.member,
+                                    bodyname: _editeLegalInfot.bodyname,
+                                    amountofcover: value,
+                                    policynumber: _editeLegalInfot.policynumber,
+                                    expiry_date: _editeLegalInfot.expiry_date,
+                                    dbs_certificate_number:
+                                        _editeLegalInfot.dbs_certificate_number,
+                                    imageUrl: null);
+                              },
+                            ),
+                            mCustomInput(
+                              keyboardtype: TextInputType.emailAddress,
+                              hint: "Enter Policy Number",
+                              label: "Policy Number",
+                              icon: Icon(Icons.policy_outlined),
+                              controller: _policynumber,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _policynumberFocusNode,
+                              onSubmitted: (value) {},
+                              // onValidate: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return 'Filed is Required';
+                              //   }
+                              //   return null;
+                              // },
+                              onChanged: (value) {
+                                _editeLegalInfot = LegalInfo(
+                                    postcode: _editeLegalInfot.postcode,
+                                    have_license: have_license,
+                                    driver_licensetype:
+                                        _editeLegalInfot.driver_licensetype,
+                                    member: _editeLegalInfot.member,
+                                    bodyname: _editeLegalInfot.bodyname,
+                                    amountofcover:
+                                        _editeLegalInfot.amountofcover,
+                                    policynumber: value,
+                                    expiry_date: _editeLegalInfot.expiry_date,
+                                    dbs_certificate_number:
+                                        _editeLegalInfot.dbs_certificate_number,
+                                    imageUrl: null);
+                              },
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10, top: 5),
+                              child: TextField(
+                                keyboardType: TextInputType.datetime,
+                                controller: _expiry_date,
+                                textInputAction: TextInputAction.next,
+                                focusNode: _expiry_dateFocusNode,
+                                onTap: () async {
+                                  //when click we have to show the datepicker
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                          DateTime.now(), //get today's date
+                                      firstDate: DateTime
+                                          .now(), //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101));
+                                  if (pickedDate != null) {
+                                    //get the picked date in the format => 2022-07-04 00:00:00.000
+                                    String formattedDate =
+                                        DateFormat('yyyy-MM-dd').format(
+                                            pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+                                    //formatted date output using intl package =>  2022-07-04
+                                    //You can format date as per your need
 
-                    },
-                    onValidate: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Field is Required';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _editeLegalInfot = LegalInfo(
-                          postcode: _editeLegalInfot.postcode,
-                          have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
-                          member: _editeLegalInfot.member,
-                          bodyname: value,
-                          amountofcover: _editeLegalInfot.amountofcover,
-                          policynumber: _editeLegalInfot.policynumber,
-                          expiry_date: _editeLegalInfot.expiry_date,
-                          dbs_certificate_number:
-                          _editeLegalInfot.dbs_certificate_number,
-                          imageUrl: null);
-                    },
-                  )
-                  : Container(),
-                  CustomInput(
-                    keyboardtype: TextInputType.number,
-                    hint: "Enter Amount to cover",
-                    label: "over amount",
-                    icon: Icon(Icons.money),
-                    controller: _amountofcover,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _amountofcoverFocusNode,
-                    onSubmitted: (value) {
-
-                    },
-                    onValidate: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Filed is Required';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _editeLegalInfot = LegalInfo(
-                          postcode: _editeLegalInfot.postcode,
-                          have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
-                          member: _editeLegalInfot.member,
-                          bodyname: _editeLegalInfot.bodyname,
-                          amountofcover: value,
-                          policynumber: _editeLegalInfot.policynumber,
-                          expiry_date: _editeLegalInfot.expiry_date,
-                          dbs_certificate_number:
-                              _editeLegalInfot.dbs_certificate_number,
-                          imageUrl: null);
-                    },
-                  ),
-                  CustomInput(
-                    keyboardtype: TextInputType.emailAddress,
-                    hint: "Enter Policy Number",
-                    label: "Policy Number",
-                    icon: Icon(Icons.policy_outlined),
-                    controller: _policynumber,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _policynumberFocusNode,
-                    onSubmitted: (value) {
-
-                    },
-                    onValidate: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Filed is Required';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _editeLegalInfot = LegalInfo(
-                          postcode: _editeLegalInfot.postcode,
-                          have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
-                          member: _editeLegalInfot.member,
-                          bodyname: _editeLegalInfot.bodyname,
-                          amountofcover: _editeLegalInfot.amountofcover,
-                          policynumber: value,
-                          expiry_date: _editeLegalInfot.expiry_date,
-                          dbs_certificate_number:
-                              _editeLegalInfot.dbs_certificate_number,
-                          imageUrl: null);
-                    },
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 10, top: 5),
-                    child: TextField(
-                      keyboardType: TextInputType.datetime,
-                      controller: _expiry_date,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _expiry_dateFocusNode,
-                      onTap: () async {
-                        //when click we have to show the datepicker
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(), //get today's date
-                            firstDate: DateTime
-                                .now(), //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime(2101));
-                        if (pickedDate != null) {
-                          //get the picked date in the format => 2022-07-04 00:00:00.000
-                          String formattedDate = DateFormat('yyyy-MM-dd').format(
-                              pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                          //formatted date output using intl package =>  2022-07-04
-                          //You can format date as per your need
-
-                          setState(() {
-                            _expiry_date.text =
-                                formattedDate; //set foratted date to TextField value.
-                            _editeLegalInfot = LegalInfo(
-                                postcode: _editeLegalInfot.postcode,
-                                have_license: have_license,
-                                driver_licensetype:
-                                    _editeLegalInfot.driver_licensetype,
-                                member: _editeLegalInfot.member,
-                                bodyname: _editeLegalInfot.bodyname,
-                                amountofcover: _editeLegalInfot.amountofcover,
-                                policynumber: _editeLegalInfot.policynumber,
-                                expiry_date: formattedDate,
-                                dbs_certificate_number:
-                                    _editeLegalInfot.dbs_certificate_number,
-                                imageUrl: null);
-                          });
-                        } else {}
-                      },
-                      onChanged: (value) {
-                        _editeLegalInfot = LegalInfo(
-                            postcode: _editeLegalInfot.postcode,
-                            have_license: have_license,
-                            driver_licensetype:
-                                _editeLegalInfot.driver_licensetype,
-                            member: _editeLegalInfot.member,
-                            bodyname: _editeLegalInfot.bodyname,
-                            amountofcover: _editeLegalInfot.amountofcover,
-                            policynumber: _editeLegalInfot.policynumber,
-                            expiry_date: value,
-                            dbs_certificate_number:
-                                _editeLegalInfot.dbs_certificate_number,
-                            imageUrl: null);
-                      },
-                      onSubmitted: (value) {
-
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Enter Date',
-                        labelText: 'Expire date',
-                        hintStyle: TextStyle(
-                          color: txtcolor
-                        ),
-                        labelStyle: TextStyle(
-                          color: txtcolor
-                        ),
-                        prefixIcon: Icon(Icons.date_range_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  CustomInput(
-                    keyboardtype: TextInputType.emailAddress,
-                    hint: "Enter Certificate Number",
-                    label: "Certificate  Number",
-                    icon: Icon(Icons.numbers_rounded),
-                    suffixIcon: _dbs_certificate_number.text.isEmpty
-                        ? null // Show nothing if the text field is empty
-                        : IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: (() {
-                              _clearTextField(_dbs_certificate_number);
-                            }),
-                          ), // Show the clear button if the text field has something
-                    controller: _dbs_certificate_number,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _dbs_certificate_numberFocusNode,
-                    onSubmitted: (value) {
-                    },
-                    onValidate: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Filed is Required';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _editeLegalInfot = LegalInfo(
-                          postcode: _editeLegalInfot.postcode,
-                          have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
-                          member: _editeLegalInfot.member,
-                          bodyname: _editeLegalInfot.bodyname,
-                          amountofcover: _editeLegalInfot.amountofcover,
-                          policynumber: _editeLegalInfot.policynumber,
-                          expiry_date: _editeLegalInfot.expiry_date,
-                          dbs_certificate_number: value,
-                          imageUrl: null);
-                      setState(() {});
-                    },
-                  ),
+                                    setState(() {
+                                      _expiry_date.text =
+                                          formattedDate; //set foratted date to TextField value.
+                                      _editeLegalInfot = LegalInfo(
+                                          postcode: _editeLegalInfot.postcode,
+                                          have_license: have_license,
+                                          driver_licensetype: _editeLegalInfot
+                                              .driver_licensetype,
+                                          member: _editeLegalInfot.member,
+                                          bodyname: _editeLegalInfot.bodyname,
+                                          amountofcover:
+                                              _editeLegalInfot.amountofcover,
+                                          policynumber:
+                                              _editeLegalInfot.policynumber,
+                                          expiry_date: formattedDate,
+                                          dbs_certificate_number:
+                                              _editeLegalInfot
+                                                  .dbs_certificate_number,
+                                          imageUrl: null);
+                                    });
+                                  } else {}
+                                },
+                                onChanged: (value) {
+                                  _editeLegalInfot = LegalInfo(
+                                      postcode: _editeLegalInfot.postcode,
+                                      have_license: have_license,
+                                      driver_licensetype:
+                                          _editeLegalInfot.driver_licensetype,
+                                      member: _editeLegalInfot.member,
+                                      bodyname: _editeLegalInfot.bodyname,
+                                      amountofcover:
+                                          _editeLegalInfot.amountofcover,
+                                      policynumber:
+                                          _editeLegalInfot.policynumber,
+                                      expiry_date: value,
+                                      dbs_certificate_number: _editeLegalInfot
+                                          .dbs_certificate_number,
+                                      imageUrl: null);
+                                },
+                                onSubmitted: (value) {},
+                                decoration: InputDecoration(
+                                  hintText: 'Enter Date',
+                                  labelText: 'Expire date',
+                                  hintStyle: TextStyle(color: txtcolor),
+                                  labelStyle: TextStyle(color: txtcolor),
+                                  prefixIcon: Icon(Icons.date_range_outlined),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            mCustomInput(
+                              keyboardtype: TextInputType.emailAddress,
+                              hint: "Enter Certificate Number",
+                              label: "Certificate  Number",
+                              icon: Icon(Icons.numbers_rounded),
+                              suffixIcon: _dbs_certificate_number.text.isEmpty
+                                  ? null // Show nothing if the text field is empty
+                                  : IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: (() {
+                                        _clearTextField(
+                                            _dbs_certificate_number);
+                                      }),
+                                    ), // Show the clear button if the text field has something
+                              controller: _dbs_certificate_number,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _dbs_certificate_numberFocusNode,
+                              onSubmitted: (value) {},
+                              // onValidate: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return 'Filed is Required';
+                              //   }
+                              //   return null;
+                              // },
+                              onChanged: (value) {
+                                _editeLegalInfot = LegalInfo(
+                                    postcode: _editeLegalInfot.postcode,
+                                    have_license: have_license,
+                                    driver_licensetype:
+                                        _editeLegalInfot.driver_licensetype,
+                                    member: _editeLegalInfot.member,
+                                    bodyname: _editeLegalInfot.bodyname,
+                                    amountofcover:
+                                        _editeLegalInfot.amountofcover,
+                                    policynumber: _editeLegalInfot.policynumber,
+                                    expiry_date: _editeLegalInfot.expiry_date,
+                                    dbs_certificate_number: value,
+                                    imageUrl: null);
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        )
+                      : Container()
                 ],
               ),
             ),
@@ -775,17 +831,17 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     hint: "Enter Bank Name",
                     label: "Bank Name",
                     icon: Icon(Icons.person_outline),
-                    controller: _postcode,
+                    controller: _bank_name,
                     textInputAction: TextInputAction.next,
-                    focusNode: _postcodeFocusNode,
-                    suffixIcon: _postcode.text.isEmpty
+                    focusNode: _bank_nameFocusNode,
+                    suffixIcon: _bank_name.text.isEmpty
                         ? null // Show nothing if the text field is empty
                         : IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _clearTextField(_postcode);
-                      },
-                    ),
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _clearTextField(_bank_name);
+                            },
+                          ),
                     onSubmitted: (value) {
                       print(value);
                       _editeLegalInfot = LegalInfo(
@@ -798,7 +854,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                           policynumber: _editeLegalInfot.policynumber,
                           expiry_date: _editeLegalInfot.expiry_date,
                           dbs_certificate_number:
-                          _editeLegalInfot.dbs_certificate_number,
+                              _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                       setState(() {});
                     },
@@ -815,7 +871,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                           policynumber: _editeLegalInfot.policynumber,
                           expiry_date: _editeLegalInfot.expiry_date,
                           dbs_certificate_number:
-                          _editeLegalInfot.dbs_certificate_number,
+                              _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                     },
                     onValidate: (value) {
@@ -823,18 +879,17 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                         return 'Filed is Required';
                       }
                       return null;
-                    },                  ),
+                    },
+                  ),
                   CustomInput(
                     keyboardtype: TextInputType.number,
                     hint: "Enter Account Number",
                     label: "Account Number",
                     icon: Icon(Icons.money),
-                    controller: _amountofcover,
+                    controller: _account_number,
                     textInputAction: TextInputAction.next,
-                    focusNode: _amountofcoverFocusNode,
-                    onSubmitted: (value) {
-
-                    },
+                    focusNode: _account_numberFocusNode,
+                    onSubmitted: (value) {},
                     onValidate: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Filed is Required';
@@ -845,14 +900,15 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                       _editeLegalInfot = LegalInfo(
                           postcode: _editeLegalInfot.postcode,
                           have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
+                          driver_licensetype:
+                              _editeLegalInfot.driver_licensetype,
                           member: _editeLegalInfot.member,
                           bodyname: _editeLegalInfot.bodyname,
                           amountofcover: value,
                           policynumber: _editeLegalInfot.policynumber,
                           expiry_date: _editeLegalInfot.expiry_date,
                           dbs_certificate_number:
-                          _editeLegalInfot.dbs_certificate_number,
+                              _editeLegalInfot.dbs_certificate_number,
                           imageUrl: null);
                     },
                   ),
@@ -861,19 +917,18 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     hint: "Enter Sort Code",
                     label: "Sort  Code",
                     icon: Icon(Icons.numbers_rounded),
-                    suffixIcon: _dbs_certificate_number.text.isEmpty
+                    suffixIcon: _sort_code.text.isEmpty
                         ? null // Show nothing if the text field is empty
                         : IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: (() {
-                        _clearTextField(_dbs_certificate_number);
-                      }),
-                    ), // Show the clear button if the text field has something
-                    controller: _dbs_certificate_number,
+                            icon: const Icon(Icons.clear),
+                            onPressed: (() {
+                              _clearTextField(_sort_code);
+                            }),
+                          ), // Show the clear button if the text field has something
+                    controller: _sort_code,
                     textInputAction: TextInputAction.next,
-                    focusNode: _dbs_certificate_numberFocusNode,
-                    onSubmitted: (value) {
-                    },
+                    focusNode: _sort_codeFocusNode,
+                    onSubmitted: (value) {},
                     onValidate: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Filed is Required';
@@ -884,7 +939,8 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                       _editeLegalInfot = LegalInfo(
                           postcode: _editeLegalInfot.postcode,
                           have_license: have_license,
-                          driver_licensetype: _editeLegalInfot.driver_licensetype,
+                          driver_licensetype:
+                              _editeLegalInfot.driver_licensetype,
                           member: _editeLegalInfot.member,
                           bodyname: _editeLegalInfot.bodyname,
                           amountofcover: _editeLegalInfot.amountofcover,
@@ -905,9 +961,7 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
       Step(
         state: currentStep > 2 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 2,
-        title: Text("Document", style: TextStyle(
-          color: txtcolor
-        )),
+        title: Text("Document", style: TextStyle(color: txtcolor)),
         content: Container(
           height: MediaQuery.of(context).size.height - 250,
           child: SingleChildScrollView(
@@ -985,8 +1039,10 @@ class _CanidateLegalInforState extends State<CanidateLegalInfor> {
                     height: 100.0,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        foregroundColor:
-                            Theme.of(context).primaryTextTheme.labelLarge!.color,
+                        foregroundColor: Theme.of(context)
+                            .primaryTextTheme
+                            .labelLarge!
+                            .color,
                         backgroundColor: bggcolor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
