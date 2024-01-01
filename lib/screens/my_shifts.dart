@@ -12,6 +12,7 @@ import 'package:nanirecruitment/providers/jobs.dart' as job;
 
 import '../Showmodel.dart';
 import '../providers/auth.dart';
+import 'PdfPage.dart';
 
 class MyShifts extends StatefulWidget {
   static const routeName = '/my-shifts';
@@ -28,6 +29,7 @@ class _MyShiftsState extends State<MyShifts> {
   // List<DateTime>? days;
   late Future _upcominge;
   late Future _completer;
+
   Future _obtainUpcomingFuture(String candidate_id) {
     return Provider.of<job.Jobs_Section>(context, listen: false)
         .fetchAndSetVacuncyUpcoming(widget.candidate_id.toString());
@@ -41,7 +43,9 @@ class _MyShiftsState extends State<MyShifts> {
   var _isInit = true;
   var _isLoading = false;
   var _display = true;
+
   @override
+
   void initState() {
     super.initState();
     final auth = Provider.of<Auth>(context, listen: false);
@@ -49,6 +53,7 @@ class _MyShiftsState extends State<MyShifts> {
       auth.autoLogout(DateTime.now().add(Duration(minutes: 5)));
     }
   }
+
   @override
   didChangeDependencies() {
     if (_isInit) {
@@ -479,6 +484,27 @@ class _MyShiftsState extends State<MyShifts> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: txtcolor,
+                          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TimesheetPage(
+                                CLIENT_NAME: jobs.companies_name,  // Assuming jobs has a clientName field
+                                CLIENT_ADDRESS: jobs.address,
+                                BUSINESS_UNITE: jobs.Business_unit,  // Assuming jobs has a companiesName field
+                                WEEK_ENDING_DATE: jobs.shiftname,  // Assuming jobs has a weekEndingDate field
+                                CANDIDATE_NAME: jobs.Candidate_name,  // Assuming jobs has a candidateName field
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text('TimeSheet')
+                    ),
+                    SizedBox(width: 5,),
+                    ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: bggcolor,
                         padding: EdgeInsets.symmetric(vertical: 6,  horizontal: 6),
@@ -528,6 +554,7 @@ class _MyShiftsState extends State<MyShifts> {
         // subtitle: AvaliabiltityDropDown(),
         // trailing:  Text("${formatter.format(days[index])}",
         //   style: TextStyle(color: Colors.green, fontSize: 15),),
+
       ),
     );
   }
@@ -635,4 +662,5 @@ class _MyShiftsState extends State<MyShifts> {
       ),
     );
   }
+
 }

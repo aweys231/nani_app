@@ -119,6 +119,8 @@ class UpcomingModel with ChangeNotifier {
   final String title;
   final String companies_name;
   final String address;
+  final String Candidate_name;
+  final String Business_unit;
   UpcomingModel({
     required this.availabilityid,
     required this.daynumber,
@@ -127,6 +129,9 @@ class UpcomingModel with ChangeNotifier {
     required this.title,
     required this.companies_name,
     required this.address,
+    required this.Candidate_name,
+    required this.Business_unit
+
   });
 }
 
@@ -458,8 +463,11 @@ class Jobs_Section with ChangeNotifier {
               dayname: extractedData[i]['day_name'],
               shiftname: extractedData[i]['name'],
               title: extractedData[i]['title'],
+              Candidate_name: extractedData[i]['canidate_name'],
               companies_name: extractedData[i]['companies_name'],
+              Business_unit: extractedData[i]['businesunit'],
               address: extractedData[i]['address']));
+
           print(extractedData[i]['day_name']);
         }
         _upcoming = loadedupcoming.toList();

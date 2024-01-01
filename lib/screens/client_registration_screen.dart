@@ -141,7 +141,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
         // Navigate to the profile screen with the candidateId
         Navigator.of(context).pushNamed(
-          '/candidate-profile-screen',
+          '/auth',
           arguments: candidateId,
         );
       } else {
